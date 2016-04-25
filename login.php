@@ -16,6 +16,12 @@
 		{
 			session_start();
 			$_SESSION['reg_no'] = $reg_no;
+
+			if($reg_no == "20134171")
+			{
+				$_SESSION['is_admin'] = 1;
+			}
+
 			header("location: ./dashboard.php");
 		}
 		else

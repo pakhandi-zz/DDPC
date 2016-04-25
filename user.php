@@ -48,8 +48,8 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Creative Tim
+                <a href="./dashboard.php" class="simple-text">
+                    <?php echo $user['name'] ?>
                 </a>
             </div>
 
@@ -131,14 +131,14 @@
                                      <!-- <a href="#"><small>@chetfaker</small></a> -->
                                   </h4>
                                 </div>
-                                <p class="description text-center">
+                                <!-- <p class="description text-center">
                                     "I like the way you work it <br>
                                     No diggity <br>
                                     I wanna bag it up"
-                                </p>
+                                </p> -->
                             </div>
                             <hr>
-                            <div class="text-center">
+                            <!-- <div class="text-center">
                                 <div class="row">
                                     <div class="col-md-3 col-md-offset-1">
                                         <h5>12<br /><small>Files</small></h5>
@@ -150,7 +150,7 @@
                                         <h5>24,6$<br /><small>Spent</small></h5>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- <div class="card">
                             <div class="header">

@@ -10,6 +10,10 @@
     
     include("./includes/connect.php");
 
+    $is_admin = 0;
+    if($_SESSION[is_admin] == 1)
+        $is_admin = 1;
+
     $query = "SELECT * FROM studentmaster WHERE reg_no='$reg_no'";
     $results = mysqli_query($connection, $query);
     $user = mysqli_fetch_array($results);
