@@ -231,12 +231,12 @@
                                 <h4 class="title">Edit Profile</h4>
                             </div>
                             <div class="content">
-                                <form method="GET" action="updateProfile.php">
+                                <form method="GET" action="updateQwProfile.php">
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Registration Number</label>
-                                                <input type="text" class="form-control border-input" disabled placeholder="Company" value="<?php echo $qwUser['reg_no']; ?>">
+                                                <input type="text" class="form-control border-input" placeholder="reg_no" name="qwUser" value="<?php echo $qwUser['reg_no']; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-9">
