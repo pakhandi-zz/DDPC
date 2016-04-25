@@ -117,7 +117,7 @@
 
         <div class="content">
             <div class="container-fluid">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-3 col-sm-6">
                         <div class="card">
                             <div class="content">
@@ -218,8 +218,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                </div> -->
+                <!-- <div class="row">
 
                     <div class="col-md-12">
                         <div class="card">
@@ -243,8 +243,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                </div> -->
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <div class="card">
                             <div class="header">
@@ -290,7 +290,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -358,7 +358,7 @@
 
         	$.notify({
             	icon: 'ti-gift',
-            	message: "Welcome to <b>Paper Dashboard</b> - a beautiful Bootstrap freebie for your next project."
+            	message: "Welcome <b><?php $name ?></b>"
 
             },{
                 type: 'success',
