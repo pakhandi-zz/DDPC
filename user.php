@@ -152,6 +152,31 @@
                                 </div>
                             </div> -->
                         </div>
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Upload Documents</h4>
+                            </div>
+                            <div class="content">
+                                <form action="uploadDoc.php" enctype="multipart/form-data" method="post">
+                                Doc Type : <select name="application_type">
+                                    <?php
+                                        $query = "SELECT * FROM documentlookup";
+                                        $documentTypes = mysqli_query($connection, $query);
+                                        
+                                        while( $thisDocumentType = mysqli_fetch_array($documentTypes)  )
+                                        {
+                                    ?>
+                                        <option value="<?php echo $thisDocumentType['doc_type_id'] ?>"><?php echo $thisDocumentType['doc_type'] ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                                </select>
+
+                                <input type="file" name="doc" value="" /><br />
+                                <input type="submit" name="submit" value="Upload Doc" />
+                                </form>
+                            </div>
+                        </div>
                         <!-- <div class="card">
                             <div class="header">
                                 <h4 class="title">Team Members</h4>
