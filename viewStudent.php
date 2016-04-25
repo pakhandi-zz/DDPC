@@ -132,8 +132,9 @@
                             <div class="content">
                                 <div class="author">
                                   <img class="avatar border-white" src="<?php echo $qwUser['photo_path']; ?>" alt="..."/>
-                                  <form method="post" action="updatePic.php" enctype="multipart/form-data">
+                                  <form method="post" action="updateQwPic.php" enctype="multipart/form-data">
                                         <input type="file" name="photo" id="photo">
+                                        <input type="hidden" class="form-control border-input" placeholder="reg_no" name="qwUser" value="<?php echo $qwUser['reg_no']; ?>">
                                         <input type="submit" value="Upload Image" name="submit">
                                   </form>
                                   <h4 class="title"><?php echo $name; ?><br />
