@@ -139,11 +139,23 @@
                                             {
                                         ?>
                                                 <tr>
-                                                    <td><?php echo $thisStudent['reg_no'] ?></td>
-                                                    <td><?php echo $thisStudent['name'] ?></td>
-                                                    <td><?php echo $thisStudent['program'] ?></td>
-                                                    <td><?php echo $thisStudent['contact_no'] ?></td>
-                                                    <td><?php echo $thisStudent['mail_id'] ?></td>
+                                                    <td>
+                                                        <a href="./viewStudent.php?qwStudent=<?php echo $thisStudent['reg_no'] ?>">
+                                                        <?php echo $thisStudent['reg_no'] ?>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['name'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['program'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['contact_no'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['mail_id'] ?>
+                                                    </td>
                                                 </tr>
                                         <?php
                                             }
