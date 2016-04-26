@@ -112,7 +112,7 @@
                                                     $notificationsCount = mysqli_num_rows($allnotifications);
                                                     $newNotificationId = $notificationsCount + 1;
                                                 ?>
-                                                <input type="text" class="form-control border-input" disabled placeholder="Company" value="<?php echo $newNotificationId; ?>">
+                                                <input type="text" class="form-control border-input"  placeholder="Company" value="<?php echo $newNotificationId; ?>" name="id">
                                             </div>
                                         </div>
                                         <div class="col-md-9">
