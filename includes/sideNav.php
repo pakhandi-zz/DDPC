@@ -23,7 +23,7 @@
                 ?>
                     <a href="user.php">
                         <i class="ti-user"></i>
-                        <p>User Profile</p>
+                        <p>Edit Profile</p>
                     </a>
                 </li>
                 <?php
@@ -43,6 +43,17 @@
                         </a>
                     </li>
                 <?php
+                        if(!strcmp($currentTab, "makeNotification"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                        <a href="makeNotification.php">
+                            <i class="ti-pencil-alt2"></i>
+                            <p>Make Notification</p>
+                        </a>
+                    </li>
+                <!-- <?php
 
                         if(!strcmp($currentTab, "typography"))
                             echo "<li class=\"active\">";
@@ -96,5 +107,5 @@
                     </li>
                 <?php
                     }
-                ?>
+                ?> -->
             </ul>
