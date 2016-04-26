@@ -44,6 +44,8 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
+    <link href="./css/myCss.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -57,9 +59,7 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="./dashboard.php" class="simple-text">
-                    <?php echo $qwUser['name'] ?>
-                </a>
+                <?php include('./includes/topleft.php') ?>
             </div>
 
             <?php
@@ -77,13 +77,7 @@
 		<nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar bar1"></span>
-                        <span class="icon-bar bar2"></span>
-                        <span class="icon-bar bar3"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">User Profile</a>
+                    <?php include('./includes/logo.php'); ?>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -93,21 +87,7 @@
 								<p>Stats</p>
                             </a>
                         </li>
-                        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="ti-bell"></i>
-                                    <p class="notification">5</p>
-									<p>Notifications</p>
-									<b class="caret"></b>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
-                              </ul>
-                        </li>
+                        <?php include('./includes/notifications.php'); ?>
 						<li>
                             <a href="./logout.php">
                                 <i class="ti-settings"></i>
@@ -309,7 +289,7 @@ But that's the difference in our opinions.</textarea>
 
 
         <footer class="footer">
-            <div class="container-fluid">
+            <!-- <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
 
@@ -333,7 +313,7 @@ But that's the difference in our opinions.</textarea>
 				<div class="copyright pull-right">
                     &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
                 </div>
-            </div>
+            </div> -->
         </footer>
 
     </div>
@@ -363,5 +343,32 @@ But that's the difference in our opinions.</textarea>
 
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
+
+    <script type="text/javascript">
+
+        function removeNot() {
+
+            $('.notificationAlert').css({
+                'display': 'none'
+            });
+
+            xmldata = new XMLHttpRequest();
+
+            var el = document.getElementById('notid').innerHTML;
+
+            var urltosend = "set_cookie.php?notid="+el;
+            console.log(el);
+            xmldata.open("GET", urltosend,false);
+            xmldata.send(null);
+            if(xmldata.responseText != ""){
+                toPrint = xmldata.responseText;
+            }
+
+            console.log(toPrint);
+
+
+            // body...
+        }
+    </script>
 
 </html>

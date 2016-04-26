@@ -38,6 +38,8 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
+    <link href="./css/myCss.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -51,9 +53,8 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="./dashboard.php" class="simple-text">
-                    <?php echo $user['name'] ?>
-                </a>
+                <?php include('./includes/topleft.php') ?>
+
             </div>
 
             <?php
@@ -71,13 +72,14 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle">
+                    <!--<button type="button" class="navbar-toggle">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar bar1"></span>
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Dashboard</a>
+                    </button>-->
+
+                    <?php include('./includes/logo.php'); ?>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -87,21 +89,7 @@
 								<p>Stats</p>
                             </a>
                         </li>
-                        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="ti-bell"></i>
-                                    <p class="notification">5</p>
-									<p>Notifications</p>
-									<b class="caret"></b>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Notification 1</a></li>
-                                <li><a href="#">Notification 2</a></li>
-                                <li><a href="#">Notification 3</a></li>
-                                <li><a href="#">Notification 4</a></li>
-                                <li><a href="#">Another notification</a></li>
-                              </ul>
-                        </li>
+                        <?php include('./includes/notifications.php'); ?>
 						<li>
                             <a href="./logout.php">
 								<i class="ti-settings"></i>
@@ -117,186 +105,188 @@
 
         <div class="content">
             <div class="container-fluid">
-                <!-- <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="icon-big icon-warning text-center">
-                                            <i class="ti-server"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div class="numbers">
-                                            <p>Capacity</p>
-                                            105GB
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                    <hr />
-                                    <div class="stats">
-                                        <i class="ti-reload"></i> Updated now
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-5">
+                        <div class="card card-user">
+                            <div class="image">
+                                <img src="assets/img/background.jpg" alt="..."/>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
                             <div class="content">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="icon-big icon-success text-center">
-                                            <i class="ti-wallet"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div class="numbers">
-                                            <p>Revenue</p>
-                                            $1,345
-                                        </div>
-                                    </div>
+                                <div class="author">
+                                  <img class="avatar border-white" src="<?php echo $user['photo_path']; ?>" alt="..."/>
+                                  <h4 class="title"><?php echo $name; ?><br />
+                                     <!-- <a href="#"><small>@chetfaker</small></a> -->
+                                  </h4>
                                 </div>
-                                <div class="footer">
-                                    <hr />
-                                    <div class="stats">
-                                        <i class="ti-calendar"></i> Last day
-                                    </div>
-                                </div>
+                                <!-- <p class="description text-center">
+                                    "I like the way you work it <br>
+                                    No diggity <br>
+                                    I wanna bag it up"
+                                </p> -->
                             </div>
+                            <hr>
+                            <!-- <div class="text-center">
+                                <div class="row">
+                                    <div class="col-md-3 col-md-offset-1">
+                                        <h5>12<br /><small>Files</small></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>2GB<br /><small>Used</small></h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h5>24,6$<br /><small>Spent</small></h5>
+                                    </div>
+                                </div>
+                            </div> -->
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
+                        <!-- <div class="card">
+                            <div class="header">
+                                <h4 class="title">Team Members</h4>
+                            </div>
                             <div class="content">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="icon-big icon-danger text-center">
-                                            <i class="ti-pulse"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div class="numbers">
-                                            <p>Errors</p>
-                                            23
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                    <hr />
-                                    <div class="stats">
-                                        <i class="ti-timer"></i> In the last hour
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-xs-5">
-                                        <div class="icon-big icon-info text-center">
-                                            <i class="ti-twitter-alt"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-7">
-                                        <div class="numbers">
-                                            <p>Followers</p>
-                                            +45
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                    <hr />
-                                    <div class="stats">
-                                        <i class="ti-reload"></i> Updated now
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="row">
+                                <ul class="list-unstyled team-members">
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        DJ Khaled
+                                                        <br />
+                                                        <span class="text-muted"><small>Offline</small></span>
+                                                    </div>
 
-                    <div class="col-md-12">
+                                                    <div class="col-xs-3 text-right">
+                                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/faces/face-1.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        Creative Tim
+                                                        <br />
+                                                        <span class="text-success"><small>Available</small></span>
+                                                    </div>
+
+                                                    <div class="col-xs-3 text-right">
+                                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-xs-3">
+                                                        <div class="avatar">
+                                                            <img src="assets/img/faces/face-3.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        Flume
+                                                        <br />
+                                                        <span class="text-danger"><small>Busy</small></span>
+                                                    </div>
+
+                                                    <div class="col-xs-3 text-right">
+                                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-lg-8 col-md-7">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Users Behavior</h4>
-                                <p class="category">24 Hours performance</p>
+                                <h4 class="title">My Profile</h4>
                             </div>
                             <div class="content">
-                                <div id="chartHours" class="ct-chart"></div>
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Click
-                                        <i class="fa fa-circle text-warning"></i> Click Second Time
+                                <form method="GET" action="updateProfile.php">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Registration Number</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" disabled placeholder="Company" value="<?php echo $user['reg_no']; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" placeholder="name" value="<?php echo $user['name'] ?>" name="name" disabled>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-reload"></i> Updated 3 minutes ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">Email Statistics</h4>
-                                <p class="category">Last Campaign Performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
 
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Bounce
-                                        <i class="fa fa-circle text-warning"></i> Unsubscribe
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Email address</label>
+                                                <input type="email" class="form-control border-input convertInputtoBox" placeholder="mail_id" value="<?php echo $user['mail_id'] ?>" name="mail_id" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Contact Number</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" placeholder="contact_no" value="<?php echo $user['contact_no'] ?>" name="contact_no" disabled>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-timer"></i> Campaign sent 2 days ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">2015 Sales</h4>
-                                <p class="category">All products including Taxes</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartActivity" class="ct-chart"></div>
 
-                                <div class="footer">
-                                    <div class="chart-legend">
-                                        <i class="fa fa-circle text-info"></i> Tesla Model S
-                                        <i class="fa fa-circle text-warning"></i> BMW 5 Series
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" placeholder="Home Address" value="<?php echo $user['address'] ?>" name="address" disabled>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="ti-check"></i> Data information certified
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Father's Name</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" placeholder="Father's Name" value="<?php echo $user['father_name'] ?>" name = "father_name" disabled>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+
+                                    <!-- <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>About Me</label>
+                                                <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
+You doubt I'll bother, reading into it
+I'll probably won't, left to my own devices
+But that's the difference in our opinions.</textarea>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="text-center">
+                                        <!-- <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button> -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div> -->
+
+
+                </div>
             </div>
         </div>
 
 
         <footer class="footer">
-            <div class="container-fluid">
+            <!-- <div class="container-fluid">
                 <nav class="pull-left">
                     <ul>
 
@@ -320,7 +310,7 @@
                 <div class="copyright pull-right">
                     &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
                 </div>
-            </div>
+            </div> -->
         </footer>
 
     </div>
@@ -366,6 +356,30 @@
             });
 
     	});
+
+        function removeNot() {
+
+            $('.notificationAlert').css({
+                'display': 'none'
+            });
+
+            xmldata = new XMLHttpRequest();
+
+            var el = document.getElementById('notid').innerHTML;
+
+            var urltosend = "set_cookie.php?notid="+el;
+            console.log(el);
+            xmldata.open("GET", urltosend,false);
+            xmldata.send(null);
+            if(xmldata.responseText != ""){
+                toPrint = xmldata.responseText;
+            }
+
+            console.log(toPrint);
+
+
+            // body...
+        }
 	</script>
 
 </html>
