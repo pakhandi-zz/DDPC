@@ -16,7 +16,7 @@ if (is_uploaded_file($_FILES['doc']['tmp_name']))
 {
 	if ($_FILES['doc']['type'] !== "application/pdf") 
 	{
-		echo "<p>Document should be in PDF format</p>";
+		header("location: ./uploadDocument.php?doc_type=1");
 	} 
 	else 
 	{
