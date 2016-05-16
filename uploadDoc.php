@@ -14,7 +14,7 @@ define ("filesplace","./docs/");
 
 if (is_uploaded_file($_FILES['doc']['tmp_name']))
 {
-	if ($_FILES['doc']['type'] != "application/pdf") 
+	if ($_FILES['doc']['type'] !== "application/pdf") 
 	{
 		echo "<p>Document should be in PDF format</p>";
 	} 
@@ -45,6 +45,10 @@ if (is_uploaded_file($_FILES['doc']['tmp_name']))
 		}
 		else echo "<p>Sorry, Error happened while uploading . </p>";
 	} 
+}
+else
+{
+	header("location: ./uploadDocument.php?doc_type=0");
 }
 
 ?>
