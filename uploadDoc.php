@@ -14,7 +14,8 @@ define ("filesplace","./docs/");
 
 if (is_uploaded_file($_FILES['doc']['tmp_name']))
 {
-	if ($_FILES['doc']['type'] !== "application/pdf") 
+
+	if ($_FILES['doc']['type'] !== 'application/pdf') 
 	{
 		header("location: ./uploadDocument.php?doc_type=1");
 	} 

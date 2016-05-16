@@ -21,7 +21,10 @@
 			{
 				$_SESSION['is_admin'] = 1;
 			}
-
+			else
+			{
+				$_SESSION['is_admin']=0;
+			}
 			header("location: ./dashboard.php");
 		}
 		else
