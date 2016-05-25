@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button>
+                                        <button type="submit" class="btn btn-info btn-fill btn-wd">Send Notification</button>
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
@@ -142,6 +142,17 @@
                     </div>
                 </div>
             </div>
+            <?php
+                if(isset($_GET['sent'])&&$_GET['sent']==1)
+                {
+
+            ?>
+            <div class="container">
+                <p class="title"> Notification sent successfully</p>
+            </div>
+            <?php
+                }
+            ?>
         </div>
 
         <footer class="footer">

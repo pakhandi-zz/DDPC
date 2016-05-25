@@ -8,7 +8,7 @@
     else
         $reg_no = $_SESSION['reg_no'];
 
-	
+	include("./includes/connect.php");
     $target_dir = "images/";
 	$target_file = $target_dir . $reg_no . ".jpg";
 	//echo $target_file;
@@ -48,6 +48,20 @@
 	} else {
 	    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
 	        echo "The file ". basename( $_FILES["photo"]["name"]). " has been uploaded.";
+	        $user['photo_path']="./".$target_file;
+	        echo $user['photo_path'];
+	        $path= mysqli_real_escape_string($connection, $user['photo_path']);
+	        $query = "UPDATE studentmaster SET photo_path = '$path' WHERE reg_no = '$reg_no' ";
+	        $queryRan = mysqli_query($connection, $query); 
+	echo $query;
+	//print_r($queryRan);
+	if($queryRan){
+		;
+	}
+	else{
+		echo "Unknown Error Occured";
+	}
+
 	    } else {
 	        echo "Sorry, there was an error uploading your file.";
 	    }

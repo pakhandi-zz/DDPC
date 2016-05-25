@@ -26,6 +26,19 @@
                         <p>Edit Profile</p>
                     </a>
                 </li>
+                 <?php
+
+                    if(! strcmp($currentTab, "uploadDocument"))
+                        echo "<li class=\"active\">";
+                    else
+                        echo "<li>";
+
+                ?>
+                    <a href="uploadDocument.php">
+                        <i class="ti-user"></i>
+                        <p>upload Document</p>
+                    </a>
+                </li>
                 <?php
 
                     if($is_admin == 1)
@@ -104,8 +117,8 @@
                             <i class="ti-bell"></i>
                             <p>Notifications</p>
                         </a>
-                    </li>
+                    </li>-->
                 <?php
                     }
-                ?> -->
+                ?> 
             </ul>

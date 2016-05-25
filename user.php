@@ -103,9 +103,10 @@
                             <div class="content">
                                 <div class="author">
                                   <img class="avatar border-white" src="<?php echo $user['photo_path']; ?>" alt="..."/>
+                                  
                                   <form method="post" action="updatePic.php" enctype="multipart/form-data">
                                         <input type="file" name="photo" id="photo">
-                                        <input type="submit" value="Upload Image" name="submit">
+                                        <input type="submit" name="submit" value="Upload Image">
                                   </form>
                                   <h4 class="title"><?php echo $name; ?><br />
                                      <!-- <a href="#"><small>@chetfaker</small></a> -->
@@ -132,7 +133,7 @@
                                 </div>
                             </div> -->
                         </div>
-                        <div class="card">
+                       <!-- <div class="card">
                             <div class="header">
                                 <h4 class="title">Upload Documents</h4>
                             </div>
@@ -156,7 +157,7 @@
                                 <input type="submit" name="submit" value="Upload Doc" />
                                 </form>
                             </div>
-                        </div>
+                        </div>-->
                         <!-- <div class="card">
                             <div class="header">
                                 <h4 class="title">Team Members</h4>
