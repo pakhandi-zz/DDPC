@@ -27,9 +27,6 @@
         <!--  Paper Dashboard core CSS    -->
         <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
 
-        <!--  CSS for Demo Purpose, don't include it in your project     -->
-        <link href="assets/css/demo.css" rel="stylesheet" />
-
         <!--  Fonts and icons     -->
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
@@ -41,7 +38,7 @@
     <body>
 
     <div class="wrapper">
-    	<div class="sidebar" data-background-color="white" data-active-color="danger">
+    	<div class="sidebar" data-background-color="black" data-active-color="warning">
 
         <!--
     		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
@@ -90,69 +87,19 @@
                     </div>
                 </div>
             </nav>
-
-
-            <!--<div class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="header">
-                                    <h4 class="title">Make Notification</h4>
-                                </div>
-                                <div class="content">
-                                    <form method="GET" action="addNotification.php">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label>Notification Id</label>
-                                                    <?php
-                                                        $query = "SELECT * FROM notifications";
-                                                        $allnotifications = mysqli_query($connection, $query);
-                                                        $notificationsCount = mysqli_num_rows($allnotifications);
-                                                        $newNotificationId = $notificationsCount + 1;
-                                                    ?>
-                                                    <input type="text" class="form-control border-input"  placeholder="Company" value="<?php echo $newNotificationId; ?>" name="id">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="form-group">
-                                                    <label>Description</label>
-                                                    <input type="text" class="form-control border-input" placeholder="notification details" name="description">
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Issue Date</label>
-                                                    <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" name="issue_date">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-                    <div class="content">
+                <div class="content">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
-                                    <div class="card">
+                                <div class="card">
                                     <div class="header">
-                                        <h4 class="title">Upload Documents</h4><br>
+                                        <h4 class="title">Upload Documents</h4>
                                     </div>
+                                    <hr style="background-color: #111">
                                     <div class="content">
                                         <form action="uploadDoc.php" enctype="multipart/form-data" method="post">
                                         Doc Type : <select name="application_type">
+                                            <option selected disabled>Select</option>
                                             <?php
                                                 $query = "SELECT * FROM documentlookup";
                                                 $documentTypes = mysqli_query($connection, $query);
@@ -171,9 +118,9 @@
                                         </form>
                                     </div>
                                 </div>
-                </div>
-                </div>
-                <div>
+                            </div>
+                        </div>
+                    <div>
                     <?php
                         if(isset($_GET['doc_type'])&&$_GET['doc_type']==0)
                             {
@@ -187,6 +134,12 @@
                     <p class="title">Please select a file in PDF format.</p>
                     <?php
                         }
+                        else if(isset($_GET['doc_type'])&&$_GET['doc_type']==2)
+                        {
+                    ?>
+                    <p class="title">Sorry, Error happened while uploading.</p>
+                    <?php
+                        }
                     ?>
                 </div>
                 </div>
@@ -197,34 +150,7 @@
 
 
             <footer class="footer">
-                <!-- <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul>
-
-                            <li>
-                                <a href="http://www.creative-tim.com">
-                                    Creative Tim
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://blog.creative-tim.com">
-                                   Blog
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://www.creative-tim.com/license">
-                                    Licenses
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-    				<div class="copyright pull-right">
-                        &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-                    </div>
-                </div> -->
             </footer>
-
-
         </div>
     </div>
 
@@ -266,17 +192,12 @@
                 var el = document.getElementById('notid').innerHTML;
 
                 var urltosend = "set_cookie.php?notid="+el;
-                console.log(el);
+
                 xmldata.open("GET", urltosend,false);
                 xmldata.send(null);
                 if(xmldata.responseText != ""){
                     toPrint = xmldata.responseText;
                 }
-
-                console.log(toPrint);
-
-
-                // body...
             }
         </script>
 

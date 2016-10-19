@@ -1,16 +1,16 @@
 <?php
 
 	session_start();
-    if(!isset($_SESSION['reg_no']))
+    if(!isset($_SESSION['userid']))
     {
         header("location: ./");
     }
     else
-        $reg_no = $_SESSION['reg_no'];
+        $reg_no = $_SESSION['userid'];
 
     $reg_no = $_GET['qwUser'];
 
-    //echo $reg_no;
+    // echo $reg_no;
 
 	include("./includes/connect.php");
 
@@ -26,7 +26,7 @@
 
 	$queryRan = mysqli_query($connection, $query); 
 	//echo $query;
-	print_r($queryRan);
+	// print_r($queryRan);
 	if($queryRan){
 		;
 	}
@@ -34,6 +34,6 @@
 		echo "Unknown Error Occured";
 	}
 
-	header('Location: viewStudents.php');
+	header("Location: viewStudent.php?qwStudent=".$reg_no."&status=1");
 
 ?>

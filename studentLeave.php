@@ -33,6 +33,10 @@
     <link href="assets/css/themify-icons.css" rel="stylesheet">
 
     <link href="./css/myCss.css" rel="stylesheet">
+    <!-- <script type="text/javascript">
+        alert("hi");
+    </script> -->
+    
 
 </head>
 <body>
@@ -52,7 +56,7 @@
 
             <?php
 
-                $currentTab = "viewStudents";
+                $currentTab = "studentLeave";
 
                 include("./includes/sideNav.php");
 
@@ -95,45 +99,80 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Students</h4>
-                                <p class="category">List of all the students</p>
+                                <h4 class="title">Leave Applications</h4>
+                                <p class="category">List of leave application of all the students</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Registration Number</th>
-                                    	<th>Name</th>
-                                    	<!-- <th>Program</th> -->
-                                    	<th>Contact Number</th>
-                                    	<th>Email Id</th>
+                                    	<th>Reason</th>
+                                    	<th>From Date</th>
+                                        <th>To Date</th>
+                                        <th>Applied no. of days</th>
+                                        <th>Status</th>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT * FROM studentmaster";
+                                            $query = "SELECT * FROM groupx.leave ";
                                             $allStudents = mysqli_query($connection, $query);
+
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
                                         ?>
                                                 <tr>
                                                     <td>
-                                                        <a href="./viewStudent.php?qwStudent=<?php echo $thisStudent['reg_no'] ?>">
+                                                       <a href="./viewStudent.php?qwStudent=<?php echo $thisStudent['reg_no'] ?>">
                                                         <?php echo $thisStudent['reg_no'] ?>
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisStudent['name'] ?>
+                                                        <?php 
+                                                            $type = $thisStudent['leave_type'];
+                                                            $query2 = "SELECT leave_name FROM leavelookup WHERE leave_type = '$type'";
+                                                            $result = mysqli_query($connection, $query2);
+                                                            $leave_names = mysqli_fetch_array($result);
+                                                            echo $leave_names['leave_name'];
+                                                        ?>
                                                     </td>
-                                                    <!-- <td>
-                                                        <?php echo $thisStudent['program'] ?>
-                                                    </td> -->
                                                     <td>
-                                                        <?php echo $thisStudent['contact_no'] ?>
+                                                        <?php echo $thisStudent['from_date'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisStudent['mail_id'] ?>
+                                                        <?php echo $thisStudent['to_date'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['no_of_days'] ?>
+                                                    </td>
+                                                     <td>
+                                                        <?php 
+                                                            if ($thisStudent['approved'] == 0) {
+                                                                echo "Not approved";
+                                                            } else {
+                                                                echo "Approved";
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <?php 
+                                                        if ($thisStudent['approved'] == 0) {
+                                                    ?>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>"/>
+                                                        </form>
+                                                    </td>
+                                                    <?php    
+                                                        } else {
+                                                    ?>
+                                                    <td>
+                                                    </td>
+                                                    <?php
+                                                        }
+                                                    ?> 
                                                     </td>
                                                 </tr>
+
                                         <?php
                                             }
                                         ?>
@@ -146,102 +185,12 @@
                     </div>
 
 
-                    <!-- <div class="col-md-12">
-                        <div class="card card-plain">
-                            <div class="header">
-                                <h4 class="title">Table on Plain Background</h4>
-                                <p class="category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <th>ID</th>
-                                    	<th>Name</th>
-                                    	<th>Salary</th>
-                                    	<th>Country</th>
-                                    	<th>City</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td>1</td>
-                                        	<td>Dakota Rice</td>
-                                        	<td>$36,738</td>
-                                        	<td>Niger</td>
-                                        	<td>Oud-Turnhout</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>2</td>
-                                        	<td>Minerva Hooper</td>
-                                        	<td>$23,789</td>
-                                        	<td>Curaçao</td>
-                                        	<td>Sinaai-Waas</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>3</td>
-                                        	<td>Sage Rodriguez</td>
-                                        	<td>$56,142</td>
-                                        	<td>Netherlands</td>
-                                        	<td>Baileux</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>4</td>
-                                        	<td>Philip Chaney</td>
-                                        	<td>$38,735</td>
-                                        	<td>Korea, South</td>
-                                        	<td>Overland Park</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>5</td>
-                                        	<td>Doris Greene</td>
-                                        	<td>$63,542</td>
-                                        	<td>Malawi</td>
-                                        	<td>Feldkirchen in Kärnten</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>6</td>
-                                        	<td>Mason Porter</td>
-                                        	<td>$78,615</td>
-                                        	<td>Chile</td>
-                                        	<td>Gloucester</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div> -->
-
-
                 </div>
             </div>
         </div>
 
         <footer class="footer">
-            <!-- <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-
-                        <li>
-                            <a href="http://www.creative-tim.com">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                               Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.creative-tim.com/license">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-                </div>
-            </div> -->
+           
         </footer>
 
 
@@ -274,7 +223,6 @@
 	<script src="assets/js/demo.js"></script>
 
     <script type="text/javascript">
-
         function removeNot() {
 
             $('.notificationAlert').css({
@@ -294,11 +242,30 @@
             }
 
             console.log(toPrint);
-
-
-            // body...
         }
+
+         $("input[name='submit']").click(function(event){
+
+            event.preventDefault();
+            var formData = {  // Javascript object
+                reg_no: $(this).attr('reg_no'),
+                leave_type: $(this).attr('leave_type'),
+                from_date: $(this).attr('from_date'),
+                to_date: $(this).attr('to_date')
+            };
+            
+            $.ajax({
+                url:'./approveLeave.php',
+                type:'post',
+                data: formData,
+                success: function(data){
+                    // alert(data);
+                    location.reload();
+                },
+                error: function(){
+                    alert('failure');
+                }
+            });
+        });
     </script>
-
-
 </html>

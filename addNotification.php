@@ -14,19 +14,19 @@
     else
     {
 
-    $id = $_GET['id'];
-    $description = $_GET['description'];
-    $issue_date = $_GET['issue_date'];
+        $id = $_GET['id'];
+        $description = $_GET['description'];
+        $issue_date = $_GET['issue_date'];
 
-    include("./includes/connect.php");
+        include("./includes/connect.php");
 
-    $query = "INSERT INTO notifications (`id`, `description`, `issue_date`) VALUES('$id', '$description', '$issue_date')";
-    echo $query;
-    $result=mysqli_query($connection, $query); 
-    if($result)
-    {
-        header("location: ./makeNotification.php?sent=1");
-    }
+        $query = "INSERT INTO notifications (`id`, `description`, `issue_date`) VALUES('$id', '$description', '$issue_date')";
+        echo $query;
+        $result=mysqli_query($connection, $query); 
+        if($result)
+        {
+            header("location: ./makeNotification.php?sent=1");
+        }
     }
 
 ?>

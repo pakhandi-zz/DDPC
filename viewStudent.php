@@ -36,9 +36,6 @@
     <!--  Paper Dashboard core CSS    -->
     <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
 
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="assets/css/demo.css" rel="stylesheet" />
-
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
@@ -50,7 +47,7 @@
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="white" data-active-color="danger">
+	<div class="sidebar" data-background-color="black" data-active-color="warning">
 
     <!--
 		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
@@ -64,7 +61,7 @@
 
             <?php
 
-                $currentTab = "user";
+                $currentTab = "viewStudents";
 
                 include("./includes/sideNav.php");
 
@@ -112,99 +109,18 @@
                             <div class="content">
                                 <div class="author">
                                   <img class="avatar border-white" src="<?php echo $qwUser['photo_path']; ?>" alt="..."/>
-                                  <form method="post" action="updateQwPic.php" enctype="multipart/form-data">
-                                        <input type="file" name="photo" id="photo">
-                                        <input type="hidden" class="form-control border-input" placeholder="reg_no" name="qwUser" value="<?php echo $qwUser['reg_no']; ?>">
-                                        <input type="submit" value="Upload Image" name="submit">
-                                  </form>
                                   <h4 class="title"><?php echo $name; ?><br />
-                                     <!-- <a href="#"><small>@chetfaker</small></a> -->
-                                  </h4>
+                                  </h4><br>
+                                  <form method="POST" action="updateQwPic.php" enctype="multipart/form-data">
+                                        <center><input type="file" name="photo" id="photo"></center><br>
+                                        <input type="submit" name="submit" value="Upload Image">
+                                        <input type="hidden" class="form-control border-input" placeholder="reg_no" name="qwUser" value="<?php echo $_GET['qwStudent'] ?>">
+                                  </form>
+                                  
                                 </div>
-                                <!-- <p class="description text-center">
-                                    "I like the way you work it <br>
-                                    No diggity <br>
-                                    I wanna bag it up"
-                                </p> -->
                             </div>
                             <hr>
-                            <!-- <div class="text-center">
-                                <div class="row">
-                                    <div class="col-md-3 col-md-offset-1">
-                                        <h5>12<br /><small>Files</small></h5>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h5>2GB<br /><small>Used</small></h5>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <h5>24,6$<br /><small>Spent</small></h5>
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div>
-                        <!-- <div class="card">
-                            <div class="header">
-                                <h4 class="title">Team Members</h4>
-                            </div>
-                            <div class="content">
-                                <ul class="list-unstyled team-members">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-xs-3">
-                                                        <div class="avatar">
-                                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        DJ Khaled
-                                                        <br />
-                                                        <span class="text-muted"><small>Offline</small></span>
-                                                    </div>
-
-                                                    <div class="col-xs-3 text-right">
-                                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-xs-3">
-                                                        <div class="avatar">
-                                                            <img src="assets/img/faces/face-1.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        Creative Tim
-                                                        <br />
-                                                        <span class="text-success"><small>Available</small></span>
-                                                    </div>
-
-                                                    <div class="col-xs-3 text-right">
-                                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-xs-3">
-                                                        <div class="avatar">
-                                                            <img src="assets/img/faces/face-3.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        Flume
-                                                        <br />
-                                                        <span class="text-danger"><small>Busy</small></span>
-                                                    </div>
-
-                                                    <div class="col-xs-3 text-right">
-                                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                            </div>
-                        </div> -->
+                    </div>
                     </div>
                     <div class="col-lg-8 col-md-7">
                         <div class="card">
@@ -217,13 +133,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Registration Number</label>
-                                                <input type="text" class="form-control border-input" placeholder="reg_no" name="qwUser" value="<?php echo $qwUser['reg_no']; ?>">
+                                                <input type="text" class="form-control border-input" readonly placeholder="reg_no" name="qwUser" value="<?php echo $qwUser['reg_no']; ?>">
                                             </div>
                                         </div>
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input type="text" class="form-control border-input" placeholder="name" value="<?php echo $qwUser['name'] ?>" name="name">
+                                                <input type="text" class="form-control border-input" readonly placeholder="name" value="<?php echo $qwUser['name'] ?>" name="name">
                                             </div>
                                         </div>
                                         
@@ -262,24 +178,26 @@
                                         </div>
                                     </div>
 
-                                    <!-- <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>About Me</label>
-                                                <textarea rows="5" class="form-control border-input" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
-You doubt I'll bother, reading into it
-I'll probably won't, left to my own devices
-But that's the difference in our opinions.</textarea>
-                                            </div>
-                                        </div>
-                                    </div> -->
+
+                                    </div> 
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button>
                                     </div>
+                                    <br>
                                     <div class="clearfix"></div>
                                 </form>
+                                
                             </div>
+                             <p>
+                                    <?php
+                                        if(isset($_GET['status'])&&$_GET['status']==1)
+                                        {
+                                            echo "Updated successfully!";
+                                        }
+                                ?></p> 
+
                         </div>
+                            
                     </div>
 
 
