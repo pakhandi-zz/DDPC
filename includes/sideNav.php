@@ -66,6 +66,28 @@
                             <p>Make Notification</p>
                         </a>
                     </li>
+                <?php
+                        if(!strcmp($currentTab, "createMeeting"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                        <a href="createMeeting.php">
+                            <i class="ti-pencil-alt2"></i>
+                            <p>Create Meeting</p>
+                        </a>
+                    </li>
+                <?php
+                        if(!strcmp($currentTab, "meetingAttendance"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                        <a href="meetingAttendance.php">
+                            <i class="ti-pencil-alt2"></i>
+                            <p>Meeting Attendance</p>
+                        </a>
+                    </li>
                 <!-- <?php
 
                         if(!strcmp($currentTab, "typography"))
