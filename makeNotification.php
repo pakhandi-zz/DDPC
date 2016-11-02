@@ -34,6 +34,8 @@
 
     <link href="./css/myCss.css" rel="stylesheet">
 
+    <link href="assets/css/datepicker.css" rel="stylesheet" />
+
 </head>
 <body>
 
@@ -125,7 +127,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Issue Date</label>
-                                                <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" name="issue_date">
+                                                <input type="text" class="form-control border-input" id="from_datepicker" name="issue_date"/>
+                                               <!--  <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" name="issue_date" id = > -->
                                             </div>
                                         </div>
                                     </div>
@@ -189,6 +192,7 @@
 
     <!--   Core JS Files   -->
     <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="assets/js/jquery-1.10.4.js" type="text/javascript"></script>
 	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
 	<!--  Checkbox, Radio & Switch Plugins -->
@@ -210,6 +214,14 @@
 	<script src="assets/js/demo.js"></script>
 
     <script type="text/javascript">
+
+         $("#from_datepicker").datepicker({
+                  minDate: 0,
+                  dateFormat: 'yy-mm-dd',
+                  onSelect: function(date) {
+                    $("#to_datepicker").datepicker('option', 'minDate', date);
+                  }
+                });
 
         function removeNot() {
 
@@ -235,6 +247,5 @@
             // body...
         }
     </script>
-
 
 </html>
