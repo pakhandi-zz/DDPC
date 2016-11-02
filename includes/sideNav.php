@@ -39,6 +39,17 @@
                         <p>upload Document</p>
                     </a>
                 </li>
+                 <?php
+                        if(! strcmp($currentTab, "applyLeave"))
+                           echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                    <a href="applyLeave.php">
+                        <i class="ti-user"></i>
+                        <p>Apply Leave</p>
+                    </a>
+                </li>
                 <?php
 
                     if($is_admin == 1)
@@ -86,6 +97,17 @@
                         <a href="meetingAttendance.php">
                             <i class="ti-pencil-alt2"></i>
                             <p>Meeting Attendance</p>
+                        </a>
+                    </li>
+                 <?php
+                        if(!strcmp($currentTab, "studentLeave"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                        <a href="studentLeave.php">
+                            <i class="ti-layout-list-thumb"></i>
+                            <p>Student Leave</p>
                         </a>
                     </li>
                 <!-- <?php

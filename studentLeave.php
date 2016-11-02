@@ -7,14 +7,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>MNNIT - DDPC</title>
+    <title>MNNIT - DDPC</title>
 
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
 
@@ -42,14 +42,14 @@
 <body>
 
 <div class="wrapper">
-	<div class="sidebar" data-background-color="black" data-active-color="warning">
+    <div class="sidebar" data-background-color="black" data-active-color="warning">
 
     <!--
-		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-	-->
+        Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+        Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+    -->
 
-    	<div class="sidebar-wrapper">
+        <div class="sidebar-wrapper">
             <div class="logo">
                 <?php include('./includes/topleft.php') ?>
             </div>
@@ -62,11 +62,12 @@
 
             ?>
 
-    	</div>
+        </div>
     </div>
 
+    <!-- Top navbar panel -->
     <div class="main-panel">
-		<nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <?php include('./includes/logo.php'); ?>
@@ -76,18 +77,17 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-								<p>Stats</p>
+                                <p>Stats</p>
                             </a>
                         </li>
                         <?php include('./includes/notifications.php'); ?>
-						<li>
+                        <li>
                             <a href="./logout.php">
                                 <i class="ti-settings"></i>
                                 <p>LogOut</p>
                             </a>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>
@@ -106,10 +106,11 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Registration Number</th>
-                                    	<th>Reason</th>
-                                    	<th>From Date</th>
+                                        <th>Reason</th>
+                                        <th>From Date</th>
                                         <th>To Date</th>
                                         <th>Applied no. of days</th>
+                                        <th>Leaves Left</th>
                                         <th>Status</th>
                                     </thead>
                                     <tbody>
@@ -130,10 +131,10 @@
                                                     <td>
                                                         <?php 
                                                             $type = $thisStudent['leave_type'];
-                                                            $query2 = "SELECT leave_name FROM leavelookup WHERE leave_type = '$type'";
+                                                            $query2 = "SELECT * FROM leavelookup WHERE leave_type = '$type'";
                                                             $result = mysqli_query($connection, $query2);
-                                                            $leave_names = mysqli_fetch_array($result);
-                                                            echo $leave_names['leave_name'];
+                                                            $leave_lookup = mysqli_fetch_array($result);
+                                                            echo $leave_lookup['leave_name'];
                                                         ?>
                                                     </td>
                                                     <td>
@@ -145,7 +146,22 @@
                                                     <td>
                                                         <?php echo $thisStudent['no_of_days'] ?>
                                                     </td>
-                                                     <td>
+                                                    <td>
+                                                        <?php
+                                                            $app_reg_no = $thisStudent['reg_no'];
+                                                            $app_leave_type = $thisStudent['leave_type'];
+                                                            $query3 = "SELECT SUM(no_of_days) AS days_left FROM groupx.leave WHERE leave_type = '$app_leave_type' AND reg_no = '$app_reg_no' AND approved = '1'";
+                                                            $result3 = mysqli_query($connection, $query3);
+                                                            if($result3) {
+                                                                $row = mysqli_fetch_array($result3);
+                                                                $sum = $leave_lookup['no_of_days'] - $row['days_left'];
+                                                                echo $sum;
+                                                            } else
+                                                                echo "hi";
+                                                            
+                                                        ?>
+                                                    </td>
+                                                    <td>
                                                         <?php 
                                                             if ($thisStudent['approved'] == 0) {
                                                                 echo "Not approved";
@@ -155,7 +171,7 @@
                                                         ?>
                                                     </td>
                                                     <?php 
-                                                        if ($thisStudent['approved'] == 0) {
+                                                        if (($thisStudent['approved'] == 0) && (strtotime($thisStudent['from_date']) > time())) {
                                                     ?>
                                                     <td>
                                                         <form method="post">
@@ -202,13 +218,13 @@
 
     <!--   Core JS Files   -->
     <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-	<!--  Checkbox, Radio & Switch Plugins -->
-	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
+    <!--  Checkbox, Radio & Switch Plugins -->
+    <script src="assets/js/bootstrap-checkbox-radio.js"></script>
 
-	<!--  Charts Plugin -->
-	<script src="assets/js/chartist.min.js"></script>
+    <!--  Charts Plugin -->
+    <script src="assets/js/chartist.min.js"></script>
 
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
@@ -217,10 +233,10 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-	<script src="assets/js/paper-dashboard.js"></script>
+    <script src="assets/js/paper-dashboard.js"></script>
 
-	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
+    <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+    <script src="assets/js/demo.js"></script>
 
     <script type="text/javascript">
         function removeNot() {
