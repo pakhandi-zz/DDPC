@@ -120,14 +120,14 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Department</label>
-                                                <select name = "dept_id">
+                                                <select name = "dept_id" class="form-control border-input">
                                                     <?php
                                                         $query = "SELECT * from department";
                                                         $departments = mysqli_query( $connection , $query);
                                                         while( $thisDepartment = mysqli_fetch_array($departments)  )
                                                         {
                                                     ?>
-                                                        <option value="<?php echo $thisDepartment['dept_id'] ?>"><?php echo $thisDepartment['dept_name'] ?></option>
+                                                        <option value="<?php echo $thisDepartment['dept_id'] ?>" class="form-control border-input"><?php echo $thisDepartment['dept_name'] ?></option>
                                                     <?php
                                                         }
                                                     ?>
@@ -138,7 +138,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Committee</label>
-                                                <select name = "committee_id">
+                                                <select name = "committee_id" class="form-control border-input">
                                                     <?php
                                                         $query = "SELECT * from committee";
                                                         $committees = mysqli_query( $connection , $query);
@@ -160,7 +160,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Meeting Date</label>
-                                                <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" id="from_datepicker" name="date">
+                                                <input type="text" class="form-control datepicker border-input" placeholder="YYYY-MM-DD" id="from_datepicker" name="date">
                                             </div>
                                         </div>
                                         <div class="col-md-3">

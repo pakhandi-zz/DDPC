@@ -105,7 +105,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Meeting Number</label>
-                                                <select name="meeting_no">
+                                                <select name="meeting_no" class="form-control border-input">
                                                     <?php
                                                         $query = "SELECT * from meeting";
                                                         $meetings = mysqli_query($connection, $query);
