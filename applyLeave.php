@@ -143,7 +143,7 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $reg_no = $_SESSION['userid'];
+                                            $reg_no = $_SESSION['reg_no'];
                                             $query = "SELECT * FROM groupx.leave WHERE reg_no = '$reg_no'";
                                             $allStudents = mysqli_query($connection, $query);
 
