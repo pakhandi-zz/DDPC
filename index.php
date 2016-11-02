@@ -1,10 +1,11 @@
+<!-- Index Page with Login Form -->
+
+<!-- session.php checks if a session already exists. -->
 <?php
-	session_start();
-	if(isset($_SESSION['uname'])){
-		$uname = $_SESSION['uname'];
-		header("location: ./dashboard.php");
-	}
+	include("./includes/session.php");
 	$invalid = 0;
+
+	// If the login details do not match with any entry in the database.
 	if(isset($_GET['invalid']))
 	{
 		$invalid = $_GET['invalid'];
@@ -12,7 +13,8 @@
 			echo "<script>alert('Invalid Details');</script>";
 	}
 ?>
-
+<!-- 
+<!-- HTML code -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,87 +41,47 @@
 
 <body id="inBody">
 
-<!-- Navbar will come here -->
+	<!-- Modal Core -->
+	<div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+	    	<div class="modal-content background-image">
+	      		<div class="modal-body">
+					<div class="col-md-12" style="margin-top:30px;">
+						<!-- The Login Form -->
+		        		<form action="login.php" method="post">
+						  	<div class="form-group label-floating">
+								<label class="control-label">Id</label>
+								<input type="text" name="reg_no" class="form-control">
+							</div>
+							<div class="form-group label-floating">
+								<label class="control-label">Password</label>
+								<input type="password" name="password" class="form-control">
+							</div>
+				  			<button type="submit" name="login" class="btn btn-default whiteColor" style="margin-left:200px;">Log In</button>
+						</form>
+					</div>
+	     		</div>
+			    <div class="modal-footer">
+			    </div>
+	    	</div>
+	  	</div>
+	</div>
 
+	<!-- Signer Button  Ends-->
 
-<!-- end navbar -->
-
-<!-- Signer Button -->
-
-
-
-<!-- Modal Core -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content background-image">
-      <div class="modal-body">
-      	<!-- <div class="col-md-6">
-	        <form action="signup.php" method="post">
-			  	<div class="form-group label-floating">
-					<label class="control-label">Name</label>
-					<input type="text" name="name" class="form-control">
+	<div class="wrapper">
+		
+		<div class="main" id="mainBox">
+			<div class="container" >
+				<!-- <h1 class="font-effect-3d"></h1> -->
+				<div class="col-md-3">
+					<a href="#" class="btn btn-raised" id="logger" data-toggle="modal" data-target="#studentModal">
+						LogIn
+					</a>
 				</div>
-			  	<div class="form-group label-floating">
-					<label class="control-label">Email</label>
-					<input type="email" name="email" class="form-control">
-				</div>
-				<div class="form-group label-floating">
-					<label class="control-label">Password</label>
-					<input type="password" name="password" class="form-control">
-				</div>
-			  <button type="submit" name="signup" class="btn btn-default whiteColor" style="margin-left:50px;">Join For Free</button>
-			</form>
-		</div>
-		<div style="background: #000;width:2px;height:200px;position: fixed;margin: 30px 0 0 275px;"></div> -->
-		<div class="col-md-12" style="margin-top:30px;">
-	        <form action="login.php" method="post">
-	        	<?php if($invalid == '1')
-	        		{
-	        			echo "Invalid Credentials";
-	        		}
-	        	 ?>
-			  <div class="form-group label-floating">
-					<label class="control-label">Id</label>
-					<input type="text" name="reg_no" class="form-control">
-				</div>
-				<div class="form-group label-floating">
-					<label class="control-label">Password</label>
-					<input type="password" name="password" class="form-control">
-				</div>
-			  <button type="submit" name="login" class="btn btn-default whiteColor" style="margin-left:200px;">Log In</button>
-			</form>
-		</div>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Signer Button  Ends-->
-
-<div class="wrapper">
-	
-	<div class="main" id="mainBox">
-		<div class="container" >
-
-			<!-- here you can add your content -->
-			
-			<h1 class="font-effect-3d"></h1>
-			<br><br>
-			<p>
-			<!-- complete solution to Real estate Troubles,<br><br>
-			sell or rent directly without brokers<br><br> *without any trouble -->
-			</p>
-
-			<div class="col-md-offset-2">
-				<a href="#" class="btn btn-raised" id="logger" data-toggle="modal" data-target="#myModal">
-				  LogIn
-				</a>
 			</div>
 		</div>
-		<!-- Button trigger modal -->
 	</div>
-</div>
 
 
 </body>
@@ -128,17 +90,6 @@
 	<script src="js/jquery.min.js" type="text/javascript"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="js/material.min.js"></script>
-
-	<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-	<script src="js/nouislider.min.js" type="text/javascript"></script>
-
-	<!--  Plugin for the Datepicker, full documentation here: http://www.eyecon.ro/bootstrap-datepicker/ -->
-	<script src="js/bootstrap-datepicker.js" type="text/javascript"></script>
-
-	<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
-	<script src="js/material-kit.js" type="text/javascript"></script>
-
-
 	<script type="text/javascript">
 		$(".success-alert").fadeTo(2000, 500).slideUp(500, function(){
 		    $(".success-alert").alert('close');
