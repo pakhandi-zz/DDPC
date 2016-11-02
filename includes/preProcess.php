@@ -11,7 +11,7 @@
     include("./includes/connect.php");
 
     $is_admin = 0;
-    if($_SESSION['is_admin'] == 1)
+    if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1)
         $is_admin = 1;
 
     $query = "SELECT * FROM studentmaster WHERE reg_no='$reg_no'";
