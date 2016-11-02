@@ -1,12 +1,12 @@
 <?php
 
 session_start();
-if(!isset($_SESSION['userid']))
+if(!isset($_SESSION['reg_no']))
 {
     header("location: ./");
 }
 else
-    $reg_no = $_SESSION['userid'];
+    $reg_no = $_SESSION['reg_no'];
 
 include("./includes/connect.php");
 $reg_no = $_POST['reg_no'];
