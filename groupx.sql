@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 02, 2016 at 12:14 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Host: localhost
+-- Generation Time: Nov 03, 2016 at 05:16 PM
+-- Server version: 5.5.53-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `groupx`
+-- Database: `groupX`
 --
 
 -- --------------------------------------------------------
@@ -169,14 +169,14 @@ CREATE TABLE IF NOT EXISTS `document` (
 --
 
 INSERT INTO `document` (`doc_id`, `member_id`, `sem_no`, `academic_year`, `application_type`, `date_of_upload`, `date_of_final_approval`) VALUES
-('1', '20134065', '1', '2016', '1', '2016-04-27', '0000-00-00'),
-('2', '20134065', '1', '2016', '1', '2016-04-27', '0000-00-00'),
-('3', '20134136', '0', '2016', '1', '2016-05-10', '0000-00-00'),
-('4', '20134136', '0', '2016', '1', '2016-05-10', '0000-00-00'),
-('5', '20134136', '0', '2016', '1', '2016-05-10', '0000-00-00'),
-('6', '20134136', '0', '2016', '1', '2016-10-13', '0000-00-00'),
-('7', '20134136', '0', '2016', '1', '2016-10-13', '0000-00-00'),
-('8', '20134136', '1', '2016', '', '2016-10-13', '0000-00-00');
+('1', '20134065', 1, 2016, '1', '2016-04-27', '0000-00-00'),
+('2', '20134065', 1, 2016, '1', '2016-04-27', '0000-00-00'),
+('3', '20134136', 0, 2016, '1', '2016-05-10', '0000-00-00'),
+('4', '20134136', 0, 2016, '1', '2016-05-10', '0000-00-00'),
+('5', '20134136', 0, 2016, '1', '2016-05-10', '0000-00-00'),
+('6', '20134136', 0, 2016, '1', '2016-10-13', '0000-00-00'),
+('7', '20134136', 0, 2016, '1', '2016-10-13', '0000-00-00'),
+('8', '20134136', 1, 2016, '', '2016-10-13', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -233,6 +233,13 @@ CREATE TABLE IF NOT EXISTS `faculty` (
   KEY `dept_id` (`dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `faculty`
+--
+
+INSERT INTO `faculty` (`faculty_id`, `password`, `name`, `dept_id`, `designation`, `contact`, `mail_id`, `external`, `affiliation`) VALUES
+('faculty1', 'hello', 'Asim Krishna Prasad', '4', 'Professor', 123565324, 'as@gmail.com', '1', 'none');
+
 -- --------------------------------------------------------
 
 --
@@ -258,10 +265,10 @@ CREATE TABLE IF NOT EXISTS `leave` (
 --
 
 INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `approved`) VALUES
-('20134065', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-26', '7', 1),
-('20134136', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-29', '10', 0),
-('20134136', '1', '1', 'Odd', '2016', '2016-11-02', '2016-11-03', '2', 0),
-('20134136', '2', '1', 'Odd', '2016', '2016-10-20', '2016-10-20', '1', 1);
+('20134065', '1', 1, 'Odd', 2016, '2016-10-20', '2016-10-26', 7, 1),
+('20134136', '1', 1, 'Odd', 2016, '2016-10-20', '2016-10-29', 10, 0),
+('20134136', '1', 1, 'Odd', 2016, '2016-11-02', '2016-11-03', 2, 0),
+('20134136', '2', 1, 'Odd', 2016, '2016-10-20', '2016-10-20', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -281,8 +288,8 @@ CREATE TABLE IF NOT EXISTS `leavelookup` (
 --
 
 INSERT INTO `leavelookup` (`leave_type`, `leave_name`, `no_of_days`) VALUES
-('1', 'Sick Leave', '10'),
-('2', 'Personal', '5');
+('1', 'Sick Leave', 10),
+('2', 'Personal', 5);
 
 -- --------------------------------------------------------
 
@@ -361,7 +368,8 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`member_id`, `member_type`, `committee_id`, `dept_id`) VALUES
-('20134136', 'student', '1', '4');
+('20134136', 'student', '1', '4'),
+('faculty1', 'Supervisor', '1', '4');
 
 -- --------------------------------------------------------
 
@@ -480,9 +488,9 @@ CREATE TABLE IF NOT EXISTS `studentmaster` (
 --
 
 INSERT INTO `studentmaster` (`reg_no`, `password`, `photo_path`, `category`, `program`, `name`, `father_name`, `address`, `contact_no`, `mail_id`, `hostel`, `gender`, `highest_qualification`, `nationality`, `admission_category_code`, `stipendiary`, `program_type`, `program_category`) VALUES
-('20134065', 'hello', './images/20134065.jpg', 'Genral', 'B.Tech', 'Manish K Sinha', 'Rajesh Sinha Pathak', 'Mars', '1234567890', 'joker.ace@gmail.com', 'Tandon', 'M', 'AISSCE', 'Indian', '', 0, '', ''),
-('20134136', 'gurha', './images/20134136.jpg', 'General', 'BTech', 'Ayushi Gurha', 'S G Gurha', 'G-5, KNGH', '9410671505', 'ayushigurha@gmail.com', 'KNGH', 'Female', 'AISCCE', 'Indian', '444', 0, 'Btech', '5005'),
-('20134171', 'hello', './images/20134171.jpg', 'General', 'B.Tech', 'Asim Krishna Prasad', 'Ajay Krishna Prasad', 'MNNIT, Allahabad', '8175843965', 'asimkprasad@gmail.com', 'Tandon', 'M', 'AISSCE', 'Indian', '', 1, '', '');
+('20134065', 'hello', './images/20134065.jpg', 'Genral', 'B.Tech', 'Manish K Sinha', 'Rajesh Sinha Pathak', 'Mars', 1234567890, 'joker.ace@gmail.com', 'Tandon', 'M', 'AISSCE', 'Indian', '', 0, '', ''),
+('20134136', 'gurha', './images/20134136.jpg', 'General', 'BTech', 'Ayushi Gurha', 'S G Gurha', 'G-5, KNGH', 9410671505, 'ayushigurha@gmail.com', 'KNGH', 'Female', 'AISCCE', 'Indian', '444', 0, 'Btech', '5005'),
+('20134171', 'hello', './images/20134171.jpg', 'General', 'B.Tech', 'Asim Krishna Prasad', 'Ajay Krishna Prasad', 'MNNIT, Allahabad', 8175843965, 'asimkprasad@gmail.com', 'Tandon', 'M', 'AISSCE', 'Indian', '', 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -512,10 +520,10 @@ CREATE TABLE IF NOT EXISTS `studentmincredit` (
 --
 
 INSERT INTO `studentmincredit` (`department`, `qualifying_degree`, `min_credit_to_earn`, `min_credit_through_course_work`, `min_credit_research_seminar`, `min_credit_through_project`, `credit_through_compre_exam`, `credit_through_soa`, `credit_through_research`, `min_duration`, `min_residence_full_time`, `max_duration_full_time`, `max_duration_part_time`) VALUES
-('Engineering', 'B.Tech', '120', '32', '32', '32', '8', '8', '72', '3 years', '4 semesters', '6 years', '7 years'),
-('Engineering', 'M. Tech', '80', '16', '16', '16', '8', '8', '48', '2 years', '4 semester', '6 years', '7 years'),
-('Engineering', 'M.E.', '80', '16', '16', '16', '8', '8', '48', '2 years', '4 semesters', '6 years', '7 years'),
-('Engineering', 'MCA', '120', '32', '32', '32', '8', '8', '72', '3 years', '4 semesters', '6 years', '7 years');
+('Engineering', 'B.Tech', 120, 32, 32, 32, 8, 8, 72, '3 years', '4 semesters', '6 years', '7 years'),
+('Engineering', 'M. Tech', 80, 16, 16, 16, 8, 8, 48, '2 years', '4 semester', '6 years', '7 years'),
+('Engineering', 'M.E.', 80, 16, 16, 16, 8, 8, 48, '2 years', '4 semesters', '6 years', '7 years'),
+('Engineering', 'MCA', 120, 32, 32, 32, 8, 8, 72, '3 years', '4 semesters', '6 years', '7 years');
 
 -- --------------------------------------------------------
 
@@ -561,9 +569,9 @@ CREATE TABLE IF NOT EXISTS `studentregistration` (
 --
 
 INSERT INTO `studentregistration` (`reg_no`, `sem_no`, `sem_type`, `registration_by`, `date_of_reg`, `remarks`, `total_credits_registered`) VALUES
-('20134065', '1', 'Odd', 'Admin', '2016-04-05 00:00:00', '', '12'),
-('20134136', '1', 'Odd', 'Admin', '2016-10-13 00:00:00', '', '12'),
-('20134171', '1', 'Odd', 'Admin', '2016-04-05 00:00:00', '', '16');
+('20134065', 1, 'Odd', 'Admin', '2016-04-05 00:00:00', '', 12),
+('20134136', 1, 'Odd', 'Admin', '2016-10-13 00:00:00', '', 12),
+('20134171', 1, 'Odd', 'Admin', '2016-04-05 00:00:00', '', 16);
 
 -- --------------------------------------------------------
 
