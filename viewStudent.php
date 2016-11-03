@@ -11,6 +11,29 @@
     $qwUser = mysqli_fetch_array($results);
 
     $name = ucfirst(strtolower(explode(" ", $qwUser['name'])[0]));
+
+    $query2 = "SELECT sem_no, course.course_id, course_name, credits_enrolled, course_coordinator FROM courseregistration JOIN course ON courseregistration.course_id = course.course_id WHERE reg_no = '$qwStudent' Order by sem_no desc, courseregistration.course_id";
+    $result2 = mysqli_query($connection, $query2);
+
+    $query3 = "SELECT * FROM studentthesisdetails WHERE reg_no = '$qwStudent'";
+    $result3 = mysqli_query($connection, $query3);
+    $thesis = mysqli_fetch_array($result3);
+
+    $query4 = "SELECT * FROM studentprogramdetails WHERE reg_no = '$qwStudent'";
+    $result4 = mysqli_query($connection, $query4);
+    $program = mysqli_fetch_array($result4);
+
+    $query5 = "SELECT sem_no, courseresultmaster.course_id, course_name, credits_earned, grade, result FROM courseresultmaster JOIN course ON courseresultmaster.course_id = course.course_id WHERE reg_no = '$qwStudent' ORDER BY sem_no DESC";
+    $query_result = mysqli_query($connection, $query5);
+
+    function check_date($arg)
+    {
+        if(strtotime($arg)=="")
+            return "-";
+        else
+            return $arg;
+    }
+
 ?>
 
 <!doctype html>
@@ -79,7 +102,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="stats.php">
                                 <i class="ti-panel"></i>
 								<p>Stats</p>
                             </a>
@@ -125,7 +148,7 @@
                     <div class="col-lg-8 col-md-7">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Edit Profile</h4>
+                                <h4 class="title">Personal Profile</h4>
                             </div>
                             <div class="content">
                                 <form method="GET" action="updateQwProfile.php">
@@ -199,13 +222,164 @@
                         </div>
                             
                     </div>
+                    <div class="col-lg-8 col-md-7">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Courses Registered</h4>
+                            </div>
 
+                            <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <table class="table table-striped">
+                                                <?php
+                                                    $max_sem = 0;
+                                                    while($course_details = mysqli_fetch_array($result2) )
+                                                    {
+                                                        if ($max_sem == $course_details['sem_no'])
+                                                        {
+                                                        ?>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td><?php echo $course_details['course_id'];?></td>
+                                                                <td><?php echo $course_details['course_name'];?></td>
+                                                                <td><?php echo $course_details['credits_enrolled'];?></td>
+                                                                <td><?php echo $course_details['course_coordinator'];?></td>
+                                                            </tr> 
+                                                        <?php 
+                                                        } else {
+                                                            $max_sem = $course_details['sem_no'];
+                                                        ?>
+                                                            <th>Semester <?php echo $max_sem; ?></th>
+                                                            <th>Course Id</th>
+                                                            <th>Course Name</th>
+                                                            <th>Credits Enrolled</th>
+                                                            <th>Course Coordinator</th>
+                                                                <tr>
+                                                                <td></td>
+                                                                <td><?php echo $course_details['course_id'];?></td>
+                                                                <td><?php echo $course_details['course_name'];?></td>
+                                                                <td><?php echo $course_details['credits_enrolled'];?></td>
+                                                                <td><?php echo $course_details['course_coordinator'];?></td>
+                                                                </tr>   
+                                                        <?php
+                                                        }
+                                                    }
+                                                ?>
+                                                </table>
 
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    
+
+                                    </div> 
+            </div>
+        </div>
+        <div class="col-md-4">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Thesis Details</h4>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+ 
+                            <h5><b>Area Of Interest</b></h5> <?php echo $thesis['AOR']; ?> 
+                            <h5><b>Proposed Topic</b></h5> <?php echo $thesis['proposed_topic']; ?> <br>
+                            <h5><b>Final Topic</b></h5> <?php echo $thesis['final_topic']; ?> <br>
+
+                    </div>
                 </div>
             </div>
         </div>
+        </div>
+        <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Program Details</h4>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-6">
+ 
+                            <h5><b>Date of completion of course work</b></h5> <?php echo check_date($program['date_of_comp_of_course_work']); ?>
+                            <h5><b>Credits earned through course work</b></h5><?php echo $program['credit_earn_course_work']; ?>
+                            <h5><b>Credits earned through thesis work</b></h5><?php echo $program['credit_earn_thesis']; ?>
+                            <h5><b>Date of comprehension</b></h5> <?php echo check_date($program['date_of_comp']); ?>
+                            <h5><b>Date of SOA</b></h5><?php echo check_date($program['date_of_soa']); ?>
 
+                    </div>
+                    <div class="col-md-6">
 
+                            <h5><b>Date of Open</b></h5><?php echo check_date($program['date_of_open']); ?>
+                            <h5><b>Date of Final Viva</b></h5><?php echo check_date($program['date_of_final_viva']); ?>
+                            <h5><b>Date of thesis submission</b></h5><?php echo check_date($program['date_thesis_submission']); ?>
+                            <h5><b>Date of termination</b></h5><?php echo check_date($program['date_of_termination']); ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="col-lg-8 col-md-7">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Result</h4>
+                            </div>
+
+                            <div class="content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <table class="table table-striped">
+                                                <?php
+                                                    $max_sem = 0;
+                                                    while($results = mysqli_fetch_array($query_result) )
+                                                    {
+                                                        if ($max_sem == $results['sem_no'])
+                                                        {
+                                                        ?>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td><?php echo $results['course_id'];?></td>
+                                                                <td><?php echo $results['course_name'];?></td>
+                                                                <td><?php echo $results['credits_earned'];?></td>
+                                                                <td><?php echo $results['grade'];?></td>
+                                                                <td><?php echo $results['result'];?></td>
+                                                            </tr> 
+                                                        <?php 
+                                                        } else {
+                                                            $max_sem = $results['sem_no'];
+                                                        ?>
+                                                            <th>Semester <?php echo $max_sem; ?></th>
+                                                            <th>Course Id</th>
+                                                            <th>Course Name</th>
+                                                            <th>Credits Earned</th>
+                                                            <th>Grade</th>
+                                                            <th>Result</th>
+                                                                <tr>
+                                                                <td></td>
+                                                                <td><?php echo $results['course_id'];?></td>
+                                                                <td><?php echo $results['course_name'];?></td>
+                                                                <td><?php echo $results['credits_earned'];?></td>
+                                                                <td><?php echo $results['grade'];?></td>
+                                                                <td><?php echo $results['result'];?></td>
+                                                            </tr> 
+                                                        <?php
+                                                        }
+                                                    }
+                                                ?>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
         <footer class="footer">
             <!-- <div class="container-fluid">
                 <nav class="pull-left">
