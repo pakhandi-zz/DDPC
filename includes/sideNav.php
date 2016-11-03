@@ -27,11 +27,12 @@
                     </a>
                 </li>
                  <?php
-
-                    if(! strcmp($currentTab, "uploadDocument"))
-                        echo "<li class=\"active\">";
-                    else
-                        echo "<li>";
+                    if (!strcmp($_SESSION['role'], "student") OR !strcmp($_SESSION['role'], "Supervisor"))
+                    {  
+                        if(! strcmp($currentTab, "uploadDocument"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
 
                 ?>
                     <a href="uploadDocument.php">
@@ -40,17 +41,21 @@
                     </a>
                 </li>
                  <?php
+                    }
+                    if (!strcmp($_SESSION['role'], "student"))
+                    { 
                         if(! strcmp($currentTab, "applyLeave"))
                            echo "<li class=\"active\">";
                         else
                             echo "<li>";
                 ?>
-                    <a href="applyLeave.php">
+                    <a href="leave.php">
                         <i class="ti-user"></i>
-                        <p>Apply Leave</p>
+                        <p>Leave</p>
                     </a>
                 </li>
                 <?php
+                    }
 
                     if($is_admin == 1)
                     {
