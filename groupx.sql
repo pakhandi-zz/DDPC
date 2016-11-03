@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2016 at 05:47 PM
+-- Generation Time: Nov 03, 2016 at 10:29 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -260,6 +260,7 @@ CREATE TABLE IF NOT EXISTS `faculty` (
   `mail_id` varchar(50) NOT NULL,
   `external` binary(1) NOT NULL,
   `affiliation` varchar(100) NOT NULL,
+  `photo_path` varchar(255) NOT NULL,
   PRIMARY KEY (`faculty_id`),
   KEY `dept_id` (`dept_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -268,10 +269,10 @@ CREATE TABLE IF NOT EXISTS `faculty` (
 -- Dumping data for table `faculty`
 --
 
-INSERT INTO `faculty` (`faculty_id`, `password`, `name`, `dept_id`, `designation`, `contact`, `mail_id`, `external`, `affiliation`) VALUES
-('1998005', 'hello', 'V K Singh', '4', 'Professor', '9781246262', 'vks@mnnit.ac.in', '0', ''),
-('2005109', 'hello', 'Amit Varshney', '4', 'Associate Professor', '987654321', 'av@mnnit.ac.in', '0', ''),
-('faculty1', 'hello', 'Asim Krishna Prasad', '4', 'Professor', '123565324', 'as@gmail.com', '1', 'none');
+INSERT INTO `faculty` (`faculty_id`, `password`, `name`, `dept_id`, `designation`, `contact`, `mail_id`, `external`, `affiliation`, `photo_path`) VALUES
+('1998005', 'hello', 'V K Singh', '4', 'Professor', '9781246262', 'vks@mnnit.ac.in', '0', '', ''),
+('2005109', 'hello', 'Amit Varshney', '4', 'Associate Professor', '987654321', 'av@mnnit.ac.in', '0', '', ''),
+('faculty1', 'hello', 'Asim Krishna Prasad', '4', 'Professor', '123565324', 'as@gmail.co', '1', 'none', './images/faculty1.jpg');
 
 -- --------------------------------------------------------
 
@@ -289,6 +290,8 @@ CREATE TABLE IF NOT EXISTS `leave` (
   `to_date` date NOT NULL,
   `no_of_days` decimal(2,0) NOT NULL,
   `approved` tinyint(1) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `applied_on` date NOT NULL,
   PRIMARY KEY (`reg_no`,`leave_type`,`from_date`,`to_date`),
   KEY `leave_type` (`leave_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -297,11 +300,16 @@ CREATE TABLE IF NOT EXISTS `leave` (
 -- Dumping data for table `leave`
 --
 
-INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `approved`) VALUES
-('20134065', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-26', '7', 1),
-('20134136', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-29', '10', 0),
-('20134136', '1', '1', 'Odd', '2016', '2016-11-02', '2016-11-03', '2', 0),
-('20134136', '2', '1', 'Odd', '2016', '2016-10-20', '2016-10-20', '1', 1);
+INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `approved`, `address`, `applied_on`) VALUES
+('20134065', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-26', '7', 1, '', '0000-00-00'),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-08', '1', 0, '', '2016-11-03'),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-09', '2', 0, 'mklo', '2016-11-03'),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-10', '2016-11-10', '1', 0, '', '2016-11-03'),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-11', '2016-11-11', '1', 0, '', '2016-11-03'),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-17', '2016-11-19', '3', 0, 'kml', '2016-11-03'),
+('20134136', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-29', '10', 0, '', '0000-00-00'),
+('20134136', '1', '1', 'Odd', '2016', '2016-11-02', '2016-11-03', '2', 0, '', '0000-00-00'),
+('20134136', '2', '1', 'Odd', '2016', '2016-10-20', '2016-10-20', '1', 1, '', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -322,7 +330,8 @@ CREATE TABLE IF NOT EXISTS `leavelookup` (
 
 INSERT INTO `leavelookup` (`leave_type`, `leave_name`, `no_of_days`) VALUES
 ('1', 'Sick Leave', '10'),
-('2', 'Personal', '5');
+('2', 'Personal', '5'),
+('3', 'casual', '15');
 
 -- --------------------------------------------------------
 
@@ -392,6 +401,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `member_type` varchar(20) NOT NULL,
   `committee_id` varchar(10) NOT NULL,
   `dept_id` varchar(10) NOT NULL,
+  `role` varchar(25) NOT NULL,
   PRIMARY KEY (`member_id`,`committee_id`,`dept_id`),
   KEY `dept_id` (`dept_id`,`committee_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -400,9 +410,9 @@ CREATE TABLE IF NOT EXISTS `members` (
 -- Dumping data for table `members`
 --
 
-INSERT INTO `members` (`member_id`, `member_type`, `committee_id`, `dept_id`) VALUES
-('20134136', 'student', '1', '4'),
-('faculty1', 'Supervisor', '1', '4');
+INSERT INTO `members` (`member_id`, `member_type`, `committee_id`, `dept_id`, `role`) VALUES
+('20134136', 'student', '1', '4', 'student'),
+('faculty1', 'internal', '1', '4', 'Supervisor');
 
 -- --------------------------------------------------------
 
