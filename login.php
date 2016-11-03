@@ -31,12 +31,16 @@
 					session_start();
 					$_SESSION['reg_no'] = $reg_no;
 					$result = mysqli_fetch_array($results);
-					$_SESSION['role'] = $result['member_type'];
+					$_SESSION['role'] = $result['role'];
 					header("location: ./dashboard.php");
 				}	
 				else
 				{
-					header("location: ./index.php?invalid=1");
+					session_start();
+					$_SESSION['reg_no'] = $reg_no;
+					$result = mysqli_fetch_array($results);
+					$_SESSION['role'] = "faculty";
+					header("location: ./dashboard.php");
 				}
 			}
 			else

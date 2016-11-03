@@ -1,12 +1,12 @@
 <?php
 
 	session_start();
-    if(!isset($_SESSION['userid']))
+    if(!isset($_SESSION['reg_no']))
     {
         header("location: ./");
     }
     else
-        $reg_no = $_SESSION['userid'];
+        $reg_no = $_SESSION['reg_no'];
 
 	include("./includes/connect.php");
     $target_dir = "images/";
@@ -58,18 +58,35 @@
 	        $user['photo_path']="./".$target_file;
 	        echo $user['photo_path'];
 	        $path= mysqli_real_escape_string($connection, $user['photo_path']);
-	        $query = "UPDATE studentmaster SET photo_path = '$path' WHERE reg_no = '$reg_no' ";
-	        $queryRan = mysqli_query($connection, $query); 
-	
-			if($queryRan){
-				header('Location: user.php');
-				exit();
-			}
-			else{
-				// echo "Unknown Error Occured";
-				header("Location: ./user.php?img_type=4");
-				exit();
-			}
+	        if(!strcmp($_SESSION['role'], "student"))
+	        {
+			        $query = "UPDATE studentmaster SET photo_path = '$path' WHERE reg_no = '$reg_no' ";
+			        $queryRan = mysqli_query($connection, $query); 
+			
+					if($queryRan){
+						header('Location: user.php');
+						exit();
+					}
+					else{
+						// echo "Unknown Error Occured";
+						header("Location: ./user.php?img_type=4");
+						exit();
+					}
+	        } else {
+	        	$query = "UPDATE faculty SET photo_path = '$path' WHERE faculty_id = '$reg_no' ";
+			        $queryRan = mysqli_query($connection, $query); 
+			
+					if($queryRan){
+						header('Location: user.php');
+						exit();
+					}
+					else{
+						// echo "Unknown Error Occured";
+						header("Location: ./user.php?img_type=4");
+						exit();
+					}
+	        }
+	        
 
 	    } else {
 	        // echo "Sorry, there was an error uploading your file.";

@@ -115,6 +115,10 @@
                                 <h4 class="title">My Profile</h4>
                             </div>
                             <div class="content">
+                                <?php 
+                                    if(!strcmp($_SESSION['role'], "student"))
+                                    {
+                                ?>
                                 <form method="GET" action="updateProfile.php">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -169,6 +173,60 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </form>
+                                
+                                <?php
+                                    }
+                                    else
+                                    {
+                                ?>
+                                <form method="GET" action="updateProfile.php">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Faculty ID</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" disabled placeholder="Company" value="<?php echo $user['faculty_id']; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox"  placeholder="name" value="<?php echo $user['name'] ?>" name="name" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Designation</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" disabled placeholder="Company" value="<?php echo $user['designation']; ?>">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Email address</label>
+                                                <input type="email" class="form-control border-input convertInputtoBox"  placeholder="mail_id" value="<?php echo $user['mail_id'] ?>" name="mail_id" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Contact Number</label>
+                                                <input type="text" class="form-control border-input convertInputtoBox" placeholder="contact_no" value="<?php echo $user['contact'] ?>" name="contact_no" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="text-center">
+                                        <!-- <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button> -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </form>
+                                
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>
