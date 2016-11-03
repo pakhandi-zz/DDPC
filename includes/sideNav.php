@@ -110,6 +110,17 @@
                             <p>Student Leave</p>
                         </a>
                     </li>
+                <?php
+                        if(!strcmp($currentTab, "members"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                        <a href="members.php">
+                            <i class="ti-layout-list-thumb"></i>
+                            <p>DDPC Members</p>
+                        </a>
+                    </li>
                 <!-- <?php
 
                         if(!strcmp($currentTab, "typography"))
