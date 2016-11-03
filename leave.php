@@ -93,70 +93,17 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="card">
-								<b>
-								<div class="col-md-offset-10"> Form: DP-06</div>
-								<div class="col-md-offset-10"> (Clause 5.0)</div>
-								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
-								<center><u><h3>Leave Application</h3></u></center>
-								<div class="col-md-offset-1" style="font-size:25px">
-								<form class="form-inline" id="leave" action="submitLeave.php" method="post">
-									<br><br><u>Head of the Department</u></b><br><br>
-									Kindly allow me to avail Leave/Leave on Duty from <input type="text" class="form-control border-input" id="from_datepicker" name="from_datepicker">to<input type="text" class="form-control border-input" id="to_datepicker" name="to_datepicker">for<input type="text" disabled class="form-control border-input" id="diff" name="diff" value=""> days and station leave from date ____ time ____ to ____.<br><br>Date : <?php echo date('Y-m-d'); ?> Time: <?php echo time('h'); ?>.<br> My address during leave will be as below<br>
-									Address : <textarea form="leave" style="vertical-align:top" class="form-control border-input" name="address" id="address"></textarea> <br>
-
-									Yours Sincerely<br><br>
-									<b>
-									Name: </b><?php echo $user['name'];?><br>
-									<b>Registration No.: </b><?php echo $_SESSION['reg_no'];?><br>
-									<b>Dated:</b> <?php echo date('Y-m-d'); ?><br>
-									
-								</div>
-								<br><br><br>
-								<div style="font-size:25px">
-									<center><u>For Official Use</u></center><br>
-									<div class="col-md-offset-1">
-									Recommende/Not Recommended:<br><br>
-									</div>
-									<div class="col-md-offset-1"><b>Supervisor(s)</div><br>
-									<div class="col-md-offset-1">Convener DDPC</b></div><br>
-									<div class="col-md-offset-1">Approved By:            Head of the Deapartment</div>
-
-
-								</div>
-
-								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Apply</button>
-								</div><br>
-								</div>
-							</div>
-						</div>
-					<div>
-					<?php
-						if(isset($_GET['submit'])&&$_GET['submit']==1)
-							{
-					?>
-					<p class="title">Leave applied successfully.</p>
-					<?php
-						}
-						else if(isset($_GET['submit'])&&$_GET['submit']==0)
-						{
-					?>
-					<p class="title">Error! Leave not submitted successfully.</p>
-					<?php
-						}
-					?>
-				</div>
-				</div>
-				
-			</div>
-
-			</div>
-
-
+							<ol style="font-size:25px;">
+								<li><a href="applyLeave.php"> Apply Leave </a></li>
+								<li><a href="viewLeave.php"> View and Print Leave Application</a></li>
+							</ol>
 			<footer class="footer">
 			</footer>
 		</div>
+	</div>
+	</div>
+	</div>
+	</div>
 	</div>
 	<p></p>
 

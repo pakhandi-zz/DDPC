@@ -94,40 +94,78 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="card">
-								<b>
-								<div class="col-md-offset-10"> Form: DP-06</div>
-								<div class="col-md-offset-10"> (Clause 5.0)</div>
-								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
-								<center><u><h3>Leave Application</h3></u></center>
-								<div class="col-md-offset-1" style="font-size:25px">
-								<form class="form-inline" id="leave" action="submitLeave.php" method="post">
-									<br><br><u>Head of the Department</u></b><br><br>
-									Kindly allow me to avail Leave/Leave on Duty from <input type="text" class="form-control border-input" id="from_datepicker" name="from_datepicker">to<input type="text" class="form-control border-input" id="to_datepicker" name="to_datepicker">for<input type="text" disabled class="form-control border-input" id="diff" name="diff" value=""> days and station leave from date ____ time ____ to ____.<br><br>Date : <?php echo date('Y-m-d'); ?> Time: <?php echo time('h'); ?>.<br> My address during leave will be as below<br>
-									Address : <textarea form="leave" style="vertical-align:top" class="form-control border-input" name="address" id="address"></textarea> <br>
-
-									Yours Sincerely<br><br>
-									<b>
-									Name: </b><?php echo $user['name'];?><br>
-									<b>Registration No.: </b><?php echo $_SESSION['reg_no'];?><br>
-									<b>Dated:</b> <?php echo date('Y-m-d'); ?><br>
-									
-								</div>
-								<br><br><br>
-								<div style="font-size:25px">
-									<center><u>For Official Use</u></center><br>
-									<div class="col-md-offset-1">
-									Recommende/Not Recommended:<br><br>
+									<div class="header">
+										<h4 class="title">Previously applied leaves</h4>
 									</div>
-									<div class="col-md-offset-1"><b>Supervisor(s)</div><br>
-									<div class="col-md-offset-1">Convener DDPC</b></div><br>
-									<div class="col-md-offset-1">Approved By:            Head of the Deapartment</div>
+									<div class="content table-responsive table-full-width">
+								<table class="table table-striped">
+									<thead>
+										<th>Registration Number</th>
+										<th>Reason</th>
+										<th>From Date</th>
+										<th>To Date</th>
+										<th>Applied no. of days</th>
+										<th>Status</th>
+									</thead>
+									<tbody>
+										<?php
+											$reg_no = $_SESSION['reg_no'];
+											$query = "SELECT * FROM groupx.leave WHERE reg_no = '$reg_no'";
+											$allStudents = mysqli_query($connection, $query);
 
 
+											while( $thisStudent = mysqli_fetch_array($allStudents) )
+											{
+										?>
+												<tr>
+													<td>
+														<?php echo $thisStudent['reg_no'] ?>
+													</td>
+													<td>
+														<?php 
+															$type = $thisStudent['leave_type'];
+															$query2 = "SELECT leave_name FROM leavelookup WHERE leave_type = '$type'";
+															$result = mysqli_query($connection, $query2);
+															$leave_names = mysqli_fetch_array($result);
+															echo $leave_names['leave_name'];
+														?>
+													</td>
+													<td>
+														<?php echo $thisStudent['from_date'] ?>
+													</td>
+													<td>
+														<?php echo $thisStudent['to_date'] ?>
+													</td>
+													<td>
+														<?php echo $thisStudent['no_of_days'] ?>
+													</td>
+													 <td>
+														<?php 
+															if ($thisStudent['approved'] == 0) {
+																echo "Not approved";
+															} else {
+																echo "Approved";
+															}
+														?>
+													</td>
+													<td>
+														<form method="GET" action="printLeave.php">
+                                                        <input type="text" hidden name="from" value="<?php echo $thisStudent['from_date'] ?>"/>
+                                                        <input type="text" hidden name="to" value="<?php echo $thisStudent['to_date'] ?>"/>
+                                                        <input type="text" hidden name="days" value="<?php echo $thisStudent['no_of_days'] ?>"/>
+                                                        <input type="text" hidden name="address" value="<?php echo $thisStudent['address'] ?>"/>
+                                                        <input type="text" hidden name="applied_on" value="<?php echo $thisStudent['applied_on'] ?>"/>
+                                                        <input type="submit" value="Print"/>
+                                                        </form>
+													</td>
+												</tr>
+										<?php
+											}
+										?>
+
+									</tbody>
+								</table>
 								</div>
-
-								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Apply</button>
-								</div><br>
 								</div>
 							</div>
 						</div>
