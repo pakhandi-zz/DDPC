@@ -5,4 +5,10 @@
                 {
                 ?>
                 <center><h6>(admin)</h6></center>
-                <?php } ?>
+                <?php
+                 } else {
+                 ?>
+                 <center><h6>(<?php echo $_SESSION['role']; ?>)</h6></center>
+                 <?php
+                 }
+                 ?>
