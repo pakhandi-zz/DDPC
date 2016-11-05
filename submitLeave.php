@@ -27,8 +27,8 @@ $query = "SELECT sem_no, sem_type FROM studentregistration WHERE `reg_no` = '$re
 		$sem_no = $row['sem_no'];
 		$sem_type = $row['sem_type'];
 		$year = "2016";
-$approved = 0;
-$query = "INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `approved`, `address`, `applied_on`) VALUES ('$reg_no', '$leave_type', '$sem_no', '$sem_type', '$year', '$from', '$to', '$days', '$approved', '$address', '$applied_on')";
+$status = "pending";
+$query = "INSERT INTO `groupx`.`leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `status`, `address`, `applied_on`) VALUES ('$reg_no', '$leave_type', '$sem_no', '$sem_type', '$year', '$from', '$to', '$days', '$status', '$address', '$applied_on')";
 $result = mysqli_query($connection, $query);
 
 if (!$result)

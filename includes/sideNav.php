@@ -55,6 +55,33 @@
                     </a>
                 </li>
                 <?php
+                        if(! strcmp($currentTab, "changeRegStatus"))
+                           echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                ?>
+                    <a href="changeRegStatus.php">
+                        <i class="ti-user"></i>
+                        <p>Change Registration Status</p>
+                    </a>
+                </li>
+                <?php
+                    }
+                    if(!strcmp($_SESSION['role'], "Supervisor") OR !strcmp($_SESSION['role'], "ConvenerDDPC") OR !strcmp($_SESSION['role'], "HOD") )
+                    {
+                        if(!strcmp($currentTab, "studentLeave"))
+                            echo "<li class=\"active\">";
+                        else
+                            echo "<li>";
+                        
+                ?>
+                        <a href="studentLeave.php">
+                            <i class="ti-layout-list-thumb"></i>
+                            <p>Student Leave</p>
+                        </a>
+                    </li>
+
+                <?php
                     }
 
                     if($is_admin == 1)
@@ -109,6 +136,7 @@
                             echo "<li class=\"active\">";
                         else
                             echo "<li>";
+                        
                 ?>
                         <a href="studentLeave.php">
                             <i class="ti-layout-list-thumb"></i>

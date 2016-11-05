@@ -1,9 +1,25 @@
 	<?php
 
 		include("./includes/preProcess.php");
-		
-	?>
+		$reg_no = $_SESSION['reg_no'];
+		$query = "SELECT supervisor1_id, supervisor2_id FROM currentsupervisor WHERE reg_no ='$reg_no'";
+		$s_results = mysqli_query($connection, $query);
+		$arr = mysqli_fetch_array($s_results);
 
+		$id1 = $arr['supervisor1_id'];
+		$id2 = $arr['supervisor2_id'];
+		$q1 = "SELECT name from faculty where faculty_id = '$id1'"; 
+		$r1 = mysqli_query($connection, $q1);
+		$row1 = mysqli_fetch_array($r1);
+		$sname1 = $row1['name'];
+		$sname2 ="";
+		if(!empty($id2)) {
+			$q1 = "SELECT name from faculty where faculty_id = '$id2'"; 
+			$r1 = mysqli_query($connection, $q1);
+			$row1 = mysqli_fetch_array($r1);
+			$sname2 = $row1['name'];
+		}
+	?> 
 	<!doctype html>
 	<html lang="en">
 	<head>
@@ -54,7 +70,7 @@
 
 				<?php
 
-					$currentTab = "applyLeave";
+					$currentTab = "changeRegStatus";
 
 					include("./includes/sideNav.php");
 
@@ -94,72 +110,41 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="card">
-									<div class="header">
-										<h4 class="title">Previously applied leaves</h4>
-									</div>
-									<div class="content table-responsive table-full-width">
-								<table class="table table-striped">
-									<thead>
-										<th>Registration Number</th>
-										<th>Reason</th>
-										<th>From Date</th>
-										<th>To Date</th>
-										<th>Applied no. of days</th>
-										<th>Status</th>
-									</thead>
-									<tbody>
-										<?php
-											$reg_no = $_SESSION['reg_no'];
-											$query = "SELECT * FROM groupx.leave WHERE reg_no = '$reg_no'";
-											$allStudents = mysqli_query($connection, $query);
-
-
-											while( $thisStudent = mysqli_fetch_array($allStudents) )
-											{
-										?>
-												<tr>
-													<td>
-														<?php echo $thisStudent['reg_no'] ?>
-													</td>
-													<td>
-														<?php 
-															$type = $thisStudent['leave_type'];
-															$query2 = "SELECT leave_name FROM leavelookup WHERE leave_type = '$type'";
-															$result = mysqli_query($connection, $query2);
-															$leave_names = mysqli_fetch_array($result);
-															echo $leave_names['leave_name'];
-														?>
-													</td>
-													<td>
-														<?php echo $thisStudent['from_date'] ?>
-													</td>
-													<td>
-														<?php echo $thisStudent['to_date'] ?>
-													</td>
-													<td>
-														<?php echo $thisStudent['no_of_days'] ?>
-													</td>
-													 <td>
-														<?php echo $thisStudent['status'] ?>
-													</td>
-													<td>
-														<form method="GET" action="printLeave.php">
-                                                        <input type="text" hidden name="from" value="<?php echo $thisStudent['from_date'] ?>"/>
-                                                        <input type="text" hidden name="to" value="<?php echo $thisStudent['to_date'] ?>"/>
-                                                        <input type="text" hidden name="days" value="<?php echo $thisStudent['no_of_days'] ?>"/>
-                                                        <input type="text" hidden name="address" value="<?php echo $thisStudent['address'] ?>"/>
-                                                        <input type="text" hidden name="applied_on" value="<?php echo $thisStudent['applied_on'] ?>"/>
-                                                        <input type="submit" value="Print"/>
-                                                        </form>
-													</td>
-												</tr>
-										<?php
-											}
-										?>
-
-									</tbody>
-								</table>
+								<b>
+								<div class="col-md-offset-10"> Form: DP-05</div>
+								<div class="col-md-offset-10"> (Clause 4.5)</div>
+								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
+								<center><u><h3>Change of Registration Status</h3></u></center><br><br><br>
+								<div class="col-md-offset-1" style="font-size:20px">
+								<form class="form-inline" id="dp05" action="submitDP05.php" method="post">
+									</b>
+									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
+									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
+									Supervisor(s): <b> <?php echo $sname1." ".$sname2; ?></b><br>
+									Present Registration Status: <b>Full-Time</b><br>
+									Registration Status to be converted to: <b>Part-Time</b><br>
+									Justification/Reason:<textarea form="dp05" style="vertical-align:top" class="form-control border-input" name="reason" id="reason"></textarea>
+									
 								</div>
+								<br><br><br>
+								<div style="font-size:25px">
+								<div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
+									<div class="col-md-offset-1">Comment of the Supervisor(s) :</div><br><br><br><br>
+									<div class="col-md-offset-8">(Signature of the Supervisor(s))</div><br><br><br>
+									<div class="col-md-offset-1">
+									Recommended By:<br><br>
+									</div>
+									<div class="col-md-offset-1"><b>Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Head of Department</b></div>
+									<div class="col-md-offset-1"></b></div><br>
+									<div class="col-md-offset-1">Approved By:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC</div>
+
+
+								</div>
+
+								<div class="text-center">
+									<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+								</div><br>
+								</form>
 								</div>
 							</div>
 						</div>
