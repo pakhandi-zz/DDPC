@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2016 at 10:29 PM
+-- Generation Time: Nov 05, 2016 at 06:29 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -136,6 +136,13 @@ CREATE TABLE IF NOT EXISTS `currentsupervisor` (
   `supervisor2_id` varchar(10) NOT NULL,
   PRIMARY KEY (`reg_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `currentsupervisor`
+--
+
+INSERT INTO `currentsupervisor` (`reg_no`, `supervisor1_id`, `supervisor2_id`) VALUES
+('20134136', 'faculty1', '');
 
 -- --------------------------------------------------------
 
@@ -272,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `faculty` (
 INSERT INTO `faculty` (`faculty_id`, `password`, `name`, `dept_id`, `designation`, `contact`, `mail_id`, `external`, `affiliation`, `photo_path`) VALUES
 ('1998005', 'hello', 'V K Singh', '4', 'Professor', '9781246262', 'vks@mnnit.ac.in', '0', '', ''),
 ('2005109', 'hello', 'Amit Varshney', '4', 'Associate Professor', '987654321', 'av@mnnit.ac.in', '0', '', ''),
-('faculty1', 'hello', 'Asim Krishna Prasad', '4', 'Professor', '123565324', 'as@gmail.co', '1', 'none', './images/faculty1.jpg');
+('faculty1', 'hello', 'S K Mittal', '4', 'Professor', '123565324', 'as@gmail.co', '1', 'none', './images/faculty1.jpg');
 
 -- --------------------------------------------------------
 
@@ -289,9 +296,10 @@ CREATE TABLE IF NOT EXISTS `leave` (
   `from_date` date NOT NULL,
   `to_date` date NOT NULL,
   `no_of_days` decimal(2,0) NOT NULL,
-  `approved` tinyint(1) NOT NULL,
+  `status` varchar(25) NOT NULL,
   `address` varchar(255) NOT NULL,
   `applied_on` date NOT NULL,
+  `progress` varchar(25) NOT NULL DEFAULT 'Supervisor',
   PRIMARY KEY (`reg_no`,`leave_type`,`from_date`,`to_date`),
   KEY `leave_type` (`leave_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -300,16 +308,17 @@ CREATE TABLE IF NOT EXISTS `leave` (
 -- Dumping data for table `leave`
 --
 
-INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `approved`, `address`, `applied_on`) VALUES
-('20134065', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-26', '7', 1, '', '0000-00-00'),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-08', '1', 0, '', '2016-11-03'),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-09', '2', 0, 'mklo', '2016-11-03'),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-10', '2016-11-10', '1', 0, '', '2016-11-03'),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-11', '2016-11-11', '1', 0, '', '2016-11-03'),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-17', '2016-11-19', '3', 0, 'kml', '2016-11-03'),
-('20134136', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-29', '10', 0, '', '0000-00-00'),
-('20134136', '1', '1', 'Odd', '2016', '2016-11-02', '2016-11-03', '2', 0, '', '0000-00-00'),
-('20134136', '2', '1', 'Odd', '2016', '2016-10-20', '2016-10-20', '1', 1, '', '0000-00-00');
+INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `status`, `address`, `applied_on`, `progress`) VALUES
+('20134065', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-26', '7', 'approved', '', '0000-00-00', ''),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-08', '1', 'denied', '', '2016-11-03', ''),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-09', '2', 'approved', 'mklo', '2016-11-03', ''),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-10', '2016-11-10', '1', 'denied', '', '2016-11-03', ''),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-11', '2016-11-11', '1', 'denied', '', '2016-11-03', ''),
+('20134065', '3', '1', 'Odd', '2016', '2016-11-17', '2016-11-19', '3', 'denied', 'kml', '2016-11-03', 'ConvenerDDPC'),
+('20134136', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-29', '10', 'denied', '', '0000-00-00', ''),
+('20134136', '1', '1', 'Odd', '2016', '2016-11-02', '2016-11-03', '2', 'pending', '', '0000-00-00', 'Supervisor'),
+('20134136', '2', '1', 'Odd', '2016', '2016-10-20', '2016-10-20', '1', 'denied', '', '0000-00-00', ''),
+('20134148', '3', '0', '', '2016', '2016-11-17', '2016-11-19', '3', 'approved', 'KNGH', '2016-11-04', 'HOD');
 
 -- --------------------------------------------------------
 
@@ -411,6 +420,8 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`member_id`, `member_type`, `committee_id`, `dept_id`, `role`) VALUES
+('1998005', 'internal', '1', '4', 'HOD'),
+('2005109', 'internal', '1', '4', 'ConvenerDDPC'),
 ('20134136', 'student', '1', '4', 'student'),
 ('faculty1', 'internal', '1', '4', 'Supervisor');
 
@@ -451,7 +462,6 @@ CREATE TABLE IF NOT EXISTS `othercourses` (
   `course_id` varchar(10) NOT NULL,
   `min_credits` decimal(2,0) NOT NULL,
   `max_credits` decimal(2,0) NOT NULL,
-  `deadline` date NOT NULL,
   PRIMARY KEY (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -459,9 +469,9 @@ CREATE TABLE IF NOT EXISTS `othercourses` (
 -- Dumping data for table `othercourses`
 --
 
-INSERT INTO `othercourses` (`course_id`, `min_credits`, `max_credits`, `deadline`) VALUES
-('3', '8', '20', '2016-11-30'),
-('4', '8', '20', '2016-11-04');
+INSERT INTO `othercourses` (`course_id`, `min_credits`, `max_credits`) VALUES
+('3', '8', '20'),
+('4', '8', '20');
 
 -- --------------------------------------------------------
 
@@ -471,10 +481,21 @@ INSERT INTO `othercourses` (`course_id`, `min_credits`, `max_credits`, `deadline
 
 CREATE TABLE IF NOT EXISTS `partfullstatus` (
   `reg_no` varchar(10) NOT NULL,
-  `status` varchar(20) NOT NULL,
+  `reg_status` varchar(20) NOT NULL,
   `date_of_modification` datetime NOT NULL,
+  `reason` varchar(255) NOT NULL,
+  `supervisor_comment` varchar(255) NOT NULL,
+  `progress` varchar(25) NOT NULL,
+  `status` varchar(25) NOT NULL,
   PRIMARY KEY (`reg_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `partfullstatus`
+--
+
+INSERT INTO `partfullstatus` (`reg_no`, `reg_status`, `date_of_modification`, `reason`, `supervisor_comment`, `progress`, `status`) VALUES
+('20134136', 'Part-Time', '2016-11-04 00:00:00', 'thiS_that', '', 'Supervisor', 'pending');
 
 -- --------------------------------------------------------
 
@@ -541,6 +562,7 @@ CREATE TABLE IF NOT EXISTS `studentmaster` (
 INSERT INTO `studentmaster` (`reg_no`, `password`, `photo_path`, `category`, `program`, `name`, `father_name`, `address`, `contact_no`, `mail_id`, `hostel`, `gender`, `highest_qualification`, `nationality`, `admission_category_code`, `stipendiary`, `program_type`, `program_category`) VALUES
 ('20134065', 'hello', './images/20134065.jpg', 'Genral', 'B.Tech', 'Manish K Sinha', 'Rajesh Sinha Pathak', 'Mars', '1234567890', 'joker.ace@gmail.com', 'Tandon', 'M', 'AISSCE', 'Indian', '', 0, '', ''),
 ('20134136', 'gurha', './images/20134136.jpg', 'General', 'BTech', 'Ayushi Gurha', 'S G Gurha', 'G-5, KNGH', '9410671505', 'ayushigurha@gmail.com', 'KNGH', 'Female', 'AISCCE', 'Indian', '444', 0, 'Btech', '5005'),
+('20134148', 'hello', '', '', '', 'Aishwarya Tripathi', 'R P M Tripathi', 'G_55, MNNIT', '987467846', 'aishmeow@gmail.com', 'KNGH', 'Female', 'Senior Secondary', 'Japanese', '11', 0, '', ''),
 ('20134171', 'hello', './images/20134171.jpg', 'General', 'B.Tech', 'Asim Krishna Prasad', 'Ajay Krishna Prasad', 'MNNIT, Allahabad', '8175843965', 'asimkprasad@gmail.com', 'Tandon', 'M', 'AISSCE', 'Indian', '', 1, '', '');
 
 -- --------------------------------------------------------
@@ -617,7 +639,7 @@ CREATE TABLE IF NOT EXISTS `studentregistration` (
   `sem_no` decimal(2,0) NOT NULL,
   `sem_type` varchar(10) NOT NULL,
   `registration_by` varchar(50) NOT NULL,
-  `date_of_reg` datetime NOT NULL,
+  `date_of_reg` date NOT NULL,
   `remarks` text NOT NULL,
   `total_credits_registered` decimal(3,0) NOT NULL,
   PRIMARY KEY (`reg_no`,`sem_no`,`sem_type`)
@@ -628,9 +650,10 @@ CREATE TABLE IF NOT EXISTS `studentregistration` (
 --
 
 INSERT INTO `studentregistration` (`reg_no`, `sem_no`, `sem_type`, `registration_by`, `date_of_reg`, `remarks`, `total_credits_registered`) VALUES
-('20134065', '1', 'Odd', 'Admin', '2016-04-05 00:00:00', '', '12'),
-('20134136', '1', 'Odd', 'Admin', '2016-10-13 00:00:00', '', '12'),
-('20134171', '1', 'Odd', 'Admin', '2016-04-05 00:00:00', '', '16');
+('20134065', '1', 'Odd', 'Admin', '2016-04-05', '', '12'),
+('20134136', '1', 'Odd', 'Admin', '2016-10-13', '', '12'),
+('20134148', '1', 'Odd', 'Admin', '2016-11-01', '', '12'),
+('20134171', '1', 'Odd', 'Admin', '2016-04-05', '', '16');
 
 -- --------------------------------------------------------
 
@@ -669,6 +692,14 @@ CREATE TABLE IF NOT EXISTS `supervisorhistory` (
   `date_of_relieving` date NOT NULL,
   PRIMARY KEY (`reg_no`,`supervisor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supervisorhistory`
+--
+
+INSERT INTO `supervisorhistory` (`reg_no`, `supervisor_id`, `date_of_allotment`, `date_of_relieving`) VALUES
+('20134136', 'faculty1', '2016-09-13', '0000-00-00'),
+('20134148', 'faculty1', '2016-11-03', '0000-00-00');
 
 -- --------------------------------------------------------
 
