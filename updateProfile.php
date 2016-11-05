@@ -2,14 +2,14 @@
 
 	// Start the session.
 	session_start();
-    if(!isset($_SESSION['reg_no']))
-    {
-        header("location: ./");
-    }
-    else
-        $reg_no = $_SESSION['reg_no'];
+	if(!isset($_SESSION['reg_no']))
+	{
+		header("location: ./");
+	}
+	else
+		$reg_no = $_SESSION['reg_no'];
 
-    // Establish the connection.
+	// Establish the connection.
 	include("./includes/connect.php");
 
 	if(! strcmp($_SESSION['role'], "student"))
