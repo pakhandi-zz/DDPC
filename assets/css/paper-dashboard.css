@@ -306,6 +306,7 @@ hr {
 .sidebar .nav,
 .off-canvas-sidebar .nav {
   margin-top: 20px;
+  background-color: black;
 }
 .sidebar .nav li > a,
 .off-canvas-sidebar .nav li > a {
