@@ -23,7 +23,10 @@
         {
             $user['photo_path']='./images/default.jpg';
         }
-
+        $query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
+        $results = mysqli_query($connection, $query);
+        $arr = mysqli_fetch_array($results);
+        $date_of_reg = $arr['date_of_reg'];
         $name = ucfirst(strtolower(explode(" ", $user['name'])[0])); 
 
         $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";

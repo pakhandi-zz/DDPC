@@ -1,6 +1,7 @@
 <?php
 
     include("./includes/preProcess.php");
+    date_default_timezone_set("Asia/Kolkata");
     
 ?>
 
@@ -46,7 +47,7 @@
 								<center><u><h3>Leave Application</h3></u></center>
 								<div class="col-md-offset-1" style="font-size:25px">
 									<br><br><u>Head of the Department</u></b><br><br>
-									Kindly allow me to avail Leave/Leave on Duty from <b><?php echo $_GET['from'];?></b> to <b><?php echo $_GET['from'];?></b>for <b><?php echo $_GET['days'];?></b> day(s) and station leave from date ____ time ____ to ____.<br><br>Date :<b> <?php echo date('Y-m-d'); ?></b> Time: <b><?php echo time('h'); ?></b>.<br> My address during leave will be as below<br>
+									Kindly allow me to avail Leave/Leave on Duty from <b><?php echo $_GET['from'];?></b> to <b><?php echo $_GET['from'];?></b>for <b><?php echo $_GET['days'];?></b> day(s)<!--  and station leave from date ____ time ____ to ____ -->.<br><br>Date :<b> <?php echo date('d-m-Y'); ?></b> Time: <b><?php echo date('H:i:s'); ?></b>.<br> My address during leave will be as below<br>
 									Address : <b><?php echo $_GET['address'];?></b><br>
 
 									Yours Sincerely<br><br>

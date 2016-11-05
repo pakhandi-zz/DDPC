@@ -102,7 +102,7 @@
 								<div class="col-md-offset-1" style="font-size:25px">
 								<form class="form-inline" id="leave" action="submitLeave.php" method="post">
 									<br><br><u>Head of the Department</u></b><br><br>
-									Kindly allow me to avail Leave/Leave on Duty from <input type="text" class="form-control border-input" id="from_datepicker" name="from_datepicker">to<input type="text" class="form-control border-input" id="to_datepicker" name="to_datepicker">for<input type="text" disabled class="form-control border-input" id="diff" name="diff" value=""> days and station leave from date ____ time ____ to ____.<br><br>Date : <?php echo date('Y-m-d'); ?> Time: <?php echo time('h'); ?>.<br> My address during leave will be as below<br>
+									Kindly allow me to avail Leave/Leave on Duty from <input type="text" class="form-control border-input" id="from_datepicker" name="from_datepicker">to<input type="text" class="form-control border-input" id="to_datepicker" name="to_datepicker">for<input type="text" disabled class="form-control border-input" id="diff" name="diff" value=""> days. <!-- and station leave from date ____ time ____ to ____. --><br><br>Date : <?php echo date('Y-m-d'); ?> Time: <?php echo time('h'); ?>.<br> My address during leave will be as below<br>
 									Address : <textarea form="leave" style="vertical-align:top" class="form-control border-input" name="address" id="address"></textarea> <br>
 
 									Yours Sincerely<br><br>
