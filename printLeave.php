@@ -38,7 +38,7 @@
 
   	</head>
   	<body>
-  		<a href="leave.php" class="btn btn-default">Home</a><br><br>
+  		<a href="application.php" class="btn btn-default">Home</a><br><br>
   		<a href="dashboard.php" class="btn btn-default" onClick="window.print()">Print</a>
 
   		<div class="col-md-offset-10"> Form: DP-06</div>

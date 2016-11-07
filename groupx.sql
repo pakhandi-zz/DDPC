@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2016 at 06:29 AM
+-- Generation Time: Nov 07, 2016 at 05:15 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `committee` (
 --
 
 INSERT INTO `committee` (`dept_id`, `committee_id`, `committee_name`) VALUES
+('2 ', '1', 'DDPC'),
 ('4', '1', 'DDPC');
 
 -- --------------------------------------------------------
@@ -49,8 +50,8 @@ INSERT INTO `committee` (`dept_id`, `committee_id`, `committee_name`) VALUES
 CREATE TABLE IF NOT EXISTS `course` (
   `course_id` varchar(10) NOT NULL,
   `course_name` varchar(50) NOT NULL,
-  `course_coordinator` varchar(10) NOT NULL,
-  `course_instructor` varchar(10) NOT NULL,
+  `course_coordinator` varchar(50) NOT NULL,
+  `course_instructor` varchar(50) NOT NULL,
   PRIMARY KEY (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -60,9 +61,11 @@ CREATE TABLE IF NOT EXISTS `course` (
 
 INSERT INTO `course` (`course_id`, `course_name`, `course_coordinator`, `course_instructor`) VALUES
 ('1', 'Theory Course 1', 'Mr. ABC', 'Mr. XYZ'),
-('2', 'Theory Course 2', 'Mr.XYZ ', 'Mr.ABC'),
+('2', 'Theory Course 2', 'Mr.XYZ ', 'Mr.B K Sin'),
 ('3', 'Other Course 1', 'Mr. ABC', 'Mr.XYZ'),
-('4', 'Other Course 2', 'Mr. ABC', 'Mr. XYZ');
+('4', 'Other Course 2', 'Mr. ABC', 'Mr. XYZ'),
+('5', 'Theory Course 3', 'Mr. YUI', 'Mr. ABC'),
+('6', 'Other Courses 3', 'Mr. YUI', 'Mr. ABC');
 
 -- --------------------------------------------------------
 
@@ -77,6 +80,8 @@ CREATE TABLE IF NOT EXISTS `courseregistration` (
   `sem_no` decimal(2,0) NOT NULL,
   `sem_type` tinyint(1) NOT NULL,
   `academic_year` year(4) DEFAULT NULL,
+  `progress` varchar(25) NOT NULL,
+  `status` varchar(25) NOT NULL,
   PRIMARY KEY (`reg_no`,`course_id`),
   KEY `course_id` (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -85,11 +90,15 @@ CREATE TABLE IF NOT EXISTS `courseregistration` (
 -- Dumping data for table `courseregistration`
 --
 
-INSERT INTO `courseregistration` (`reg_no`, `course_id`, `credits_enrolled`, `sem_no`, `sem_type`, `academic_year`) VALUES
-('20134065', '1', '4', '1', 1, 2016),
-('20134136', '1', '4', '1', 1, 2016),
-('20134136', '3', '12', '1', 1, 2016),
-('20134136', '4', '12', '2', 0, 2016);
+INSERT INTO `courseregistration` (`reg_no`, `course_id`, `credits_enrolled`, `sem_no`, `sem_type`, `academic_year`, `progress`, `status`) VALUES
+('20134065', '1', '4', '1', 1, 2016, '', ''),
+('20134136', '1', '4', '1', 1, 2016, '', ''),
+('20134136', '3', '12', '1', 1, 2016, '', ''),
+('20134136', '4', '12', '2', 0, 2016, '', ''),
+('20134148', '1', '4', '3', 1, 2016, 'ChairmanSDPC', 'approved'),
+('20134148', '2', '6', '3', 1, 2016, 'ChairmanSDPC', 'approved'),
+('20134148', '3', '8', '3', 1, 2016, 'ChairmanSDPC', 'approved'),
+('20134148', '4', '8', '3', 1, 2016, 'ChairmanSDPC', 'approved');
 
 -- --------------------------------------------------------
 
@@ -183,7 +192,8 @@ INSERT INTO `department` (`dept_id`, `dept_name`, `hod`) VALUES
 ('2', 'Chemical Engineering', ''),
 ('3', 'Mechanical Engineering', ''),
 ('4', 'Computer Science and Engineering', 'Dr. Neeraj Tyagi'),
-('5', 'Electronics and Communication Engineering', 'Mr. Asim Mukherjee');
+('5', 'Electronics and Communication Engineering', 'Mr. Asim Mukherjee'),
+('6', 'Electrical Engineering', 'Mr. HOD');
 
 -- --------------------------------------------------------
 
@@ -233,9 +243,9 @@ CREATE TABLE IF NOT EXISTS `documentlookup` (
 --
 
 INSERT INTO `documentlookup` (`doc_type_id`, `doc_type`) VALUES
-(1, 'registration'),
-(2, 'administrative'),
-(3, 'academic');
+(1, 'Bonafide'),
+(2, 'Passport size Photo'),
+(3, 'Transcript');
 
 -- --------------------------------------------------------
 
@@ -279,7 +289,49 @@ CREATE TABLE IF NOT EXISTS `faculty` (
 INSERT INTO `faculty` (`faculty_id`, `password`, `name`, `dept_id`, `designation`, `contact`, `mail_id`, `external`, `affiliation`, `photo_path`) VALUES
 ('1998005', 'hello', 'V K Singh', '4', 'Professor', '9781246262', 'vks@mnnit.ac.in', '0', '', ''),
 ('2005109', 'hello', 'Amit Varshney', '4', 'Associate Professor', '987654321', 'av@mnnit.ac.in', '0', '', ''),
-('faculty1', 'hello', 'S K Mittal', '4', 'Professor', '123565324', 'as@gmail.co', '1', 'none', './images/faculty1.jpg');
+('faculty1', 'hello', 'S K Mittal', '4', 'Professor', '123565324', 'as@gmail.co', '1', 'none', './images/faculty1.jpg'),
+('faculty2', 'hello', 'Anurag Varshney', '4', 'Associate Professor', '9782365368', 'av@mnnit.ac.in', 'N', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobdocumentlookup`
+--
+
+CREATE TABLE IF NOT EXISTS `jobdocumentlookup` (
+  `job_type_id` int(11) NOT NULL,
+  `doc_type_id` int(11) NOT NULL,
+  PRIMARY KEY (`doc_type_id`,`job_type_id`),
+  KEY `job_type_id` (`job_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jobdocumentlookup`
+--
+
+INSERT INTO `jobdocumentlookup` (`job_type_id`, `doc_type_id`) VALUES
+(1, 1),
+(1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `joblookup`
+--
+
+CREATE TABLE IF NOT EXISTS `joblookup` (
+  `job_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_type` varchar(50) NOT NULL,
+  PRIMARY KEY (`job_type_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `joblookup`
+--
+
+INSERT INTO `joblookup` (`job_type_id`, `job_type`) VALUES
+(1, 'Getting attested Transcript'),
+(2, 'Process to get Scholarship 1');
 
 -- --------------------------------------------------------
 
@@ -309,16 +361,12 @@ CREATE TABLE IF NOT EXISTS `leave` (
 --
 
 INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_year`, `from_date`, `to_date`, `no_of_days`, `status`, `address`, `applied_on`, `progress`) VALUES
-('20134065', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-26', '7', 'approved', '', '0000-00-00', ''),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-08', '1', 'denied', '', '2016-11-03', ''),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-09', '2', 'approved', 'mklo', '2016-11-03', ''),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-10', '2016-11-10', '1', 'denied', '', '2016-11-03', ''),
-('20134065', '3', '1', 'Odd', '2016', '2016-11-11', '2016-11-11', '1', 'denied', '', '2016-11-03', ''),
 ('20134065', '3', '1', 'Odd', '2016', '2016-11-17', '2016-11-19', '3', 'denied', 'kml', '2016-11-03', 'ConvenerDDPC'),
-('20134136', '1', '1', 'Odd', '2016', '2016-10-20', '2016-10-29', '10', 'denied', '', '0000-00-00', ''),
-('20134136', '1', '1', 'Odd', '2016', '2016-11-02', '2016-11-03', '2', 'pending', '', '0000-00-00', 'Supervisor'),
-('20134136', '2', '1', 'Odd', '2016', '2016-10-20', '2016-10-20', '1', 'denied', '', '0000-00-00', ''),
-('20134148', '3', '0', '', '2016', '2016-11-17', '2016-11-19', '3', 'approved', 'KNGH', '2016-11-04', 'HOD');
+('20134136', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-09', '2', 'pending', '40, Shivpuri, Bulandshahr, UP-203001', '2016-11-06', 'Supervisor'),
+('20134136', '3', '1', 'Odd', '2016', '2016-11-09', '2016-11-11', '3', 'pending', '40, Shivpuri, Bulandshahr, UP-203001', '2016-11-06', 'ConvenerDDPC'),
+('20134148', '3', '1', 'Odd', '2016', '2016-11-09', '2016-11-10', '2', 'pending', 'Gorakhpur', '2016-11-06', 'Supervisor'),
+('20134148', '3', '0', '', '2016', '2016-11-17', '2016-11-19', '3', 'approved', 'KNGH', '2016-11-04', 'HOD'),
+('20134171', '3', '1', 'Odd', '2016', '2016-11-16', '2016-11-18', '3', 'pending', 'New Delhi', '2016-11-06', 'Supervisor');
 
 -- --------------------------------------------------------
 
@@ -423,7 +471,9 @@ INSERT INTO `members` (`member_id`, `member_type`, `committee_id`, `dept_id`, `r
 ('1998005', 'internal', '1', '4', 'HOD'),
 ('2005109', 'internal', '1', '4', 'ConvenerDDPC'),
 ('20134136', 'student', '1', '4', 'student'),
-('faculty1', 'internal', '1', '4', 'Supervisor');
+('20134148', 'Student', '1 ', '4 ', 'student'),
+('faculty1', 'internal', '1', '4', 'Supervisor'),
+('faculty2', 'internal', '1', '4', 'ChairmanSDPC');
 
 -- --------------------------------------------------------
 
@@ -471,7 +521,8 @@ CREATE TABLE IF NOT EXISTS `othercourses` (
 
 INSERT INTO `othercourses` (`course_id`, `min_credits`, `max_credits`) VALUES
 ('3', '8', '20'),
-('4', '8', '20');
+('4', '8', '20'),
+('6', '8', '12');
 
 -- --------------------------------------------------------
 
@@ -495,7 +546,34 @@ CREATE TABLE IF NOT EXISTS `partfullstatus` (
 --
 
 INSERT INTO `partfullstatus` (`reg_no`, `reg_status`, `date_of_modification`, `reason`, `supervisor_comment`, `progress`, `status`) VALUES
-('20134136', 'Part-Time', '2016-11-04 00:00:00', 'thiS_that', '', 'Supervisor', 'pending');
+('20134136', 'Full-Time', '2016-11-04 00:00:00', 'thiS_that', 'my comment is this', 'ChairmanSDPC', 'approved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rolelookup`
+--
+
+CREATE TABLE IF NOT EXISTS `rolelookup` (
+  `role_id` varchar(25) NOT NULL,
+  `role_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rolelookup`
+--
+
+INSERT INTO `rolelookup` (`role_id`, `role_name`) VALUES
+('ChairmanSDPC', 'SDPC Chairman'),
+('ChairmanSenate', 'Senate Chairman'),
+('ConvenerDDPC', 'DDPC Convener'),
+('CourseCoordinator', 'Course Coordinator'),
+('ExternalMemberSRC', 'External Member of SRC'),
+('HOD', 'Head of Department'),
+('InternalMemberSRC', 'Internal Member of SRC'),
+('student', 'Student'),
+('Supervisor', 'Supervisor');
 
 -- --------------------------------------------------------
 
@@ -719,7 +797,8 @@ CREATE TABLE IF NOT EXISTS `theorycourses` (
 
 INSERT INTO `theorycourses` (`course_id`, `total_credits`) VALUES
 ('1', '4'),
-('2', '6');
+('2', '6'),
+('5', '2');
 
 --
 -- Constraints for dumped tables
@@ -764,10 +843,17 @@ ALTER TABLE `faculty`
   ADD CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `department` (`dept_id`);
 
 --
+-- Constraints for table `jobdocumentlookup`
+--
+ALTER TABLE `jobdocumentlookup`
+  ADD CONSTRAINT `jobdocumentlookup_ibfk_1` FOREIGN KEY (`doc_type_id`) REFERENCES `documentlookup` (`doc_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `jobdocumentlookup_ibfk_2` FOREIGN KEY (`job_type_id`) REFERENCES `joblookup` (`job_type_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `leave`
 --
 ALTER TABLE `leave`
-  ADD CONSTRAINT `leave_ibfk_1` FOREIGN KEY (`leave_type`) REFERENCES `leavelookup` (`leave_type`);
+  ADD CONSTRAINT `leave_ibfk_1` FOREIGN KEY (`leave_type`) REFERENCES `leavelookup` (`leave_type`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `meetattendance`

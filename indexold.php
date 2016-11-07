@@ -41,49 +41,48 @@
 
 <body id="inBody">
 
-	<nav class="navbar navbar-inverse">
-<div class="container">
-<div class="navbar-header">
-<!-- <a class="navbar-brand" href="#"><b>MOTITAL NEHRU NATIONAL INSTITUTE OF TECHNOLOGY</a></b> -->
-</div>
-<div>
-</div>
-</div>
-</nav>
-<div class="container">
-  <div class="jumbotron">
-  	<div class="row">
-  		<div class="col-md-3">
-  			<img src="./img/index.jpg" alt="Mountain View" style="width:150px;height:150px;">
-  		</div>
-  		<div class="col-md-6">
-  			<h2>DDPC PORTAL</h2>
-  			<p>Motilal Nehru National Institute of Technology</p>
-  		</div>
-  	</div>
-
-
-  </div>
-  <div class="row">
-    <div class="col-sm-8">
-		<div style="color:green;">
-			</div>
-			<div class="col-md-offset-6">
-				<form action="login.php" method="post">
-						  	<div class="form-group">
-								<label class="control-label bold" ><b><h4 style="color:black;">Id</h4></b></label>
+	<!-- Modal Core -->
+	<div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+	 	<div class="modal-dialog">
+	    	<div class="modal-content background-image">
+	      		<div class="modal-body">
+					<div class="col-md-12" style="margin-top:30px;">
+						<!-- The Login Form -->
+		        		<form action="login.php" method="post">
+						  	<div class="form-group label-floating">
+								<label class="control-label">Id</label>
 								<input type="text" name="reg_no" class="form-control">
 							</div>
-							<div class="form-group">
-								<label class="control-label"><b><h4 style="color:black;">Password</h4></b></label>
+							<div class="form-group label-floating">
+								<label class="control-label">Password</label>
 								<input type="password" name="password" class="form-control">
 							</div>
-				  			<button type="submit" name="login" class="btn btn-default" style="margin-left:100px;">Log In</button>
+				  			<button type="submit" name="login" class="btn btn-default whiteColor" style="margin-left:200px;">Log In</button>
 						</form>
+					</div>
+	     		</div>
+			    <div class="modal-footer">
+			    </div>
+	    	</div>
+	  	</div>
+	</div>
+
+	<!-- Signer Button  Ends-->
+
+	<div class="wrapper">
+		
+		<div class="main" id="mainBox">
+			<div class="container" >
+				<!-- <h1 class="font-effect-3d"></h1> -->
+				<div class="col-md-3">
+					<a href="#" class="btn btn-raised" id="logger" data-toggle="modal" data-target="#studentModal">
+						LogIn
+					</a>
+				</div>
 			</div>
-    </div>
-  </div>
-</div>
+		</div>
+	</div>
+
 
 </body>
 

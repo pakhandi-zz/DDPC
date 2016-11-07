@@ -14,7 +14,7 @@ $date_of_modification = date('Y-m-d');
 $comment = "";
 $status = "pending";
 $progress = "Supervisor";
-$reg_status = "Part-Time";
+$reg_status = "Full-Time";
 $query = "INSERT INTO `partfullstatus` (`reg_no`, `reg_status`, `date_of_modification`, `reason`, `supervisor_comment`, `progress`, `status`) VALUES ('$reg_no', '$reg_status', '$date_of_modification', '$reason', '$comment', '$progress', '$status')";
 $result = mysqli_query($connection, $query);
 
