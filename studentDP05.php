@@ -110,29 +110,26 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Leave Applications</h4>
-                                <p class="category">List of leave application of all the students</p>
+                                <h4 class="title">Change registration status</h4>
+                                <p class="category">List of application of all the students</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Registration Number</th>
+                                        <th>Current Status</th>
                                         <th>Reason</th>
-                                        <th>From Date</th>
-                                        <th>To Date</th>
-                                        <th>Applied no. of days</th>
-                                        <th>Leaves Left</th>
-                                        <th>Status</th>
+                                        <th>Date of Request</th>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT * FROM groupx.leave ";
+                                            $query = "SELECT * FROM partfullstatus";
                                             $allStudents = mysqli_query($connection, $query);
 
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if( $thisStudent['progress'] != $_SESSION['role'])
+                                                if( $thisStudent['progress'] != $_SESSION['role'] || !strcmp($thisStudent['status'], "approved"))
                                                 {
                                                     continue;
                                                 }
@@ -149,46 +146,16 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <?php 
-                                                            $type = $thisStudent['leave_type'];
-                                                            $query2 = "SELECT * FROM leavelookup WHERE leave_type = '$type'";
-                                                            $result = mysqli_query($connection, $query2);
-                                                            $leave_lookup = mysqli_fetch_array($result);
-                                                            echo $leave_lookup['leave_name'];
-                                                        ?>
+                                                        <?php echo $thisStudent['reg_status'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisStudent['from_date'] ?>
+                                                        <?php echo $thisStudent['reason'] ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisStudent['to_date'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $thisStudent['no_of_days'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php
-                                                            $app_reg_no = $thisStudent['reg_no'];
-                                                            $app_leave_type = $thisStudent['leave_type'];
-                                                            $query3 = "SELECT SUM(no_of_days) AS days_left FROM groupx.leave WHERE leave_type = '$app_leave_type' AND reg_no = '$app_reg_no' AND status = 'approved'";
-                                                            $result3 = mysqli_query($connection, $query3);
-                                                            if($result3) {
-                                                                $row = mysqli_fetch_array($result3);
-                                                                $sum = $leave_lookup['no_of_days'] - $row['days_left'];
-                                                                if ($sum > 0)
-                                                                    echo $sum;
-                                                                else
-                                                                    echo "0";
-                                                            } else
-                                                                echo "hi";
-                                                            
-                                                        ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $thisStudent['status']; ?>
+                                                        <?php echo $thisStudent['date_of_modification'] ?>
                                                     </td>
                                                     <?php 
-                                                        if (!strcmp($thisStudent['status'], "pending") && (strtotime($thisStudent['from_date']) > time())) 
+                                                        if (!strcmp($thisStudent['status'], "pending")) 
                                                         {
                                                             if(!strcmp($_SESSION['role'],"HOD"))
                                                             {
@@ -197,41 +164,53 @@
 
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="approved" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD"/>
                                                         </form>
                                                     </td>
                                                     <?php    
-                                                            } else if(!strcmp($_SESSION['role'],"Supervisor"))
+                                                            } else if(!strcmp($_SESSION['role'],"Supervisor") AND empty($thisStudent['supervisor_comment']))
                                                             {
 
                                                     ?>
                                                     <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="ConvenerDDPC"/>
+                                                        <form method="post" id="comment" action="commentDP05.php">
+                                                        <textarea form="comment" style="vertical-align:top" class="form-control border-input" name="supervisor_comment" id="supervisor_comment"></textarea>
+                                                        <input type="text" hidden value="<?php echo $thisStudent['reg_no'];?>" name="reg_no">
+                                                        <input type="submit" value="Comment"/>
                                                         </form>
                                                     </td>
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="Supervisor"/>
-                                                        </form>
-                                                    </td>
+                                                    <td></td>
                                                     <?php
                                                         } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
                                                         {
                                                     ?>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="ConvenerDDPC"/>
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC"/>
+                                                        </form>
+                                                    </td>
+                                                     <?php
+                                                        } else if(!strcmp($_SESSION['role'],"ChairmanSDPC"))
+                                                        {
+                                                    ?>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC"/>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC"/>
                                                         </form>
                                                     </td>
                                                     <?php
@@ -324,15 +303,12 @@
             event.preventDefault();
             var formData = {  // Javascript object
                 reg_no: $(this).attr('reg_no'),
-                leave_type: $(this).attr('leave_type'),
-                from_date: $(this).attr('from_date'),
-                to_date: $(this).attr('to_date'),
                 status: $(this).attr('status'),
                 progress: $(this).attr('progress')
             };
             
             $.ajax({
-                url:'./approveLeave.php',
+                url:'./approveDP05.php',
                 type:'post',
                 data: formData,
                 success: function(data){

@@ -111,7 +111,7 @@
                                                     $query = "SELECT * FROM meeting";
                                                     $allMeetings = mysqli_query($connection, $query);
                                                     $meetingsCount = mysqli_num_rows($allMeetings);
-                                                    echo mysqli_num_rows($allMeetings);
+                                                    // echo mysqli_num_rows($allMeetings);
                                                     $newMeetingNumber = $meetingsCount + 1;
                                                 ?>
                                                 <input type="text" class="form-control border-input"  placeholder="Company" value="<?php echo $newMeetingNumber; ?>" name="meeting_no">

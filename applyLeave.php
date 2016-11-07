@@ -54,7 +54,7 @@
 
 				<?php
 
-					$currentTab = "applyLeave";
+					$currentTab = "application";
 
 					include("./includes/sideNav.php");
 

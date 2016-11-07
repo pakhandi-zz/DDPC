@@ -1,25 +1,9 @@
 	<?php
 
 		include("./includes/preProcess.php");
-		$reg_no = $_SESSION['reg_no'];
-		$query = "SELECT supervisor1_id, supervisor2_id FROM currentsupervisor WHERE reg_no ='$reg_no'";
-		$s_results = mysqli_query($connection, $query);
-		$arr = mysqli_fetch_array($s_results);
+		
+	?>
 
-		$id1 = $arr['supervisor1_id'];
-		$id2 = $arr['supervisor2_id'];
-		$q1 = "SELECT name from faculty where faculty_id = '$id1'"; 
-		$r1 = mysqli_query($connection, $q1);
-		$row1 = mysqli_fetch_array($r1);
-		$sname1 = $row1['name'];
-		$sname2 ="";
-		if(!empty($id2)) {
-			$q1 = "SELECT name from faculty where faculty_id = '$id2'"; 
-			$r1 = mysqli_query($connection, $q1);
-			$row1 = mysqli_fetch_array($r1);
-			$sname2 = $row1['name'];
-		}
-	?> 
 	<!doctype html>
 	<html lang="en">
 	<head>
@@ -70,7 +54,7 @@
 
 				<?php
 
-					$currentTab = "application";
+					$currentTab = "approve.php";
 
 					include("./includes/sideNav.php");
 
@@ -109,71 +93,45 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="card">
-								<b>
-								<div class="col-md-offset-10"> Form: DP-05</div>
-								<div class="col-md-offset-10"> (Clause 4.5)</div>
-								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
-								<center><u><h3>Change of Registration Status</h3></u></center><br><br><br>
-								<div class="col-md-offset-1" style="font-size:20px">
-								<form class="form-inline" id="dp05" action="submitDP05.php" method="post">
-									</b>
-									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
-									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Supervisor(s): <b> <?php echo $sname1." ".$sname2; ?></b><br>
-									Present Registration Status: <b>Full-Time</b><br>
-									Registration Status to be converted to: <b>Part-Time</b><br>
-									Justification/Reason:<textarea form="dp05" style="vertical-align:top" class="form-control border-input" name="reason" id="reason"></textarea>
-									
-								</div>
-								<br><br><br>
-								<div style="font-size:25px">
-								<div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
-									<div class="col-md-offset-1">Comment of the Supervisor(s) :</div><br><br><br><br>
-									<div class="col-md-offset-8">(Signature of the Supervisor(s))</div><br><br><br>
-									<div class="col-md-offset-1">
-									Recommended By:<br><br>
-									</div>
-									<div class="col-md-offset-1"><b>Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Head of Department</b></div>
-									<div class="col-md-offset-1"></b></div><br>
-									<div class="col-md-offset-1">Approved By:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC</div>
-
-
-								</div>
-
-								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
-								</div><br>
-								</form>
-								</div>
-							</div>
-						</div>
-					<div>
-					<?php
-						if(isset($_GET['submit'])&&$_GET['submit']==1)
-							{
-					?>
-					<p class="title">Leave applied successfully.</p>
-					<?php
-						}
-						else if(isset($_GET['submit'])&&$_GET['submit']==0)
-						{
-					?>
-					<p class="title">Error! Leave not submitted successfully.</p>
-					<?php
-						}
-					?>
-				</div>
-				</div>
-				
-			</div>
-
-			</div>
-
-
+							<ol style="font-size:25px;">
+							<?php
+								if(!strcmp($_SESSION['role'], "Supervisor"))
+								{
+							?>
+								<li><a href="studentLeave.php"> Student Leave Application</a></li>
+								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
+								<li><a href="studentDP01.php"> Advise the Student Academic Registration Application </a></li>
+							<?php
+								} else if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
+								{
+							?>
+								<li><a href="studentLeave.php"> Student Leave Application</a></li>
+								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
+								<li><a href="studentDP01.php"> Forward the Student Academic Registration Application </a></li>
+							<?php
+								} else if(!strcmp($_SESSION['role'], "HOD"))
+								{
+							?>
+								<li><a href="studentLeave.php"> Student Leave Application</a></li>
+								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
+								<li><a href="studentDP01.php"> Forward the Student Academic Registration Application </a></li>
+							<?php
+								} else if(!strcmp($_SESSION['role'], "ChairmanSDPC"))
+								{
+							?>
+								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
+								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
+							<?php
+								}
+							?>
+							</ol>
 			<footer class="footer">
 			</footer>
 		</div>
+	</div>
+	</div>
+	</div>
+	</div>
 	</div>
 	<p></p>
 

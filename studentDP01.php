@@ -110,130 +110,144 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Leave Applications</h4>
-                                <p class="category">List of leave application of all the students</p>
+                                <h4 class="title">Change registration status</h4>
+                                <p class="category">List of application of all the students</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Registration Number</th>
-                                        <th>Reason</th>
-                                        <th>From Date</th>
-                                        <th>To Date</th>
-                                        <th>Applied no. of days</th>
-                                        <th>Leaves Left</th>
-                                        <th>Status</th>
+                                        <th>Course Id - Course Name</th>
+                                        <th>Credits Enrolled</th>
+                                        <th>Course Coordinator</th>
+                                        <th>Department</th>
+                                        <th></th>
+                                        <th></th>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT * FROM groupx.leave ";
+                                            $query = "SELECT reg_no, status, progress FROM courseregistration WHERE status = 'pending' GROUP BY reg_no";
                                             $allStudents = mysqli_query($connection, $query);
 
-
-                                            while( $thisStudent = mysqli_fetch_array($allStudents) )
+                                            while( mysqli_num_rows($allStudents) !=0 && $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
                                                 if( $thisStudent['progress'] != $_SESSION['role'])
-                                                {
-                                                    continue;
-                                                }
-                                                else {
-                                                    if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
                                                     {
                                                         continue;
                                                     }
+                                                $app_reg_no = $thisStudent['reg_no'];
+                                                $query = "SELECT * FROM courseregistration NATURAL JOIN course WHERE reg_no = '$app_reg_no' AND sem_no = (SELECT max(sem_no) FROM courseregistration WHERE reg_no='$app_reg_no')";
+
+
+                                                $allApps = mysqli_query($connection, $query);
+                                                $rnum = mysqli_num_rows($allApps);
+                                                $rnum = $rnum + 1;
+                                                $sem_no = 0;
                                         ?>
-                                                <tr>
-                                                    <td>
-                                                       <a href="./viewStudent.php?qwStudent=<?php echo $thisStudent['reg_no'] ?>">
-                                                        <?php echo $thisStudent['reg_no'] ?>
-                                                        </a>
-                                                    </td>
-                                                    <td>
+                                            <tr>
+                                                <td rowspan="<?php echo $rnum ?>"><?php echo $thisStudent['reg_no']; ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+
+                                                while ( $thisApp = mysqli_fetch_array($allApps)) 
+                                                {
+                                                    $sem_no = $thisApp['sem_no'];
+
+                                                    if( $thisApp['progress'] != $_SESSION['role'])
+                                                    {
+                                                        continue;
+                                                    }
+                                                    else {
+                                                        if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisApp['reg_no'], $s_array))
+                                                        {
+                                                            continue;
+                                                        }
+                                        ?>
+                                                    <tr>
+                                                        <td>
+                                                           <?php echo $thisApp['course_id']." - ".$thisApp['course_name']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $thisApp['credits_enrolled']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $thisApp['course_coordinator']; ?>
+                                                        </td>
+                                                        <td>
+                                                            Computer Science and Engineering
+                                                        </td>
+                                                    </tr>
                                                         <?php 
-                                                            $type = $thisStudent['leave_type'];
-                                                            $query2 = "SELECT * FROM leavelookup WHERE leave_type = '$type'";
-                                                            $result = mysqli_query($connection, $query2);
-                                                            $leave_lookup = mysqli_fetch_array($result);
-                                                            echo $leave_lookup['leave_name'];
-                                                        ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $thisStudent['from_date'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $thisStudent['to_date'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $thisStudent['no_of_days'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php
-                                                            $app_reg_no = $thisStudent['reg_no'];
-                                                            $app_leave_type = $thisStudent['leave_type'];
-                                                            $query3 = "SELECT SUM(no_of_days) AS days_left FROM groupx.leave WHERE leave_type = '$app_leave_type' AND reg_no = '$app_reg_no' AND status = 'approved'";
-                                                            $result3 = mysqli_query($connection, $query3);
-                                                            if($result3) {
-                                                                $row = mysqli_fetch_array($result3);
-                                                                $sum = $leave_lookup['no_of_days'] - $row['days_left'];
-                                                                if ($sum > 0)
-                                                                    echo $sum;
-                                                                else
-                                                                    echo "0";
-                                                            } else
-                                                                echo "hi";
-                                                            
-                                                        ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $thisStudent['status']; ?>
-                                                    </td>
-                                                    <?php 
-                                                        if (!strcmp($thisStudent['status'], "pending") && (strtotime($thisStudent['from_date']) > time())) 
+                                                    }
+                                                }
+                                                        if (!strcmp($thisStudent['status'], "pending")) 
                                                         {
                                                             if(!strcmp($_SESSION['role'],"HOD"))
                                                             {
 
                                                     ?>
-
-                                                    <td>
+                                                    <tr>
+                                                    <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="approved" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
-                                                    <td>
+                                                    <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
+                                                    </tr>
                                                     <?php    
-                                                            } else if(!strcmp($_SESSION['role'],"Supervisor"))
+                                                            } else if(!strcmp($_SESSION['role'],"Supervisor") AND empty($thisStudent['supervisor_comment']))
                                                             {
 
                                                     ?>
+                                                    <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="ConvenerDDPC"/>
+                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="Supervisor"/>
+                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
+                                                    </tr>
                                                     <?php
                                                         } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
                                                         {
                                                     ?>
+                                                    <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="ConvenerDDPC"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
+                                                    </tr>
+                                                     <?php
+                                                        } else if(!strcmp($_SESSION['role'],"ChairmanSDPC"))
+                                                        {
+                                                    ?>
+                                                    <tr>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
+                                                        </form>
+                                                    </td>
+                                                    </tr>
                                                     <?php
                                                             } 
                                                         } else {
@@ -248,7 +262,7 @@
                                                 </tr>
 
                                         <?php
-                                                }
+                                                
                                             }
                                         ?>
 
@@ -324,15 +338,13 @@
             event.preventDefault();
             var formData = {  // Javascript object
                 reg_no: $(this).attr('reg_no'),
-                leave_type: $(this).attr('leave_type'),
-                from_date: $(this).attr('from_date'),
-                to_date: $(this).attr('to_date'),
                 status: $(this).attr('status'),
-                progress: $(this).attr('progress')
+                progress: $(this).attr('progress'),
+                sem_no: $(this).attr('sem_no')
             };
             
             $.ajax({
-                url:'./approveLeave.php',
+                url:'./approveDP01.php',
                 type:'post',
                 data: formData,
                 success: function(data){

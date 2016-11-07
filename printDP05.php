@@ -20,6 +20,10 @@
       $row1 = mysqli_fetch_array($r1);
       $sname2 = $row1['name'];
     }
+
+    $query = "SELECT * FROM partfullstatus WHERE reg_no = '$reg_no'";
+    $results = mysqli_query($connection, $query);
+    $form = mysqli_fetch_array($results);
     
 ?>
 
@@ -56,8 +60,8 @@
 
   	</head>
   	<body>
-  		<a href="changeRegStatus.php" class="btn btn-default">Home</a><br><br>
-  		<a href="dashboard.php" class="btn btn-default" onClick="window.print()">Print</a>
+  		<a href="application.php" class="btn btn-default">Home</a><br><br>
+  		<a href="dashboard.php" class="btn btn-default" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
 
   		<div class="col-md-offset-10"> Form: DP-05</div>
                 <div class="col-md-offset-10"> (Clause 4.5)</div>
@@ -71,7 +75,7 @@
                   Supervisor(s): <b> <?php echo $sname1." ".$sname2; ?></b><br>
                   Present Registration Status: <b>Full-Time</b><br>
                   Registration Status to be converted to: <b>Part-Time</b><br>
-                  Justification/Reason: <?php echo $_GET['reason']; ?>
+                  Justification/Reason: <b><?php echo $form['reason'] ?></b>
                   
                 </div>
                 <br><br><br>
@@ -80,7 +84,7 @@
                 <div class="col-md-offset-1">Date:<b> <?php echo date('d-m-Y'); ?></b>&nbsp;&nbsp;&nbsp;&nbsp; Time: <b><?php echo date('H:i:s'); ?></b>
                 <div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
                 </div>
-                  <div class="col-md-offset-1">Comment of the Supervisor(s) :</div><br><br><br><br>
+                  <div class="col-md-offset-1">Comment of the Supervisor(s) : <b><?php echo $form['supervisor_comment'];?></b></div><br><br><br><br>
                   <div class="col-md-offset-8">(Signature of the Supervisor(s))</div><br><br><br>
                   <div class="col-md-offset-1">
                   Recommended By:<br><br>
