@@ -1,8 +1,15 @@
                             <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="removeNot()">
                                     <?php
+                                    // session_start();
                                         $countNotifications = 0;
-                                        $query = "SELECT * FROM notifications ORDER BY issue_date DESC";
+                                        // echo $_SESSION['reg_no'];   
+                                        $thisRole = $_SESSION['role'];
+                                        // echo $thisRole;
+                                        // die();
+                                        $query = "SELECT * FROM notifications WHERE target_group='$thisRole' ORDER BY issue_date DESC";
+                                        // echo $query;
+                                        // die();
                                         $allNotifications = mysqli_query($connection, $query);
 
                                         while( $notification = mysqli_fetch_array($allNotifications) )
@@ -20,7 +27,7 @@
                               <ul class="dropdown-menu">
                                 <?php
                                     $lastNot = 0;
-                                    $query = "SELECT * FROM notifications ORDER BY id DESC";
+                                    $query = "SELECT * FROM notifications WHERE target_group='$thisRole' ORDER BY issue_date DESC";
                                     $allNotifications = mysqli_query($connection, $query);
 
                                     while( $notification = mysqli_fetch_array($allNotifications) )
