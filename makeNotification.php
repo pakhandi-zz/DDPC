@@ -132,6 +132,28 @@
 											</div>
 										</div>
 									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputEmail1">Target Group</label>
+												<!-- <label>Role</label> -->
+                                                <select class="form-control border-input" name="target_group">
+                                                <option selected disabled>Select</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="student">Student</option>
+                                                <option value="faculty">Faculty</option>
+                                                <option value="HOD">HOD</option>
+                                                <option value="ConvenerDDPC">DDPC Convener</option>
+                                                <option value="ChairmanSDPC">SDPC Chairman</option>
+                                                <option value="Supervisor">Supervisor</option>
+                                                </select>
+												<!-- <input type="text" class="form-control border-input" name="target_group"/> -->
+											   <!--  <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" name="issue_date" id = > -->
+											</div>
+										</div>
+									</div>
+
 									<div class="text-center">
 										<button type="submit" class="btn btn-info btn-fill btn-wd">Send Notification</button>
 									</div>

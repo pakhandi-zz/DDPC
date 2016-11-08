@@ -17,10 +17,11 @@
         $id = $_GET['id'];
         $description = $_GET['description'];
         $issue_date = $_GET['issue_date'];
+        $target_group = $_GET['target_group'];
 
         include("./includes/connect.php");
 
-        $query = "INSERT INTO notifications (`id`, `description`, `issue_date`) VALUES('$id', '$description', '$issue_date')";
+        $query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`) VALUES('$id', '$description', '$issue_date', '$target_group')";
         echo $query;
         $result=mysqli_query($connection, $query); 
         if($result)
