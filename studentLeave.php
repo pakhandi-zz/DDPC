@@ -126,12 +126,13 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT * FROM groupx.leave ";
+                                            $query = "SELECT * FROM `leave`";
                                             $allStudents = mysqli_query($connection, $query);
-
+                                            // echo "here".mysqli_num_rows($allStudents);
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
+                                                //echo $thisStudent['progress'];
                                                 if( $thisStudent['progress'] != $_SESSION['role'])
                                                 {
                                                     continue;
