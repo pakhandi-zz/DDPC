@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2016 at 05:15 AM
+-- Generation Time: Nov 07, 2016 at 07:53 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -364,6 +364,8 @@ INSERT INTO `leave` (`reg_no`, `leave_type`, `sem_no`, `sem_type`, `academic_yea
 ('20134065', '3', '1', 'Odd', '2016', '2016-11-17', '2016-11-19', '3', 'denied', 'kml', '2016-11-03', 'ConvenerDDPC'),
 ('20134136', '3', '1', 'Odd', '2016', '2016-11-08', '2016-11-09', '2', 'pending', '40, Shivpuri, Bulandshahr, UP-203001', '2016-11-06', 'Supervisor'),
 ('20134136', '3', '1', 'Odd', '2016', '2016-11-09', '2016-11-11', '3', 'pending', '40, Shivpuri, Bulandshahr, UP-203001', '2016-11-06', 'ConvenerDDPC'),
+('20134136', '3', '1', 'Odd', '2016', '2016-11-09', '2016-11-14', '6', 'pending', 'hjghg', '2016-11-07', 'ConvenerDDPC'),
+('20134136', '3', '1', 'Odd', '2016', '2016-11-18', '2016-11-28', '11', 'pending', 'ghj', '2016-11-07', 'ConvenerDDPC'),
 ('20134148', '3', '1', 'Odd', '2016', '2016-11-09', '2016-11-10', '2', 'pending', 'Gorakhpur', '2016-11-06', 'Supervisor'),
 ('20134148', '3', '0', '', '2016', '2016-11-17', '2016-11-19', '3', 'approved', 'KNGH', '2016-11-04', 'HOD'),
 ('20134171', '3', '1', 'Odd', '2016', '2016-11-16', '2016-11-18', '3', 'pending', 'New Delhi', '2016-11-06', 'Supervisor');
@@ -485,6 +487,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL,
   `issue_date` date DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
+  `target_group` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -492,15 +495,18 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 -- Dumping data for table `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `issue_date`, `description`) VALUES
-(1, '2016-04-26', 'hello this a new notification'),
-(2, '2016-04-27', 'sample notif'),
-(3, '2016-05-09', 'hello there is a meeting'),
-(4, '2016-05-10', 'a meeting'),
-(5, '2015-05-10', 'hi this is ayushi'),
-(6, '2016-05-10', 'this is first meeting'),
-(7, '2016-05-13', 'i am at home'),
-(8, '0000-00-00', 'hello');
+INSERT INTO `notifications` (`id`, `issue_date`, `description`, `target_group`) VALUES
+(1, '2016-04-26', 'hello this a new notification', ''),
+(2, '2016-04-27', 'sample notif', ''),
+(3, '2016-05-09', 'hello there is a meeting', ''),
+(4, '2016-05-10', 'a meeting', ''),
+(5, '2015-05-10', 'hi this is ayushi', ''),
+(6, '2016-05-10', 'this is first meeting', ''),
+(7, '2016-05-13', 'i am at home', ''),
+(8, '0000-00-00', 'hello', ''),
+(9, '2016-11-07', 'blah', 'admin'),
+(10, '2016-11-07', 'student', 'student'),
+(11, '2016-11-07', 'this', 'Supervisor');
 
 -- --------------------------------------------------------
 
