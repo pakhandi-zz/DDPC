@@ -133,23 +133,27 @@
 										</div>
 									</div>
 
+
+
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
-												<label for="exampleInputEmail1">Target Group</label>
-												<!-- <label>Role</label> -->
-                                                <select class="form-control border-input" name="target_group">
-                                                <option selected disabled>Select</option>
-                                                <option value="admin">Admin</option>
-                                                <option value="student">Student</option>
-                                                <option value="faculty">Faculty</option>
-                                                <option value="HOD">HOD</option>
-                                                <option value="ConvenerDDPC">DDPC Convener</option>
-                                                <option value="ChairmanSDPC">SDPC Chairman</option>
-                                                <option value="Supervisor">Supervisor</option>
-                                                </select>
-												<!-- <input type="text" class="form-control border-input" name="target_group"/> -->
-											   <!--  <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" name="issue_date" id = > -->
+
+												<label>Groups</label>
+												<?php
+													$roleValues = array("admin", "student", "faculty", "HOD", "ConvenerDDPC", "ChairmanSDPC", "Supervisor");
+													$roleTexts = array("Admin", "Student", "Faculty", "HOD", "DDPC Convener", "SDPC Chairman", "Supervisor");
+													for($i = 0; $i < count($roleValues); $i++)
+													{
+												?>
+													<label class="checkbox">
+													<input type="checkbox" name="target_group[]" value="<?php echo $roleValues[$i] ?>" data-toggle="checkbox"><?php echo $roleTexts[$i] ?>
+													</label>
+													<!-- <br /> -->
+	
+												<?php
+													}
+												?>
 											</div>
 										</div>
 									</div>
