@@ -14,9 +14,9 @@
     else
     {
         include("./includes/connect.php");
-        foreach($_GET['member_id'] as $thisMmeber)
+        foreach($_GET['member_id'] as $thisMember)
         {
-            $query = "INSERT INTO meetattendance (`meeting_no`, `member_id`) VALUES('$_GET[meeting_no]', '$thisMmeber')";
+            $query = "INSERT INTO meetattendance (`meeting_no`, `member_id`) VALUES('$_GET[meeting_no]', '$thisMember')";
             echo $query;
             $result=mysqli_query($connection, $query); 
             if($result)

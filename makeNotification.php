@@ -132,6 +132,32 @@
 											</div>
 										</div>
 									</div>
+
+
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+
+												<label>Groups</label>
+												<?php
+													$roleValues = array("admin", "student", "faculty", "HOD", "ConvenerDDPC", "ChairmanSDPC", "Supervisor");
+													$roleTexts = array("Admin", "Student", "Faculty", "HOD", "DDPC Convener", "SDPC Chairman", "Supervisor");
+													for($i = 0; $i < count($roleValues); $i++)
+													{
+												?>
+													<label class="checkbox">
+													<input type="checkbox" name="target_group[]" value="<?php echo $roleValues[$i] ?>" data-toggle="checkbox"><?php echo $roleTexts[$i] ?>
+													</label>
+													<!-- <br /> -->
+	
+												<?php
+													}
+												?>
+											</div>
+										</div>
+									</div>
+
 									<div class="text-center">
 										<button type="submit" class="btn btn-info btn-fill btn-wd">Send Notification</button>
 									</div>
