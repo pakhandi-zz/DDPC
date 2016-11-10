@@ -14,6 +14,7 @@
 	
 	$course_type = mysqli_real_escape_string($connection, $_POST['course_type']);
 	$course_id = mysqli_real_escape_string($connection, $_POST['course_id']);
+	$dept_id = mysqli_real_escape_string($connection, $_POST['dept_id']);
 	$course_name = mysqli_real_escape_string($connection, $_POST['course_name']);
 	$course_coordinator = mysqli_real_escape_string($connection, $_POST['course_coordinator']);
 	$course_instructor = mysqli_real_escape_string($connection, $_POST['course_instructor']);
@@ -23,7 +24,7 @@
 
 	
 
-	$query = "INSERT INTO `course` (`course_id`, `course_name`, `course_coordinator`, `course_instructor`) VALUES ('$course_id', '$course_name', '$course_coordinator', '$course_instructor')";
+	$query = "INSERT INTO `course` (`course_id`, `dept_id`, `course_name`, `course_coordinator`, `course_instructor`) VALUES ('$course_id', '$dept_id', '$course_name', '$course_coordinator', '$course_instructor')";
 	$queryRan = mysqli_query($connection, $query);
 
 	// If successful, then redirect. 

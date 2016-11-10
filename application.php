@@ -92,18 +92,60 @@
 				<div class="content">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
+							<h4>Apply an application</h4>
+							<?php
+								if (!strcmp($_SESSION['role'], "student")) {
+							?>
 							<ol style="font-size:25px;">
 								<li><a href="applyLeave.php"> Apply Leave </a></li>
-								<li><a href="viewLeave.php"> View and Print Leave Application</a></li>
+
 								<li><a href="changeRegStatus.php"> Apply for Change of Registration Status </a></li>
-								<li><a href="printDP05.php"> Print Change of Registration Status Application</a></li>
+
 								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
+
+							</ol>
+							<?php
+								}
+								if (!strcmp($_SESSION['role'], "Supervisor")) {
+							?>
+							<ol style="font-size:25px;">
+								<li><a href="applyDP02.php"> Student Reasearch Committee </a></li>
+
+							</ol>
+							<?php
+								}
+							?>
+							</div>
+							<div class="col-md-6">
+							<h4>Print an application</h4>
+							<?php
+								if (!strcmp($_SESSION['role'], "student")) {
+							?>
+							<ol style="font-size:25px;">
+
+								<li><a href="viewLeave.php"> View and Print Leave Application</a></li>
+
+								<li><a href="printDP05.php"> Print Change of Registration Status Application</a></li>
+
 								<li><a href="printDP01.php"> Print latest Academic Registration Application</a></li>
 							</ol>
+							<?php
+								}
+								if (!strcmp($_SESSION['role'], "Supervisor")) {
+							?>
+							<ol style="font-size:25px;">
+
+								<li><a href="printDP02.php"> Print SRC</a></li>
+							</ol>
+							<?php
+								}
+							?>
+							</div>
+
 			<footer class="footer">
 			</footer>
-		</div>
+
 	</div>
 	</div>
 	</div>

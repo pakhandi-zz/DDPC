@@ -111,14 +111,35 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Course Id</label>
                                                 <input type="text" class="form-control border-input" placeholder="name"  name="course_id">
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Department</label>
+                                                <select class="form-control border-input" name="dept_id">
+                                                <option selected disabled>Select</option>
+                                                <?php
+
+                                                    $query = "SELECT * FROM department";
+                                                    $results = mysqli_query($connection, $query);
+
+                                                    while($comm = mysqli_fetch_assoc($results))
+                                                    {
+                                                ?>
+                                                <option value="<?php echo $comm['dept_id'];?> "><?php echo $comm['dept_name'];?></option>
+                                                <?php
+                                                    }
+                                                ?>
+                                                </select>
+                                            </div>
+                                        </div>
                                         
                                     </div>
+                                    
 
                                     <div class="row">
                                         <div class="col-md-6">

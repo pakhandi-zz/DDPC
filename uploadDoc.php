@@ -1,12 +1,12 @@
 <?php
 
 session_start();
-if(!isset($_SESSION['userid']))
+if(!isset($_SESSION['reg_no']))
 {
     header("location: ./");
 }
 else
-    $reg_no = $_SESSION['userid'];
+    $reg_no = $_SESSION['reg_no'];
 
 include("./includes/connect.php");
  
@@ -22,12 +22,20 @@ if (is_uploaded_file($_FILES['doc']['tmp_name']))
 	} 
 	else 
 	{
+		$docType = $_POST['application_type'];
 		$query = "SELECT * FROM document";
 		$docs = mysqli_query($connection, $query);
 		$docCount = mysqli_num_rows($docs);
 		$docCount = $docCount + 1;
-		$name = (string)$docCount;
-		$docType = $_POST['application_type'];
+
+		$query = "SELECT doc_type FROM documentlookup WHERE doc_type_id = '$docType'";
+		$docs = mysqli_query($connection, $query);
+		$row2 = mysqli_fetch_assoc($docs);
+
+		$docTypeName = $row2['doc_type'];
+		$name = (string)($docCount."_".$reg_no."_".$docTypeName);
+
+
 		$currDate = (string)date("Y-m-d");
 		$result = move_uploaded_file($_FILES['doc']['tmp_name'], filesplace."/$name.pdf");
 

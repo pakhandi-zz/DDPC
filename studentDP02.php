@@ -1,16 +1,22 @@
 <?php
 
     include("./includes/preProcess.php");
-    if (!strcmp($_SESSION['role'], "Supervisor"))
+    $query = "SELECT * from src natural join studentmaster where src.status= 'pending' ";
+    $result = mysqli_query($connection, $query);
+    $student = mysqli_fetch_assoc($result);
+
+    $src_int_id = $student['src_int_id'];
+    $src_ext_id = $student['src_ext_id'];
+    $supervisor1_id = $student['supervisor1_id'];
+    $supervisor2_id = $student['supervisor2_id'];
+
+    function faculty($faculty_id, $connection)
     {
-        $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
-        $s_result = mysqli_query($connection, $s_query);
-        $s_array = array();
-        while($s_row = mysqli_fetch_array($s_result))
-        {
-            array_push($s_array, $s_row['reg_no']);
-        }
+        $query = "SELECT * FROM faculty NATURAL JOIN department WHERE faculty_id = '$faculty_id'";
+        $result = mysqli_query($connection, $query);
+
+        $faculty = mysqli_fetch_assoc($result);
+        return $faculty;
     }
     
 ?>
@@ -110,23 +116,24 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Change registration status</h4>
-                                <p class="category">List of application of all the students</p>
+                                <h4 class="title">Student Reasearch Committee</h4>
+                                <p class="category">List of SRC Committee for students</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Registration Number</th>
-                                        <th>Course Id - Course Name</th>
-                                        <th>Credits Enrolled</th>
-                                        <th>Course Coordinator</th>
-                                        <th>Department</th>
-                                        <th></th>
+                                        <th>Student Name</th>
+                                        <th>SRC Internal Member</th>
+                                        <th>SRC External Member</th>
+                                        <th>Supervisor 1</th>
+                                        <th>Supervisor 2</th>
                                         <th></th>
                                     </thead>
                                     <tbody>
+
                                         <?php
-                                            $query = "SELECT reg_no, status, progress FROM courseregistration WHERE status = 'pending' GROUP BY reg_no";
+                                            $query = "SELECT * FROM src NATURAL JOIN studentmaster WHERE status = 'pending'";
                                             $allStudents = mysqli_query($connection, $query);
 
                                             while( mysqli_num_rows($allStudents) !=0 && $thisStudent = mysqli_fetch_array($allStudents) )
@@ -135,52 +142,42 @@
                                                     {
                                                         continue;
                                                     }
-                                                $app_reg_no = $thisStudent['reg_no'];
-                                                $query = "SELECT * FROM courseregistration NATURAL JOIN course WHERE reg_no = '$app_reg_no' AND sem_no = (SELECT max(sem_no) FROM courseregistration WHERE reg_no='$app_reg_no')";
-
-
-                                                $allApps = mysqli_query($connection, $query);
-                                                $rnum = mysqli_num_rows($allApps);
-                                                $rnum = $rnum + 1;
-                                                $sem_no = 0;
                                         ?>
                                             <tr>
-                                                <td rowspan="<?php echo $rnum ?>"><?php echo $thisStudent['reg_no']; ?>
+                                                <td><?php echo $thisStudent['reg_no']; ?>
+                                                </td>
+                                                <td><?php echo $thisStudent['name']; ?>
+                                                </td>
+                                                <td>
+                                                   <?php 
+                                                        $fac = faculty($thisStudent['src_int_id'], $connection);
+                                                        echo $fac['name']." - ".$fac['designation']." - ".$fac['dept_name'];
+                                                   ?>
+                                                </td>
+                                                <td>
+                                                    <?php 
+                                                        $fac = faculty($thisStudent['src_ext_id'], $connection);
+                                                        echo $fac['name']." - ".$fac['designation']." - ".$fac['dept_name'];
+                                                   ?>
+                                                    
+                                                </td>
+                                                <td>
+                                                <?php 
+                                                        $fac = faculty($thisStudent['supervisor1_id'], $connection);
+                                                        echo $fac['name']." - ".$fac['designation']." - ".$fac['dept_name'];
+                                                   ?>
+                                                
+                                                </td>
+                                                <td>
+                                                <?php 
+                                                        $fac = faculty($thisStudent['supervisor2_id'], $connection);
+                                                        echo $fac['name']." - ".$fac['designation']." - ".$fac['dept_name'];
+                                                   ?>
+                                                
                                                 </td>
                                             </tr>
-                                        <?php
-
-                                                while ( $thisApp = mysqli_fetch_array($allApps)) 
-                                                {
-                                                    $sem_no = $thisApp['sem_no'];
-
-                                                    if( $thisApp['progress'] != $_SESSION['role'])
-                                                    {
-                                                        continue;
-                                                    }
-                                                    else {
-                                                        if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisApp['reg_no'], $s_array))
-                                                        {
-                                                            continue;
-                                                        }
-                                        ?>
-                                                    <tr>
-                                                        <td>
-                                                           <?php echo $thisApp['course_id']." - ".$thisApp['course_name']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php echo $thisApp['credits_enrolled']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php echo $thisApp['course_coordinator']; ?>
-                                                        </td>
-                                                        <td>
-                                                            Computer Science and Engineering
-                                                        </td>
-                                                    </tr>
                                                         <?php 
                                                     }
-                                                }
                                                         if (!strcmp($thisStudent['status'], "pending")) 
                                                         {
                                                             if(!strcmp($_SESSION['role'],"HOD"))
@@ -190,12 +187,12 @@
                                                     <tr>
                                                     <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -207,12 +204,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -223,12 +220,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -239,12 +236,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?> reg_status="Part-Time"/>
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -263,7 +260,7 @@
 
                                         <?php
                                                 
-                                            }
+                                            
                                         ?>
 
                                     </tbody>
@@ -340,8 +337,7 @@
                 reg_no: $(this).attr('reg_no'),
                 status: $(this).attr('status'),
                 progress: $(this).attr('progress'),
-                sem_no: $(this).attr('sem_no'),
-                reg_status: $(this).attr('reg_status')
+                sem_no: $(this).attr('sem_no')
             };
             
             $.ajax({
