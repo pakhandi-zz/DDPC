@@ -1,6 +1,17 @@
 	<?php
 
 		include("./includes/preProcess.php");
+		if (!strcmp($_SESSION['role'], "Supervisor"))
+    	{
+        $supervisor_id = $_SESSION['reg_no'];
+        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
+        $s_result = mysqli_query($connection, $s_query);
+        $s_array = array();
+        while($s_row = mysqli_fetch_array($s_result))
+        {
+            array_push($s_array, $s_row['reg_no']);
+        }
+    }
 
 	?> 
 	<!doctype html>
@@ -35,42 +46,58 @@
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
 		<script type="text/javascript">
-			function nowsearch(course_id, num)
+
+			function nowsearch(reg_no)
 			{
-				var url='./fetch_course.php?course_id=' + course_id;
+				
+				var url='./fetch_student.php?reg_no=' + reg_no;
+				var fname1, fname2;
 				load_my_URL(url,function(data){
 				var xml=parse_my_XMLdata(data);
-				var mCourses = xml.documentElement.getElementsByTagName("course");
-					if (mCourses[0].hasAttribute("total_credits"))
-					{
+				var students = xml.documentElement.getElementsByTagName("student");
+				document.getElementById("reg_no").value = "";
+				document.getElementById("date_of_reg").value = "";
+				document.getElementById("dept").value = "";
+				document.getElementById("AOR").value = "";
+				document.getElementById("supervisor").value = "";
+				document.getElementById("reg_no").value = students[0].getAttribute('reg_no');
+				document.getElementById("date_of_reg").value = students[0].getAttribute('date_of_reg');
+				document.getElementById("dept").value = "Computer Science and Engineering";
+				document.getElementById("AOR").value = students[0].getAttribute('AOR');
+				var fid1 = students[0].getAttribute('supervisor1_id')
+				
+				fname1 = students[0].getAttribute('supervisor1_id');
+				fname2 = students[0].getAttribute('supervisor2_id');
+				search_supervisor(fname1);
+				search_supervisor(fname2);
+				});
+				
+			}
+			function search_supervisor(faculty_id)
+			{
+				
+				var url='./fetch_faculty.php?faculty_id=' + faculty_id;
+				var fname;
+				load_my_URL(url,function(data){
+				var xml=parse_my_XMLdata(data);
+				var faculty = xml.documentElement.getElementsByTagName("faculty");
+				document.getElementById("supervisor").value += "  " + faculty[0].getAttribute('name');
+				});
+			}
+			function search_faculty(faculty_id, num)
+			{
+				
+				var url='./fetch_faculty.php?faculty_id=' + faculty_id;
+				var fname;
+				load_my_URL(url,function(data){
+				var xml=parse_my_XMLdata(data);
+				var faculty = xml.documentElement.getElementsByTagName("faculty");
 
-						var course_name = mCourses[0].getAttribute("course_name");
-						var course_coordinator = mCourses[0].getAttribute("course_coordinator");
-						var total_credits = mCourses[0].getAttribute("total_credits");
-						var id1 = num + "1";
-						var id2 = num + "2";
-						var id3 = num + "3";
-						document.getElementById(id1).setAttribute("min", total_credits);
-						document.getElementById(id1).setAttribute("max", total_credits);
-						document.getElementById(id1).value = total_credits;
-						document.getElementById(id2).innerHTML = "Computer Science and Engineering";
-						document.getElementById(id3).innerHTML = course_coordinator;
+				var id1 = num + "1";
+				var id2 = num + "2";
 
-					} else {
-
-						var course_name = mCourses[0].getAttribute('course_name');
-						var course_coordinator = mCourses[0].getAttribute('course_coordinator');
-						var min_credits = mCourses[0].getAttribute("min_credits");
-						var max_credits = mCourses[0].getAttribute("max_credits");
-						var id1 = num + "1";
-						var id2 = num + "2";
-						var id3 = num + "3";
-						document.getElementById(id1).setAttribute("min", min_credits);
-						document.getElementById(id1).setAttribute("max", max_credits);
-						document.getElementById(id1).value = min_credits;
-						document.getElementById(id2).innerHTML = "Computer Science and Engineering";
-						document.getElementById(id3).innerHTML = course_coordinator;
-					}
+				document.getElementById(id1).innerHTML = faculty[0].getAttribute('designation');
+				document.getElementById(id2).innerHTML = faculty[0].getAttribute('dept_name');
 
 				});
 			}
@@ -169,165 +196,157 @@
 								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
 								<center><u><h3>Student Research Committee(SRC)</h3></u></center><br><br><br>
 								<div class="col-md-offset-1" style="font-size:20px">
-								<form class="form-inline" id="dp01" name="dp01" action="submitDP01.php" method="post">
+								<form class="form-inline" id="dp02" name="dp02" action="submitDP02.php" method="post">
 									</b>
-									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
-									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Status : <select name="status" class="form-control border-input">
+									Name of the Student : <select class="form-control border-input" name="student_reg_no" 
+										onchange="nowsearch(this.value);">
                                             <option selected disabled>Select</option>
-                                       		<option>Regular</option>
-                                       		<option>Part-Time</option>
-                                       		</select>		
+                                       		<?php
+                                                $query = "SELECT reg_no, name FROM studentmaster";
+                                                $students = mysqli_query($connection, $query);
+                                                
+                                                while( $thisStudent = mysqli_fetch_array($students)  )
+                                                {
+                                                	if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                    {
+                                                        continue;
+                                                    }
+                                            ?>
+                                                <option value="<?php echo $thisStudent['reg_no'] ?>"><?php echo $thisStudent['reg_no']." - ".$thisStudent['name'] ?></option>
+                                            <?php
+                                                }
+                                            ?>
+                                       		</select>	 ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No.: <b><input disabled type="text" class="form-control" id="reg_no" style="color:black;"></b>
+                                    <div class ="row">
+                                    	<div class="col-md-6">
+											Department : <b><input disabled type="text" class="form-control" id="dept" name="student_dept" style="color:black;"></b>
+										</div>
+										<div class="col-md-6">
+											Date of First Registration:<b> <input disabled type="text" class="form-control" id="date_of_reg" name="date_of_reg" style="color:black;"></b>
+										</div>
+									</div>
+									<div class="row col-md-12">
+									Area of Reasearch :<b><input disabled type="text" class="form-control" id="AOR" name="AOR" style="color:black;"></b><br>
+									</div>
+									<div class="row col-md-12">
+									Supervisor(s) :<b><input disabled type="text" class="form-control" id="supervisor" name="supervisor" style="color:black;"><br></b>
+									</div>
+											
 								</div>
 								<br>
-								<center><u><h4>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h4></u></center><br><br><br>
+								<br><br><br>
 								<div class="row col-md-offset-1">
 								<table class="table table-bordered table-condensed">
 								<thead>
 									<th>SI. No.</th>
-									<th>Course Name with Code</th>
-									<th>Credit</th>
+									<th>Role</th>
+									<th>Name of Members</th>
+									<th>Designation</th>
 									<th>Department</th>
-									<th>Course Coordinator</th>
 								</thead>
 								<tbody>
 									<tr>
 										<td>1.</td>
-										<td><select class="form-control border-input" name="course1" 
-										onchange="nowsearch(this.value, 1);">
+										<td>Internal SRC Member</td>
+										<td>
+											<select class="form-control border-input" name="faculty1" 
+										onchange="search_faculty(this.value, 1);">
                                             <option selected disabled>Select</option>
                                        		<?php
-                                                $query = "SELECT * FROM course NATURAL JOIN theorycourses";
-                                                $courses = mysqli_query($connection, $query);
+                                                $query = "SELECT * FROM faculty";
+                                                $members = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
+                                                while( $thisFaculty = mysqli_fetch_array($members)  )
                                                 {
                                             ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
                                             <?php
                                                 }
-                                                $query = "SELECT * FROM course NATURAL JOIN othercourses";
-                                                $courses = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-                                            <?php
-                                                }
                                             ?>
                                        		</select>	
                                        	</td>
-										<td><input id="11" name="credits1" class ="form-control border-input" type="number" min="10" max="20"/></td>
+										<td id=11></td>
 										<td id=12></td>
-										<td id=13></td>
 									</tr>
 									<tr>
 										<td>2.</td>
-										<td><select class="form-control border-input" name="course2" 
-										onchange="nowsearch(this.value, 2);">
+										<td>External SRC Member</td>
+										<td>
+											<select class="form-control border-input" name="faculty2" 
+										onchange="search_faculty(this.value, 2);">
                                             <option selected disabled>Select</option>
                                        		<?php
-                                                $query = "SELECT * FROM course NATURAL JOIN theorycourses";
-                                                $courses = mysqli_query($connection, $query);
+                                                $query = "SELECT * FROM faculty";
+                                                $members = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
+                                                while( $thisFaculty = mysqli_fetch_array($members)  )
                                                 {
                                             ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
                                             <?php
                                                 }
-                                                $query = "SELECT * FROM course NATURAL JOIN othercourses";
-                                                $courses = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-                                            <?php
-                                                }
                                             ?>
                                        		</select>	
                                        	</td>
-										<td><input id="21" name="credits2" class ="form-control border-input" type="number" min="10" max="20"/></td>
+										<td id=21></td>
 										<td id=22></td>
-										<td id=23></td>
 									</tr>
 									<tr>
 										<td>3.</td>
-										<td><select class="form-control border-input" name="course3" 
-										onchange="nowsearch(this.value, 3);">
+										<td>Supervisor 1</td>
+										<td>
+											<select class="form-control border-input" name="faculty3" 
+										onchange="search_faculty(this.value, 3);">
                                             <option selected disabled>Select</option>
                                        		<?php
-                                                $query = "SELECT * FROM course NATURAL JOIN theorycourses";
-                                                $courses = mysqli_query($connection, $query);
+                                                $query = "SELECT * FROM faculty";
+                                                $members = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
+                                                while( $thisFaculty = mysqli_fetch_array($members)  )
                                                 {
                                             ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
                                             <?php
                                                 }
-                                                $query = "SELECT * FROM course NATURAL JOIN othercourses";
-                                                $courses = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-                                            <?php
-                                                }
                                             ?>
                                        		</select>	
                                        	</td>
-										<td><input id="31" name="credits3" class ="form-control border-input" type="number" min="10" max="20"/></td>
+										<td id=31></td>
 										<td id=32></td>
-										<td id=33></td>
 									</tr>
 									<tr>
 										<td>4.</td>
-										<td><select class="form-control border-input" name="course4" 
-										onchange="nowsearch(this.value, 4);">
+										<td>Supervisor 2</td>
+										<td>
+											<select class="form-control border-input" name="faculty4" 
+										onchange="search_faculty(this.value, 4);">
                                             <option selected disabled>Select</option>
                                        		<?php
-                                                $query = "SELECT * FROM course NATURAL JOIN theorycourses";
-                                                $courses = mysqli_query($connection, $query);
+                                                $query = "SELECT * FROM faculty";
+                                                $members = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
+                                                while( $thisFaculty = mysqli_fetch_array($members)  )
                                                 {
                                             ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
                                             <?php
                                                 }
-                                                $query = "SELECT * FROM course NATURAL JOIN othercourses";
-                                                $courses = mysqli_query($connection, $query);
                                                 
-                                                while( $thisCourse = mysqli_fetch_array($courses)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-                                            <?php
-                                                }
                                             ?>
                                        		</select>	
                                        	</td>
-										<td><input id="41" name="credits4" class ="form-control border-input" type="number" min="10" max="20"/></td>
+										<td id=41></td>
 										<td id=42></td>
-										<td id=43></td>
 									</tr>
 								</tbody>
 								</table>
-								<div class="row">
-								Sem-No:<input name="sem_no" class="form-control border-input" style="width:20%;" type="number" min="1" max="6" placeholder="1"/>Sem-Type:<select name="sem_type" class="form-control border-input" style="width:20%;">
-                                            <option selected disabled>Select</option>
-                                       		<option value ="0">Even</option>
-                                       		<option value ="1">Odd</option>
-                                       		</select>
-                                </div>
 								</div>
+								<br><br><br>
 								<div style="font-size:25px">
-								<div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
-									<div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br><br>
+									<div class="col-md-offset-1">Proposed By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br><br>
 									<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br><br>
 									<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br><br>
 									
@@ -336,27 +355,13 @@
 								</div>
 
 								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+									<button type="submit" class="btn btn-info btn-fill btn-wd">Propose</button>
 								</div><br>
 								</form>
 								</div>
 							</div>
 						</div>
 					<div>
-					<?php
-						if(isset($_GET['submit'])&&$_GET['submit']==1)
-							{
-					?>
-					<p class="title">Leave applied successfully.</p>
-					<?php
-						}
-						else if(isset($_GET['submit'])&&$_GET['submit']==0)
-						{
-					?>
-					<p class="title">Error! Leave not submitted successfully.</p>
-					<?php
-						}
-					?>
 				</div>
 				</div>
 				

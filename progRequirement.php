@@ -1,17 +1,6 @@
 <?php
 
     include("./includes/preProcess.php");
-    if (!strcmp($_SESSION['role'], "Supervisor"))
-    {
-        $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
-        $s_result = mysqli_query($connection, $s_query);
-        $s_array = array();
-        while($s_row = mysqli_fetch_array($s_result))
-        {
-            array_push($s_array, $s_row['reg_no']);
-        }
-    }
     
 ?>
 
@@ -63,7 +52,7 @@
 
             <?php
 
-                $currentTab = "viewStudents";
+                $currentTab = "progRequirement";
 
                 include("./includes/sideNav.php");
 
@@ -106,47 +95,61 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Students</h4>
-                                <p class="category">List of all the students</p>
+                                <h4 class="title">Minimum Residence, Maximum Duration and Academic REquirements</h4>
+                                <p class="category">The followinf table lists the minimum residence and maximum duration allowed in the Ph.D. Programme and credit requirements for graduation in the Ph.D. programmes.</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
-                                        <th>Registration Number</th>
-                                    	<th>Name</th>
-                                    	<!-- <th>Program</th> -->
-                                    	<th>Contact Number</th>
-                                    	<th>Email Id</th>
+                                        <th>Department </th>
+                                    	<th>Qualifying Degree</th>
+                                    	<th>Min Total Credits to be earned</th>
+                                        <th>Min Credits through Course Work/Reasearch SEminar/Mini-Projects </th>
+                                        <th>Credits through Comprehensive Examination</th>
+                                        <th>Credits through State of Art Seminar</th>
+                                        <th>Min Credits through Research</th>
+                                        <th>Min Duration</th>
+                                        <th>Min Residence Period</th>
+                                        <th>Max Duration Full Time (Part Time)</th>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT * FROM studentmaster";
-                                            $allStudents = mysqli_query($connection, $query);
+                                            $query = "SELECT * FROM studentmincredit";
+                                            $allSemesters = mysqli_query($connection, $query);
 
-                                            while( $thisStudent = mysqli_fetch_array($allStudents) )
+                                            while( $thisSemester = mysqli_fetch_array($allSemesters) )
                                             {
-                                                if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
-                                                {
-                                                    continue;
-                                                }
                                         ?>
                                                 <tr>
                                                     <td>
-                                                        <a href="./viewStudent.php?qwStudent=<?php echo $thisStudent['reg_no'] ?>">
-                                                        <?php echo $thisStudent['reg_no'] ?>
-                                                        </a>
+                                                        <?php echo $thisSemester['department']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisStudent['name'] ?>
-                                                    </td>
-                                                    <!-- <td>
-                                                        <?php echo $thisStudent['program'] ?>
-                                                    </td> -->
+                                                        <?php echo $thisSemester['qualifying_degree']; ?>
+                                                    </td> 
                                                     <td>
-                                                        <?php echo $thisStudent['contact_no'] ?>
+                                                        <?php echo $thisSemester['min_credit_to_earn']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisStudent['mail_id'] ?>
+                                                        <?php echo $thisSemester['min_credit_through']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisSemester['credit_through_compre_exam']; ?>
+                                                    </td> 
+                                                    <td>
+                                                        <?php echo $thisSemester['credit_through_soa']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisSemester['credit_through_research']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisSemester['min_duration']; ?>
+                                                    </td> 
+                                                    <td>
+                                                        <?php echo $thisSemester['min_residence_full_time']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisSemester['max_duration_full_time']." (".$thisSemester['max_duration_part_time'].")"; ?>
                                                     </td>
                                                 </tr>
                                         <?php
@@ -159,72 +162,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- <div class="col-md-12">
-                        <div class="card card-plain">
-                            <div class="header">
-                                <h4 class="title">Table on Plain Background</h4>
-                                <p class="category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <th>ID</th>
-                                    	<th>Name</th>
-                                    	<th>Salary</th>
-                                    	<th>Country</th>
-                                    	<th>City</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td>1</td>
-                                        	<td>Dakota Rice</td>
-                                        	<td>$36,738</td>
-                                        	<td>Niger</td>
-                                        	<td>Oud-Turnhout</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>2</td>
-                                        	<td>Minerva Hooper</td>
-                                        	<td>$23,789</td>
-                                        	<td>Curaçao</td>
-                                        	<td>Sinaai-Waas</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>3</td>
-                                        	<td>Sage Rodriguez</td>
-                                        	<td>$56,142</td>
-                                        	<td>Netherlands</td>
-                                        	<td>Baileux</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>4</td>
-                                        	<td>Philip Chaney</td>
-                                        	<td>$38,735</td>
-                                        	<td>Korea, South</td>
-                                        	<td>Overland Park</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>5</td>
-                                        	<td>Doris Greene</td>
-                                        	<td>$63,542</td>
-                                        	<td>Malawi</td>
-                                        	<td>Feldkirchen in Kärnten</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>6</td>
-                                        	<td>Mason Porter</td>
-                                        	<td>$78,615</td>
-                                        	<td>Chile</td>
-                                        	<td>Gloucester</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div> -->
 
 
                 </div>

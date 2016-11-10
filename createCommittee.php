@@ -103,7 +103,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Department Id</label>
+                                                <label>Department</label>
                                                 <select class="form-control border-input" name="dept_id">
                                                 <option selected disabled>Select</option>
                                                 <?php

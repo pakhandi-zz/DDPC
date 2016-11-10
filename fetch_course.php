@@ -9,10 +9,10 @@ $my_node=$doc->createElement("courses");//parent node of XML
 $pnode=$doc->appendChild($my_node);
 include("./includes/connect.php");
 $course_id = $_GET['course_id'];
-$query="SELECT * FROM course NATURAL JOIN theorycourses WHERE course_id ='$course_id'";
+$query="SELECT * FROM course NATURAL JOIN theorycourses NATURAL JOIN department WHERE course_id ='$course_id'";
 $result=mysqli_query($connection, $query);
 if (mysqli_num_rows($result) != 1) {
-	$query="SELECT * FROM course NATURAL JOIN othercourses WHERE course_id ='$course_id'";
+	$query="SELECT * FROM course NATURAL JOIN othercourses NATURAL JOIN department WHERE course_id ='$course_id'";
 	$result=mysqli_query($connection, $query);
 
 
@@ -28,6 +28,7 @@ if (mysqli_num_rows($result) != 1) {
 		$newnode->setAttribute("course_instructor",$row['course_instructor']);
 		$newnode->setAttribute("min_credits",$row['min_credits']);
 		$newnode->setAttribute("max_credits",$row['max_credits']);
+		$newnode->setAttribute("dept_name",$row['dept_name']);
 		}
 		echo $doc->saveXML();//saving XML Document
 	}
@@ -41,6 +42,7 @@ if (mysqli_num_rows($result) != 1) {
 	$newnode->setAttribute("course_coordinator",$row['course_coordinator']);
 	$newnode->setAttribute("course_instructor",$row['course_instructor']);
 	$newnode->setAttribute("total_credits",$row['total_credits']);
+	$newnode->setAttribute("dept_name",$row['dept_name']);
 	}
 	echo $doc->saveXML();//saving XML Document
 }
