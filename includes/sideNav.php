@@ -100,6 +100,16 @@
                         <p>upload Document</p>
                     </a>
                 </li>
+                <?php 
+                    if(! strcmp($currentTab, "application"))
+                               echo "<li class=\"active\">";
+                            else
+                                echo "<li>";
+                    ?>
+                        <a href="application.php">
+                            <i class="ti-user"></i>
+                            <p>Application</p>
+                        </a>
 
                 <?php
                     }
@@ -139,14 +149,25 @@
                     }
                     if (!strcmp($_SESSION['role'], "student"))
                     { 
-                        if(! strcmp($currentTab, "application"))
+                        if(! strcmp($currentTab, "awardDistribution"))
+                               echo "<li class=\"active\">";
+                            else
+                                echo "<li>";
+                    ?>
+                        <a href="awardDistribution.php">
+                            <i class="ti-user"></i>
+                            <p>Ph.D. Credit Award Distribution</p>
+                        </a>
+                <?php
+
+                    if(! strcmp($currentTab, "progRequirement"))
                            echo "<li class=\"active\">";
                         else
                             echo "<li>";
                 ?>
-                    <a href="application.php">
+                    <a href="progRequirement.php">
                         <i class="ti-user"></i>
-                        <p>Application</p>
+                        <p>Program Requirement Details</p>
                     </a>
                 <?php
                         if(! strcmp($currentTab, "viewStudents"))

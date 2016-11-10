@@ -31,6 +31,10 @@
         $results = mysqli_query($connection, $query);
         $arr = mysqli_fetch_array($results);
         $date_of_reg = $arr['date_of_reg'];
+        $query = "SELECT sem_no FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no DESC";
+        $results = mysqli_query($connection, $query);
+        $arr = mysqli_fetch_array($results);
+        $current_sem_no = $arr['sem_no'];
         $name = ucfirst(strtolower(explode(" ", $user['name'])[0])); 
 
         $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
