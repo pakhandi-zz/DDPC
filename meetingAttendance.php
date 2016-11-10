@@ -131,8 +131,15 @@
 													$members = mysqli_query($connection, $query);
 													while($thisMember = mysqli_fetch_array($members))
 													{
-														$query1 = "SELECT * FROM studentmaster WHERE `reg_no` = ".$thisMember['member_id'];
+														$thisId = $thisMember['member_id'];
+														$query1 = "SELECT * FROM studentmaster WHERE reg_no='$thisId'";
+														
 														$thisName = mysqli_query($connection, $query1);
+														if(mysqli_num_rows($thisName) != 1)
+														{
+															$query1 = "SELECT * FROM faculty WHERE faculty_id='$thisId'";
+															$thisName = mysqli_query($connection, $query1);
+														}
 														$thisName = mysqli_fetch_array($thisName);
 														
 														$thisMemberName = $thisName['name'];
