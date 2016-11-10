@@ -98,7 +98,7 @@
 
 				<?php
 
-					$currentTab = "application";
+					$currentTab = "showAttendance";
 
 					include("./includes/sideNav.php");
 
