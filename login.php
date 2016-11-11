@@ -23,6 +23,14 @@
 					session_start();
 					$_SESSION['reg_no'] = $reg_no;
 					$_SESSION['role'] = "student";
+					$query = "SELECT * FROM members where member_id = '$reg_no'";
+					$results = mysqli_query($connection, $query);
+					if(mysqli_num_rows($results) == 1)
+					{
+						$_SESSION['in_ddpc'] = 1;
+					} else {
+						$_SESSION['in_ddpc'] = 0;
+					}
 
 					header("location: ./dashboard.php");
 				}
