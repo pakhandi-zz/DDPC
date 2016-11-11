@@ -163,13 +163,13 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-12">
 								<div class="form-group" id = "agendaName">
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-md-12">
 								<div class="form-group" id = "description">
 								</div>
 							</div>

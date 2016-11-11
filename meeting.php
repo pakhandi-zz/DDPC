@@ -98,7 +98,7 @@
 								if (!strcmp($_SESSION['role'], "student")) {
 							?>
 							<ol style="font-size:25px;">
-								<li><a href="markAttendance.php"> Mark Attendance </a></li>
+								<li><a href="meetingAttendance.php"> Mark Attendance </a></li>
 
 								<li><a href="addMeetingBrief.php"> Add Meeting Brief </a></li>
 

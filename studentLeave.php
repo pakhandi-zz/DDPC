@@ -4,7 +4,7 @@
     $nextNotifTo = "";
     if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
     {
-        $thisQuery = "SELECT member_id FROM members WHERE role='HOD'";
+        $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
         $thisResult = mysqli_query($connection, $thisQuery);
         $thisResult = mysqli_fetch_array($thisResult);
         $nextNotifTo = $thisResult['member_id'];
@@ -12,7 +12,7 @@
     if (!strcmp($_SESSION['role'], "Supervisor"))
     {
         $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
+        $s_query = "SELECT reg_no from `currentsupervisor` WHERE supervisor1_id = '$supervisor_id'";
         $s_result = mysqli_query($connection, $s_query);
         $s_array = array();
         while($s_row = mysqli_fetch_array($s_result))
@@ -20,7 +20,7 @@
             array_push($s_array, $s_row['reg_no']);
         }
 
-        $thisQuery = "SELECT member_id FROM members WHERE role='ConvenerDDPC'";
+        $thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
         $thisResult = mysqli_query($connection, $thisQuery);
         $thisResult = mysqli_fetch_array($thisResult);
         $nextNotifTo = $thisResult['member_id'];
@@ -28,7 +28,7 @@
     if ( !strcmp($_SESSION['role'], "student") )
     {
         $thisUniqueId = $_SESSION['reg_no'];
-        $thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
+        $thisQuery = "SELECT supervisor1_id FROM `currentsupervisor` WHERE reg_no='$thisUniqueId'";
         $thisResult = mysqli_query($connection, $thisQuery);
         $thisResult = mysqli_fetch_array($thisResult);
         $nextNotifTo = $thisResult['supervisor1_id'];
