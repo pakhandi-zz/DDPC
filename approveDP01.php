@@ -20,7 +20,7 @@ $result = mysqli_query($connection, $query);
 
 if (!$result)
 {
-	echo $query;
+	echo "Failure";
 } else {
 	echo $query;
 }

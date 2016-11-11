@@ -1,7 +1,6 @@
 <?php
 
-    include("./includes/preProcess.php");
-    
+    include("./includes/preProcess.php");  
 ?>
 
 

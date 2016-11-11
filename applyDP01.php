@@ -14,6 +14,7 @@
 		$supervisor_name = $supervisor['name'];
 		$sem_no = $current_sem_no;
 
+
 	?> 
 	<!doctype html>
 	<html lang="en">
