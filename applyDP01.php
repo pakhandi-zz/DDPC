@@ -12,7 +12,7 @@
 		$result = mysqli_query($connection, $query);
 		$supervisor = mysqli_fetch_assoc($result);
 		$supervisor_name = $supervisor['name'];
-		$sem_no = $current_sem_no + 1;
+		$sem_no = $current_sem_no;
 
 
 	?> 
@@ -93,7 +93,7 @@
 							document.getElementById(id3).innerHTML = "Comprehensive Panel";
 							var s_id = "student_selected_coordinator" + num;
 							document.getElementById(s_id).style.visibility = "hidden";
-						} else if (course_name == "thesis performance credits") {
+						} else if (course_name == "thesis performance") {
 							document.getElementById(id3).innerHTML = "<?php echo $supervisor_name; ?>";
 							var s_id = "student_selected_coordinator" + num;
 							document.getElementById(s_id).style.visibility = "hidden";
@@ -210,7 +210,7 @@
 									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
 									Status :<b> <?php echo $user['program_category'];?>	</b><br>
-									Sem-No: <b><input name="sem_no" class ="form-control border-input" type="number" value="<?php echo $sem_no; ?>" readonly/></b><br>Sem-Type:<select name="sem_type" class="form-control border-input" style="width:20%;" required>
+									Sem-No: <b><input name="sem_no" class ="form-control border-input" type="number" value="<?php echo $sem_no; ?>"/></b><br>Sem-Type:<select name="sem_type" class="form-control border-input" style="width:20%;" required>
                                             <option value="">Select</option>
                                        		<option value ="0">Even</option>
                                        		<option value ="1">Odd</option>
