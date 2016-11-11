@@ -95,7 +95,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Minimum Residence, Maximum Duration and Academic REquirements</h4>
+                                <h4 class="title">Minimum Residence, Maximum Duration and Academic Requirements</h4>
                                 <p class="category">The followinf table lists the minimum residence and maximum duration allowed in the Ph.D. Programme and credit requirements for graduation in the Ph.D. programmes.</p>
                             </div>
                             <div class="content table-responsive table-full-width">
@@ -131,7 +131,7 @@
                                                         <?php echo $thisSemester['min_credit_to_earn']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisSemester['min_credit_through']; ?>
+                                                        <?php echo $thisSemester['min_credit_through_course_work']; ?>
                                                     </td>
                                                     <td>
                                                         <?php echo $thisSemester['credit_through_compre_exam']; ?>
