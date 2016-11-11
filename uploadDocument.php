@@ -7,14 +7,14 @@
     <!doctype html>
     <html lang="en">
     <head>
-    	<meta charset="utf-8" />
-    	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-    	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
-    	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta charset="utf-8" />
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    	<title>MNNIT - DDPC</title>
+        <title>MNNIT - DDPC</title>
 
-    	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
         <meta name="viewport" content="width=device-width" />
 
 
@@ -38,14 +38,14 @@
     <body>
 
     <div class="wrapper">
-    	<div class="sidebar" data-background-color="black" data-active-color="warning">
+        <div class="sidebar" data-background-color="black" data-active-color="warning">
 
         <!--
-    		Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
-    		Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
-    	-->
+            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+        -->
 
-        	<div class="sidebar-wrapper">
+            <div class="sidebar-wrapper">
                 <div class="logo">
                     <?php include('./includes/topleft.php') ?>
                 </div>
@@ -58,11 +58,11 @@
 
                 ?>
 
-        	</div>
+            </div>
         </div>
 
         <div class="main-panel">
-    		<nav class="navbar navbar-default">
+            <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <?php include('./includes/logo.php'); ?>
@@ -72,11 +72,11 @@
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="ti-panel"></i>
-    								<p>Stats</p>
+                                    <p>Stats</p>
                                 </a>
                             </li>
                             <?php include('./includes/notifications.php'); ?>
-    						<li>
+                            <li>
                                 <a href="./logout.php">
                                     <i class="ti-settings"></i>
                                     <p>LogOut</p>
@@ -101,15 +101,25 @@
                                         Doc Type : <select name="application_type">
                                             <option selected disabled>Select</option>
                                             <?php
-                                                $query = "SELECT * FROM documentlookup";
-                                                $documentTypes = mysqli_query($connection, $query);
-                                                
-                                                while( $thisDocumentType = mysqli_fetch_array($documentTypes)  )
+                                                if (!strcmp("student", $_SESSION['role']))
                                                 {
+                                                    $query = "SELECT * FROM documentlookup";
+                                                    $documentTypes = mysqli_query($connection, $query);
+                                                    
+                                                    while( $thisDocumentType = mysqli_fetch_array($documentTypes)  )
+                                                    {
                                             ?>
                                                 <option value="<?php echo $thisDocumentType['doc_type_id'] ?>"><?php echo $thisDocumentType['doc_type'] ?></option>
                                             <?php
+                                                    }
                                                 }
+                                                else {
+                                            ?>
+
+                                                    <option value="4">Form DP-13</option>
+                                            <?php
+                                                }
+
                                             ?>
                                         </select>
                                         <br><br>
@@ -159,13 +169,13 @@
 
         <!--   Core JS Files   -->
         <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-    	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
-    	<!--  Checkbox, Radio & Switch Plugins -->
-    	<script src="assets/js/bootstrap-checkbox-radio.js"></script>
+        <!--  Checkbox, Radio & Switch Plugins -->
+        <script src="assets/js/bootstrap-checkbox-radio.js"></script>
 
-    	<!--  Charts Plugin -->
-    	<script src="assets/js/chartist.min.js"></script>
+        <!--  Charts Plugin -->
+        <script src="assets/js/chartist.min.js"></script>
 
         <!--  Notifications Plugin    -->
         <script src="assets/js/bootstrap-notify.js"></script>
@@ -174,10 +184,10 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
         <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-    	<script src="assets/js/paper-dashboard.js"></script>
+        <script src="assets/js/paper-dashboard.js"></script>
 
-    	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-    	<script src="assets/js/demo.js"></script>
+        <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+        <script src="assets/js/demo.js"></script>
 
         <script type="text/javascript">
 

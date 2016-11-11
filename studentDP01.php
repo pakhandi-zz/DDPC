@@ -4,7 +4,7 @@
     if (!strcmp($_SESSION['role'], "Supervisor"))
     {
         $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
+        $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
         $s_result = mysqli_query($connection, $s_query);
         $s_array = array();
         while($s_row = mysqli_fetch_array($s_result))
@@ -12,7 +12,6 @@
             array_push($s_array, $s_row['reg_no']);
         }
     }
-    
 ?>
 
 <!doctype html>
@@ -190,12 +189,12 @@
                                                     <tr>
                                                     <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -207,12 +206,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -223,12 +222,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -239,12 +238,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?> reg_status="Part-Time"/>
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>" reg_status="Part-Time"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?> reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
