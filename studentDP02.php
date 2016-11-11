@@ -177,7 +177,6 @@
                                                 </td>
                                             </tr>
                                                         <?php 
-                                                    }
                                                         if (!strcmp($thisStudent['status'], "pending")) 
                                                         {
                                                             if(!strcmp($_SESSION['role'],"HOD"))
@@ -185,31 +184,14 @@
 
                                                     ?>
                                                     <tr>
-                                                    <td rowspan="<?php echo $rnum ?>>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
-                                                        </form>
-                                                    </td>
-                                                    <td rowspan="<?php echo $rnum ?>>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?>/>
-                                                        </form>
-                                                    </td>
-                                                    </tr>
-                                                    <?php    
-                                                            } else if(!strcmp($_SESSION['role'],"Supervisor") AND empty($thisStudent['supervisor_comment']))
-                                                            {
-
-                                                    ?>
-                                                    <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" />
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?>/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" />
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -220,12 +202,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" />
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" />
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -236,12 +218,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" />
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>/>
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" />
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -255,12 +237,13 @@
                                                     <td></td>
                                                     <?php
                                                             }
+
                                                     ?>  
                                                 </tr>
 
                                         <?php
                                                 
-                                            
+                                            }
                                         ?>
 
                                     </tbody>
@@ -336,12 +319,11 @@
             var formData = {  // Javascript object
                 reg_no: $(this).attr('reg_no'),
                 status: $(this).attr('status'),
-                progress: $(this).attr('progress'),
-                sem_no: $(this).attr('sem_no')
+                progress: $(this).attr('progress')
             };
             
             $.ajax({
-                url:'./approveDP01.php',
+                url:'./approveDP02.php',
                 type:'post',
                 data: formData,
                 success: function(data){
