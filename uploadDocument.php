@@ -101,15 +101,25 @@
                                         Doc Type : <select name="application_type">
                                             <option selected disabled>Select</option>
                                             <?php
-                                                $query = "SELECT * FROM documentlookup";
-                                                $documentTypes = mysqli_query($connection, $query);
-                                                
-                                                while( $thisDocumentType = mysqli_fetch_array($documentTypes)  )
+                                                if (!strcmp("student", $_SESSION['role']))
                                                 {
+                                                    $query = "SELECT * FROM documentlookup";
+                                                    $documentTypes = mysqli_query($connection, $query);
+                                                    
+                                                    while( $thisDocumentType = mysqli_fetch_array($documentTypes)  )
+                                                    {
                                             ?>
                                                 <option value="<?php echo $thisDocumentType['doc_type_id'] ?>"><?php echo $thisDocumentType['doc_type'] ?></option>
                                             <?php
+                                                    }
                                                 }
+                                                else {
+                                            ?>
+
+                                                    <option value="4">Form DP-13</option>
+                                            <?php
+                                                }
+
                                             ?>
                                         </select>
                                         <br><br>

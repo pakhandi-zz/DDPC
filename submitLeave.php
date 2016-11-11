@@ -17,8 +17,6 @@ $to_date = date_create($_POST['to_datepicker']);
 $address = $_POST['address'];
 $applied_on = date('Y-m-d');
 
-
-
 $diff = date_diff($from_date, $to_date);
 $days = $diff->format('%a');
 $days = $days + 1;
@@ -38,18 +36,6 @@ if (!$result)
 	die("Unsuccessful".mysqli_error($connection));
 	echo $result;
 } else {
-	$nextNotifTo = $_POST['nextNotifTo'];
-	$query = "SELECT * FROM notifications";
-	$allnotifications = mysqli_query($connection, $query);
-	$notificationsCount = mysqli_num_rows($allnotifications);
-	$newNotificationId = $notificationsCount + 1;
-	$description = "New leave application";
-	$issue_date = date('Y-m-d');
-	$target_group = "";
-	$target_member = $nextNotifTo;
-
-	$query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
-	$result = mysqli_query($connection, $query);
 	header("location: ./printLeave.php?from=".$from."&to=".$to."&days=".$days."&address=".$address."&applied_on=".$applied_on);
 	exit();
 }

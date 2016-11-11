@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 if(!isset($_SESSION['reg_no']))
 {
@@ -14,29 +15,14 @@ $from_date= $_POST['from_date'];
 $to_date = $_POST['to_date'];
 $status = $_POST['status'];
 $progress = $_POST['progress'];
-// $nextNotifTo = $_POST['nextNotifTo'];
 
-$query = "UPDATE `leave` SET status = '$status', progress = '$progress' WHERE reg_no = '$reg_no' AND leave_type = '$leave_type' AND from_date = '$from_date' AND to_date = '$to_date'";
+$query = "UPDATE groupx.leave SET status = '$status', progress = '$progress' WHERE reg_no = '$reg_no' AND leave_type = '$leave_type' AND from_date = '$from_date' AND to_date = '$to_date'";
 $result = mysqli_query($connection, $query);
 
 if (!$result)
 {
-	echo "Failure";
+	echo $query;
 } else {
-	{
-		$nextNotifTo = $_POST['nextNotifTo'];
-		$query = "SELECT * FROM notifications";
-		$allnotifications = mysqli_query($connection, $query);
-		$notificationsCount = mysqli_num_rows($allnotifications);
-		$newNotificationId = $notificationsCount + 1;
-		$description = "New leave application";
-		$issue_date = date('Y-m-d');
-		$target_group = "";
-		$target_member = $nextNotifTo;
-
-		$query = "INSERT INTO `notifications` (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
-		$result = mysqli_query($connection, $query);
-	}
 	echo $query;
 }
 

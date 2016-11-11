@@ -95,7 +95,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Minimum Residence, Maximum Duration and Academic Requirements</h4>
+                                <h4 class="title">Minimum Residence, Maximum Duration and Academic REquirements</h4>
                                 <p class="category">The followinf table lists the minimum residence and maximum duration allowed in the Ph.D. Programme and credit requirements for graduation in the Ph.D. programmes.</p>
                             </div>
                             <div class="content table-responsive table-full-width">

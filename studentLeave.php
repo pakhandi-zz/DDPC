@@ -1,14 +1,6 @@
 <?php
 
     include("./includes/preProcess.php");
-    $nextNotifTo = "";
-    if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
-    {
-        $thisQuery = "SELECT member_id FROM members WHERE role='HOD'";
-        $thisResult = mysqli_query($connection, $thisQuery);
-        $thisResult = mysqli_fetch_array($thisResult);
-        $nextNotifTo = $thisResult['member_id'];
-    }
     if (!strcmp($_SESSION['role'], "Supervisor"))
     {
         $supervisor_id = $_SESSION['reg_no'];
@@ -19,19 +11,6 @@
         {
             array_push($s_array, $s_row['reg_no']);
         }
-
-        $thisQuery = "SELECT member_id FROM members WHERE role='ConvenerDDPC'";
-        $thisResult = mysqli_query($connection, $thisQuery);
-        $thisResult = mysqli_fetch_array($thisResult);
-        $nextNotifTo = $thisResult['member_id'];
-    }
-    if ( !strcmp($_SESSION['role'], "student") )
-    {
-        $thisUniqueId = $_SESSION['reg_no'];
-        $thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
-        $thisResult = mysqli_query($connection, $thisQuery);
-        $thisResult = mysqli_fetch_array($thisResult);
-        $nextNotifTo = $thisResult['supervisor1_id'];
     }
     
 ?>
@@ -192,7 +171,7 @@
                                                         <?php
                                                             $app_reg_no = $thisStudent['reg_no'];
                                                             $app_leave_type = $thisStudent['leave_type'];
-                                                            $query3 = "SELECT SUM(no_of_days) AS days_left FROM `leave` WHERE leave_type = '$app_leave_type' AND reg_no = '$app_reg_no' AND status = 'approved'";
+                                                            $query3 = "SELECT SUM(no_of_days) AS days_left FROM groupx.leave WHERE leave_type = '$app_leave_type' AND reg_no = '$app_reg_no' AND status = 'approved'";
                                                             $result3 = mysqli_query($connection, $query3);
                                                             if($result3) {
                                                                 $row = mysqli_fetch_array($result3);
@@ -219,12 +198,12 @@
 
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="approved" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="approved" progress="HOD"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="HOD"/>
                                                         </form>
                                                     </td>
                                                     <?php    
@@ -234,12 +213,12 @@
                                                     ?>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="ConvenerDDPC" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="ConvenerDDPC"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="Supervisor" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="Supervisor"/>
                                                         </form>
                                                     </td>
                                                     <?php
@@ -248,12 +227,12 @@
                                                     ?>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="HOD"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="ConvenerDDPC" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="ConvenerDDPC"/>
                                                         </form>
                                                     </td>
                                                     <?php
@@ -344,22 +323,21 @@
          $("input[name='submit']").click(function(event){
 
             event.preventDefault();
+
             var formData = {  // Javascript object
                 reg_no: $(this).attr('reg_no'),
                 leave_type: $(this).attr('leave_type'),
                 from_date: $(this).attr('from_date'),
                 to_date: $(this).attr('to_date'),
                 status: $(this).attr('status'),
-                progress: $(this).attr('progress'),
-                nextNotifTo: $(this).attr('nextNotifTo')
+                progress: $(this).attr('progress')
             };
-            
+
             $.ajax({
                 url:'./approveLeave.php',
                 type:'post',
                 data: formData,
                 success: function(data){
-                    // alert(data);
                     location.reload();
                 },
                 error: function(){
