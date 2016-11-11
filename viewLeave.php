@@ -110,7 +110,7 @@
 									<tbody>
 										<?php
 											$reg_no = $_SESSION['reg_no'];
-											$query = "SELECT * FROM leave WHERE reg_no = '$reg_no'";
+											$query = "SELECT * FROM `leave` WHERE reg_no = '$reg_no'";
 											$allStudents = mysqli_query($connection, $query);
 
 
@@ -124,7 +124,7 @@
 													<td>
 														<?php 
 															$type = $thisStudent['leave_type'];
-															$query2 = "SELECT leave_name FROM leavelookup WHERE leave_type = '$type'";
+															$query2 = "SELECT leave_name FROM `leavelookup` WHERE leave_type = '$type'";
 															$result = mysqli_query($connection, $query2);
 															$leave_names = mysqli_fetch_array($result);
 															echo $leave_names['leave_name'];
