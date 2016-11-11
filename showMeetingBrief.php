@@ -1,9 +1,8 @@
 	<?php
 
 		include("./includes/preProcess.php");
-		
-	?>
 
+	?> 
 	<!doctype html>
 	<html lang="en">
 	<head>
@@ -35,6 +34,56 @@
 		<link href="./css/myCss.css" rel="stylesheet">
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
+		<script type="text/javascript">
+			function nowsearch(meeting_no, num)
+			{
+				// window.alert(meeting_no);
+				var str = meeting_no.split("-");
+				var url="./fetch_meetingbrief.php?meeting_no=" + str[0] + "&agenda_id=" + str[1];
+				// window.alert(url);
+				load_my_URL(url,function(data)
+				{
+					var xml=parse_my_XMLdata(data);
+					var briefs = xml.documentElement.getElementsByTagName("brief");
+					document.getElementById("agendaName").innerHTML = briefs[0].getAttribute("agenda_name");
+					document.getElementById("description").innerHTML = briefs[0].getAttribute("description");
+					// for(var i = 0; i < members.length; i++)
+					// {
+					// 	document.getElementById("list" + (i + 1)).innerHTML = members[i].getAttribute("member_name");
+					// 	document.getElementById("list" + (i + 1)).style.display = 'block';
+					// }
+				});
+			}
+			function load_my_URL(url, do_func)
+			{
+			    var my_req = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
+			    my_req.onreadystatechange = function()
+				{
+			        if (my_req.readyState == 4)
+					{
+						my_req.onreadystatechange = no_func;
+						do_func(my_req.responseText, my_req.status);
+			        }
+			    };
+			    my_req.open('GET', url, true);
+			    my_req.send(null);
+			}
+			function parse_my_XMLdata(data)
+			{
+			    if (window.ActiveXObject)
+				{
+			        var doc = new ActiveXObject('Microsoft.XMLDOM');
+			        doc.loadXML(data);
+			        return doc;
+			    }
+				else if (window.DOMParser)
+				{
+			        return (new DOMParser).parseFromString(data, 'text/xml');
+			    }
+			}
+			function no_func() {}
+			
+		</script>
 
 	</head>
 	<body>
@@ -54,7 +103,7 @@
 
 				<?php
 
-					$currentTab = "meeting";
+					$currentTab = "showAttendance";
 
 					include("./includes/sideNav.php");
 
@@ -90,67 +139,50 @@
 				</div>
 			</nav>
 				<div class="content">
-					<div class="container-fluid">
+					<form method="GET" action="markAttendance.php">
 						<div class="row">
-							<div class="col-md-6">
-							<h4>Apply an application</h4>
-							<?php
-								if (!strcmp($_SESSION['role'], "student")) {
-							?>
-							<ol style="font-size:25px;">
-								<li><a href="markAttendance.php"> Mark Attendance </a></li>
-
-								<li><a href="addMeetingBrief.php"> Add Meeting Brief </a></li>
-
-								<!-- <li><a href="applyDP01.php"> Apply for Academic Registration </a></li> -->
-
-							</ol>
-							<?php
-								}
-								if (!strcmp($_SESSION['role'], "ConvenerDDPC")) {
-							?>
-							<ol style="font-size:25px;">
-								<li><a href="createMeeting.php"> Create Meeting </a></li>
-
-							</ol>
-							<?php
-								}
-							?>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Meeting Number</label>
+									<select name="meeting_no" class="form-control border-input" onchange="nowsearch(this.value, 1);">
+									<option selected disabled>Select</option>
+										<?php
+											$query = "SELECT * from meetingagendabrief";
+											$meetings = mysqli_query($connection, $query);
+											// print($meetings);
+											while($thisMeeting = mysqli_fetch_array($meetings) )
+											{
+										?>
+											<option value="<?php echo $thisMeeting['meeting_no']."-".$thisMeeting['agenda_id'] ?>"><?php echo $thisMeeting['meeting_no']."-".$thisMeeting['agenda_id'] ?></option>
+										<?php
+											}
+										?>
+									</select>
+								</div>
 							</div>
-							<div class="col-md-6">
-							<h4>Print an application</h4>
-							<?php
-								if (!strcmp($_SESSION['role'], "student")) {
-							?>
-							<ol style="font-size:25px;">
+						</div>
 
-								<li><a href="showAttendance.php"> View attendance</a></li>
-
-								<li><a href="showMeetingBrief.php"> View meeting brief</a></li>
-
-								<!-- <li><a href="printDP01.php"> Print latest Academic Registration Application</a></li> -->
-							</ol>
-							<?php
-								}
-								if (!strcmp($_SESSION['role'], "ConvenerDDPC")) {
-							?>
-							<ol style="font-size:25px;">
-
-								<li><a href="showAttendance.php"> View attendance</a></li>
-								<li><a href="showMeetingBrief.php"> View meeting brief</a></li>
-							</ol>
-							<?php
-								}
-							?>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group" id = "agendaName">
+								</div>
 							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group" id = "description">
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</form>
+				</div>			
+
+
 
 			<footer class="footer">
 			</footer>
-
-	</div>
-	</div>
-	</div>
-	</div>
+		</div>
 	</div>
 	<p></p>
 
