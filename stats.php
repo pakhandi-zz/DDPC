@@ -80,7 +80,7 @@
                         <li>
                             <a href="Stats.php" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-                                <p>Stats</p>
+                                <p style="display : none;">Stats</p>
                             </a>
                         </li>
                         <?php include('./includes/notifications.php'); ?>
