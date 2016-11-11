@@ -49,8 +49,9 @@
         {
             $user['photo_path']='./images/default.jpg';
         }
-        $name = ucfirst(strtolower(explode(" ", $user['name'])[0])); 
+        // $name = ucfirst(strtolower(explode(" ", $user['name'])[0])); 
 
+        $name = $user['name'];
         $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
         $escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' ); 
