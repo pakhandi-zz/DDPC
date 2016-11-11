@@ -131,7 +131,7 @@
                                                         <?php echo $thisSemester['min_credit_to_earn']; ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $thisSemester['min_credit_through_course_work']; ?>
+                                                        <?php echo $thisSemester['min_credit_through']; ?>
                                                     </td>
                                                     <td>
                                                         <?php echo $thisSemester['credit_through_compre_exam']; ?>
