@@ -26,7 +26,9 @@
                               <ul class="dropdown-menu">
                                 <?php
                                     $lastNot = 0;
-                                    $query = "SELECT * FROM notifications WHERE target_group='Supervisor' OR target_member='faculty1' ORDER BY issue_date DESC";
+                                    $thisRole = $_SESSION['role'];
+                                    $thisUniqueId = $_SESSION['reg_no'];
+                                    $query = "SELECT * FROM notifications WHERE target_group='$thisRole' OR target_member='$thisUniqueId' ORDER BY issue_date DESC";
                                     $allNotifications = mysqli_query($connection, $query);
 
                                     while( $notification = mysqli_fetch_array($allNotifications) )

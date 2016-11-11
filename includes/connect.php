@@ -15,7 +15,7 @@
 		die("could not connect");
 	}*/
 	//print $conn;
-	$connection = mysqli_connect("localhost","root","hakunamatata","groupx");
+	$connection = mysqli_connect("localhost","root","hakunamatata","ddpc");
 	//mysql_select_db("myDB");
 	
 ?>
