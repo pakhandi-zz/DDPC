@@ -11,6 +11,19 @@
         {
             array_push($s_array, $s_row['reg_no']);
         }
+
+        $thisQuery = "SELECT member_id FROM members WHERE role='HOD'";
+        $thisResult = mysqli_query($connection, $thisQuery);
+        $thisResult = mysqli_fetch_array($thisResult);
+        $nextNotifTo = $thisResult['member_id'];
+    }
+    if ( !strcmp($_SESSION['role'], "student") )
+    {
+        $thisUniqueId = $_SESSION['reg_no'];
+        $thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
+        $thisResult = mysqli_query($connection, $thisQuery);
+        $thisResult = mysqli_fetch_array($thisResult);
+        $nextNotifTo = $thisResult['supervisor1_id'];
     }
     
 ?>
