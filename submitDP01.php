@@ -97,4 +97,8 @@ if (!$result)
 	die("Unsuccessful".mysqli_error($connection));
 	echo $result;
 } 
+else
+{
+	header("location: ./dashboard.php");
+}
 ?>

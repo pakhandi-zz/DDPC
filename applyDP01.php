@@ -250,7 +250,7 @@
                                                 
                                                 while( $thisCourse = mysqli_fetch_array($courses)  )
                                                 {
-                                                	if (!in_array($thisCourse['course_name'], $course_distribution[$current_sem_no +1]))
+                                                	if (!in_array($thisCourse['course_name'], $course_distribution[$sem_no]))
                                                 	{
                                                 		continue;
                                                 	}

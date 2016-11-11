@@ -12,7 +12,7 @@
     if (!strcmp($_SESSION['role'], "Supervisor"))
     {
         $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
+        $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
         $s_result = mysqli_query($connection, $s_query);
         $s_array = array();
         while($s_row = mysqli_fetch_array($s_result))

@@ -15,7 +15,7 @@ $progress = $_POST['progress'];
 $sem_no = $_POST['sem_no'];
 $reg_status = $_POST['status'];
 
-$query = "UPDATE courseregistration SET status = '$status', progress = '$progress', reg_status = '$reg_status' WHERE reg_no = '$reg_no' AND sem_no = '$sem_no'";
+$query = "UPDATE courseregistration SET status = '$status', progress = '$progress' WHERE reg_no = '$reg_no' AND sem_no = '$sem_no'";
 $result = mysqli_query($connection, $query);
 
 if (!$result)
