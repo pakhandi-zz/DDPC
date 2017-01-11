@@ -12,6 +12,9 @@
             array_push($s_array, $s_row['reg_no']);
         }
     }
+
+    $prevPageLink = "approve.php";
+
 ?>
 
 <!doctype html>
