@@ -33,6 +33,8 @@
         $thisResult = mysqli_fetch_array($thisResult);
         $nextNotifTo = $thisResult['supervisor1_id'];
     }
+
+    $prevPageLink = "approve.php";
     
 ?>
 
