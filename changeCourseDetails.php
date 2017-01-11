@@ -2,7 +2,7 @@
 
     include("./includes/preProcess.php");
 
-
+    $prevPageLink = "update.php";
     
 ?>
 
