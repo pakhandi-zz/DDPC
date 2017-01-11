@@ -60,13 +60,13 @@
 
   	</head>
   	<body>
-  		<a href="application.php" class="btn btn-default">Home</a><br><br>
-  		<a href="dashboard.php" class="btn btn-default" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
+  		<a href="application.php" class="btn btn-default no-print">Home</a><br><br>
+  		<a href="dashboard.php" class="btn btn-default no-print" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
 
   		<div class="col-md-offset-10"> Form: DP-05</div>
                 <div class="col-md-offset-10"> (Clause 4.5)</div>
                 <center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
-                <center><u><h3>Change of Registration Status</h3></u></center><br><br><br>
+                <center><u><h3>Change of Registration Status</h3></u></center>
                 <div class="col-md-offset-1" style="font-size:20px">
                 <form class="form-inline" id="dp05" action="submitDP05.php" method="post">
                   </b>
@@ -79,22 +79,21 @@
                   
                 </div>
                 <br><br><br>
-                <div style="font-size:25px">
+                <div style="font-size:20px">
                 <div class="row">
                 <div class="col-md-offset-1">Date:<b> <?php echo date('d-m-Y'); ?></b>&nbsp;&nbsp;&nbsp;&nbsp; Time: <b><?php echo date('H:i:s'); ?></b>
-                <div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
+                <div class="col-md-offset-4">(Signature of the Student)</div><br><br><br>
                 </div>
-                  <div class="col-md-offset-1">Comment of the Supervisor(s) : <b><?php echo $form['supervisor_comment'];?></b></div><br><br><br><br>
-                  <div class="col-md-offset-8">(Signature of the Supervisor(s))</div><br><br><br>
+                  <div class="col-md-offset-1">Comment of the Supervisor(s) : <b><?php echo $form['supervisor_comment'];?></b></div><br><br>
+                  <div class="col-md-offset-8">(Signature of the Supervisor(s))</div><br><br>
                   <div class="col-md-offset-1">
                   Recommended By:<br><br>
                   </div>
                   <div class="col-md-offset-1"><b>Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Head of Department</b></div>
-                  <div class="col-md-offset-1"></b></div><br>
+                  <div class="col-md-offset-1"></b></div><br><br>
                   <div class="col-md-offset-1">Approved By:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC</div>
 
 
                 </div>
-								<br><br><br><br>
   	</body>
   	</html>
