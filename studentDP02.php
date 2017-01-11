@@ -18,6 +18,8 @@
         $faculty = mysqli_fetch_assoc($result);
         return $faculty;
     }
+
+    $prevPageLink = "approve.php";
     
 ?>
 
