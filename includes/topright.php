@@ -1,7 +1,7 @@
-<ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-panel"></i>
+                            <a href="<?php echo $prevPageLink; ?>">
+                                <i class="ti-arrow-left"></i>
 								<p style="display : none;">Stats</p>
                             </a>
                         </li>

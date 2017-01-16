@@ -43,8 +43,8 @@
 
   	</head>
   	<body>
-  		<a href="application.php" class="btn btn-default">Home</a><br><br>
-  		<a href="dashboard.php" class="btn btn-default" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
+  		<a href="application.php" class="btn btn-default no-print">Home</a><br><br>
+  		<a href="dashboard.php" class="btn btn-default no-print" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
 
   		<div class="col-md-offset-10"> Form: DP-01</div>
                 <div class="col-md-offset-10"> (Clause 4.2)</div>
@@ -97,7 +97,7 @@
                 Sem-No:<?php echo $sem_no; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sem-Type:<?php echo $sem_type; ?></div>
                 </div>
                 <div style="font-size:25px">
-                <div class="col-md-offset-1">Date:<b> <?php echo date('d-m-Y'); ?></b>&nbsp;&nbsp;&nbsp;&nbsp; Time: <b><?php echo date('H:i:s'); ?></b><br><br>
+                <div class="col-md-offset-1">Date:<b style="font-size: 20px;"> <?php echo date('d-m-Y'); ?></b>&nbsp;&nbsp;&nbsp;&nbsp; Time: <b style="font-size: 20px;"><?php echo date('H:i:s'); ?></b><br><br>
                 <div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
                   <div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br><br>
                   <div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br><br>

@@ -85,17 +85,17 @@
                  <?php
                     if (!strcmp($_SESSION['role'], "student") OR !strcmp($_SESSION['role'], "Supervisor"))
                     {  
-                        if(! strcmp($currentTab, "uploadDocument"))
-                            echo "<li class=\"active\">";
-                        else
-                            echo "<li>";
+                        // if(! strcmp($currentTab, "uploadDocument"))
+                        //     echo "<li class=\"active\">";
+                        // else
+                        //     echo "<li>";
 
                 ?>
-                                <a href="uploadDocument.php">
+                               <!--  <a href="uploadDocument.php">
                                     <i class="ti-user"></i>
                                         <p>upload Document</p>
                                 </a>
-                            </li>
+                            </li> -->
                 <?php 
                         if(! strcmp($currentTab, "application"))
                                echo "<li class=\"active\">";
