@@ -123,7 +123,7 @@
 							<li>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<i class="ti-panel"></i>
-									<p style="display : none;">Stats</p>
+									<p>Stats</p>
 								</a>
 							</li>
 							<?php include('./includes/notifications.php'); ?>
@@ -163,13 +163,13 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-3">
 								<div class="form-group" id = "agendaName">
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-3">
 								<div class="form-group" id = "description">
 								</div>
 							</div>

@@ -104,7 +104,7 @@
                         <li>
                             <a href="stats.php">
                                 <i class="ti-panel"></i>
-								<p style="display : none;">Stats</p>
+								<p>Stats</p>
                             </a>
                         </li>
                         <?php include('./includes/notifications.php'); ?>

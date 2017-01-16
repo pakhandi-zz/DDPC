@@ -1,8 +1,6 @@
 <?php
 
     include("./includes/preProcess.php");
-
-    $prevPageLink = "add.php";
     
 ?>
 
@@ -71,7 +69,21 @@
                     <?php include('./includes/logo.php'); ?>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <?php include("./includes/topright.php") ?>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-panel"></i>
+                                <p>Stats</p>
+                            </a>
+                        </li>
+                        <?php include('./includes/notifications.php'); ?>
+                        <li>
+                            <a href="./logout.php">
+                                <i class="ti-settings"></i>
+                                <p>LogOut</p>
+                            </a>
+                        </li>
+                    </ul>
 
                 </div>
             </div>
@@ -130,22 +142,38 @@
                                     
 
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>Course Name</label>
-                                                <input type="text" class="form-control border-input" placeholder="Course Name" name="course_name">
+                                                <label>Sem Type</label>
+                                                <select class="form-control border-input" name="sem_type">
+                                                <option selected disabled>Select</option>
+                                                <option value="0">Even</option>
+                                                <option value="1">Odd</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="academic year">Academic Year</label>
+                                                <input type="text" class="form-control border-input" placeholder="Academic Year" name="academic_year">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="exampleInputEmail1">Contact Coordinator</label>
-                                                <input type="text" class="form-control border-input" placeholder="Course Coordinator" name="course_coordinator">
+                                                <label for="exampleInputEmail1">Course Name</label>
+                                                <input type="text" class="form-control border-input" placeholder="Course Coordinator" name="course_name">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Course Coordinator</label>
+                                                <input type="text" class="form-control border-input" placeholder="Course Coordinator" name="course_coordinator">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Course Instructor</label>
                                                 <input type="text" class="form-control border-input" placeholder="Course Instructor" name="course_instructor">

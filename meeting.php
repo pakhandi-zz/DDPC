@@ -74,7 +74,7 @@
 							<li>
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<i class="ti-panel"></i>
-									<p style="display : none;">Stats</p>
+									<p>Stats</p>
 								</a>
 							</li>
 							<?php include('./includes/notifications.php'); ?>
@@ -98,7 +98,7 @@
 								if (!strcmp($_SESSION['role'], "student")) {
 							?>
 							<ol style="font-size:25px;">
-								<li><a href="meetingAttendance.php"> Mark Attendance </a></li>
+								<li><a href="markAttendance.php"> Mark Attendance </a></li>
 
 								<li><a href="addMeetingBrief.php"> Add Meeting Brief </a></li>
 
