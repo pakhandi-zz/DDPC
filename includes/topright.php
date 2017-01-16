@@ -1,8 +1,8 @@
-                    <ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="<?php echo $prevPageLink; ?>">
-                                <i class="ti-arrow-left"></i>
-								<p style="display : none;">Stats</p>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="ti-panel"></i>
+								<p>Stats</p>
                             </a>
                         </li>
                         <?php include('./includes/notifications.php'); ?>
