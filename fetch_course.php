@@ -3,7 +3,6 @@ session_start();
 if(isset($_SESSION['reg_no']))
 	$reg_no=$_SESSION['reg_no'];
 
-include("./includes/connect.php");
 function getFacultyName($faculty_id){
 		include("./includes/connect.php");
 		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
@@ -12,6 +11,7 @@ function getFacultyName($faculty_id){
 		$faculty_name = $faculty['name'];
 		return $faculty_name;
 	}
+
 
 //it returns an xml file which contains all markers stored in the database
 $doc=new DOMDocument("1.0");//creating XML DOM

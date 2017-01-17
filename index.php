@@ -2,16 +2,16 @@
 
 <!-- session.php checks if a session already exists. -->
 <?php
-include("./includes/session.php");
-$invalid = 0;
+	include("./includes/session.php");
+	$invalid = 0;
 
 	// If the login details do not match with any entry in the database.
-if(isset($_GET['invalid']))
-{
-	$invalid = $_GET['invalid'];
-	if($invalid == '1')
-		echo "<script>alert('Invalid Details');</script>";
-}
+	if(isset($_GET['invalid']))
+	{
+		$invalid = $_GET['invalid'];
+		if($invalid == '1')
+			echo "<script>alert('Invalid Details');</script>";
+	}
 ?>
 <!-- HTML code -->
 <!doctype html>

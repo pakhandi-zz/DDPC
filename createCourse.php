@@ -1,6 +1,10 @@
 <?php
 
     include("./includes/preProcess.php");
+
+
+    $prevPageLink = "add.php";
+
     
 ?>
 
@@ -69,21 +73,9 @@
                     <?php include('./includes/logo.php'); ?>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="ti-panel"></i>
-                                <p>Stats</p>
-                            </a>
-                        </li>
-                        <?php include('./includes/notifications.php'); ?>
-                        <li>
-                            <a href="./logout.php">
-                                <i class="ti-settings"></i>
-                                <p>LogOut</p>
-                            </a>
-                        </li>
-                    </ul>
+
+                    <?php include("./includes/topright.php") ?>
+
 
                 </div>
             </div>
@@ -156,12 +148,13 @@
                                             <div class="form-group">
                                                 <label for="academic year">Academic Year</label>
                                                 <input type="text" class="form-control border-input" placeholder="Academic Year" name="academic_year">
+
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Course Name</label>
-                                                <input type="text" class="form-control border-input" placeholder="Course Coordinator" name="course_name">
+                                                <input type="text" class="form-control border-input" placeholder="Course Name" name="course_name">
                                             </div>
                                         </div>
                                     </div>

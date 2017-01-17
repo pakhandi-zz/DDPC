@@ -16,7 +16,6 @@
 	if($date_of_reg === null) {
 		$date_of_reg = date('Y-m-d');
 	}
-
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -54,8 +53,8 @@
 			{
 				var url='./fetch_course.php?course_id=' + course_id;
 				load_my_URL(url,function(data){
-					var xml=parse_my_XMLdata(data);
-					var mCourses = xml.documentElement.getElementsByTagName("course");
+				var xml=parse_my_XMLdata(data);
+				var mCourses = xml.documentElement.getElementsByTagName("course");
 					if (mCourses[0].hasAttribute("total_credits"))
 					{
 						var course_name = mCourses[0].getAttribute("course_name");
@@ -136,6 +135,7 @@
 				{
 					return (new DOMParser).parseFromString(data, 'text/xml');
 				}
+
 			}
 			function no_func() {}
 			
@@ -143,7 +143,6 @@
 
 	</head>
 	<body>
-
 		<div class="wrapper">
 			<div class="sidebar" data-background-color="black" data-active-color="warning">
 
@@ -151,7 +150,6 @@
 			Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
 			Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
 		-->
-
 		<div class="sidebar-wrapper">
 			<div class="logo">
 				<?php include('./includes/topleft.php') ?>
@@ -179,7 +177,7 @@
 						<li>
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="ti-panel"></i>
-								<p>Stats</p>
+									<p style="display : none;">Stats</p>
 							</a>
 						</li>
 						<?php include('./includes/notifications.php'); ?>
@@ -206,6 +204,7 @@
 								<center><u><h5>ACADEMIC REGISTRATION</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
 									<form class="form-inline" id="dp01" name="dp01" action="submitDP01.php" method="post" onsubmit="return checkform(this.form);">
+
 
 									</b>
 									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>

@@ -38,15 +38,16 @@
 
   	</head>
   	<body>
-  		<a href="application.php" class="btn btn-default">Home</a><br><br>
-  		<a href="dashboard.php" class="btn btn-default" onClick="window.print()">Print</a>
+
+  		<a href="application.php" class="btn btn-default no-print">Home</a><br><br>
+  		<a href="dashboard.php" class="btn btn-default no-print" onClick="window.print()">Print</a>
 
   		<div class="col-md-offset-10"> Form: DP-06</div>
 								<div class="col-md-offset-10"> (Clause 5.0)</div>
 								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
 								<center><u><h3>Leave Application</h3></u></center>
 								<div class="col-md-offset-1" style="font-size:25px">
-									<br><br><u>Head of the Department</u></b><br><br>
+									<u>Head of the Department</u></b><br><br>
 									Kindly allow me to avail Leave/Leave on Duty from <b><?php echo $_GET['from'];?></b> to <b><?php echo $_GET['from'];?></b>for <b><?php echo $_GET['days'];?></b> day(s)<!--  and station leave from date ____ time ____ to ____ -->.<br><br>Date :<b> <?php echo date('d-m-Y'); ?></b> Time: <b><?php echo date('H:i:s'); ?></b>.<br> My address during leave will be as below<br>
 									Address : <b><?php echo $_GET['address'];?></b><br>
 
@@ -69,6 +70,5 @@
 
 
 								</div>
-								<br><br><br><br>
   	</body>
   	</html>
