@@ -1,5 +1,4 @@
 <?php
-	include('./includes/connect.php');
 	function checkUser($email){
 		$user = mysql_fetch_assoc(mysql_query("SELECT * FROM client where Email='$email'"));
 		if(strlen($user['Address']) == 0)
@@ -10,7 +9,6 @@
 		return true;
 	}
 
-	
 	// Post variables.
 
 ?>

@@ -91,12 +91,12 @@
                         //     echo "<li>";
 
                 ?>
-                            <!--    <a href="uploadDocument.php">
+
+                               <!--  <a href="uploadDocument.php">
                                     <i class="ti-user"></i>
                                         <p>upload Document</p>
                                 </a>
-                            </li>
-                            -->
+                            </li> -->
                 <?php 
                         if(! strcmp($currentTab, "application"))
                                echo "<li class=\"active\">";
