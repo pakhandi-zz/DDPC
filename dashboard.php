@@ -1,6 +1,7 @@
 <?php
 
     include("./includes/preProcess.php");  
+    $prevPageLink = "#";
 ?>
 
 
