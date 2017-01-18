@@ -70,15 +70,7 @@
                         <?php include('./includes/logo.php'); ?>
                     </div>
                     <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <?php include('./includes/notifications.php'); ?>
-                            <li>
-                                <a href="./logout.php">
-                                    <i class="ti-settings"></i>
-                                    <p>LogOut</p>
-                                </a>
-                            </li>
-                        </ul>
+                        <?php include("./includes/topright.php") ?>
 
                     </div>
                 </div>
