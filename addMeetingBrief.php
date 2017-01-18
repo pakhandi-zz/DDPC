@@ -73,7 +73,6 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <?php include("./includes/topright.php") ?>
-
                 </div>
             </div>
         </nav>

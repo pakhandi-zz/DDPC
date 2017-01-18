@@ -2,7 +2,9 @@
 
     include("./includes/preProcess.php");
 
+
     $prevPageLink = "update.php";
+
     
 ?>
 
@@ -144,7 +146,9 @@
                     <?php include('./includes/logo.php'); ?>
                 </div>
                 <div class="collapse navbar-collapse">
+
                     <?php include("./includes/topright.php") ?>
+
 
                 </div>
             </div>

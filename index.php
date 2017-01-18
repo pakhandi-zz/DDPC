@@ -13,7 +13,6 @@
 			echo "<script>alert('Invalid Details');</script>";
 	}
 ?>
-<!-- 
 <!-- HTML code -->
 <!doctype html>
 <html lang="en">
@@ -27,74 +26,97 @@
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
+	<!-- Bootstrap core CSS     -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+
+	<!-- Animation library for notifications   -->
+	<link href="assets/css/animate.min.css" rel="stylesheet"/>
+
+	<!--  Paper Dashboard core CSS    -->
+	<link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
+
 	<!--     Fonts and icons     -->
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Rancho&effect=3d">
-	
+
 	<link rel="stylesheet" href="css/fontawesome.css" />
+	<link href="bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap-3.3.7/dist/css/bootstrap-theme.css" rel="stylesheet">
 
 	<!-- CSS Files -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/material-kit.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/material-kit.css" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="./css/myCss.css" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: white;
+		}
+		.convertInputtoBox
+        {
+            background-color: white !important;
+            color: black !important;
+        }
+	</style>
 </head>
 
-<body id="inBody">
+<body id="inBody" background="white">
 
 	<nav class="navbar navbar-inverse">
-<div class="container">
-<div class="navbar-header">
-<!-- <a class="navbar-brand" href="#"><b>MOTITAL NEHRU NATIONAL INSTITUTE OF TECHNOLOGY</a></b> -->
-</div>
-<div>
-</div>
-</div>
-</nav>
-<div class="container">
-  <div class="jumbotron">
-  	<div class="row">
-  		<div class="col-md-3">
-  			<img src="./img/index.jpg" alt="Mountain View" style="width:150px;height:150px;">
-  		</div>
-  		<div class="col-md-6">
-  			<h2>DDPC PORTAL</h2>
-  			<p>Motilal Nehru National Institute of Technology</p>
-  		</div>
-  	</div>
+		<div class="container">
+			<div class="navbar-header">
+				<!-- <a class="navbar-brand" href="#"><b>MOTITAL NEHRU NATIONAL INSTITUTE OF TECHNOLOGY</a></b> -->
+			</div>
+			<div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="jumbotron">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-3">
+						<img src="./img/index.jpg" alt="Mountain View" style="width:100px;height:100px; margin-top:20px;">
+					</div>
+					<div class="col-md-6">
+						<h2>DDPC PORTAL</h2>
+						<p>Motilal Nehru National Institute of Technology, Allahabad</p>
+					</div>
+				</div>
+			</div>
 
 
-  </div>
-  <div class="row">
-    <div class="col-sm-8">
-		<div style="color:green;">
+		</div>
+		<div class="row">
+			<div class="col-sm-8">
+				<div style="color:green;">
+				</div>
+				<div class="col-md-offset-6" style="margin-top: 50px;">
+					<form class="form-group" action="login.php" method="post" >
+						<h2 class="form-signin-heading">Please sign in</h2>
+						<label for="inputEmail" class="sr-only">Username</label>
+						<input type="text" name="reg_no" class="form-control border-input convertInputtoBox" placeholder="Username" required>
+						<label for="inputPassword"  class="sr-only">Password</label>
+						<input type="password" name="password" id="passWord" class="form-control border-input convertInputtoBox" placeholder="Password" required>
+						<button class="btn-lg btn-primary btn-block" type="submit" name="login">Sign in</button>
+					</form>
+
+				</div>
 			</div>
-			<div class="col-md-offset-6">
-				<form action="login.php" method="post">
-						  	<div class="form-group">
-								<label class="control-label bold" ><b><h4 style="color:black;">Id</h4></b></label>
-								<input type="text" name="reg_no" class="form-control">
-							</div>
-							<div class="form-group">
-								<label class="control-label"><b><h4 style="color:black;">Password</h4></b></label>
-								<input type="password" name="password" class="form-control">
-							</div>
-				  			<button type="submit" name="login" class="btn btn-default" style="margin-left:100px;">Log In</button>
-						</form>
-			</div>
-    </div>
-  </div>
-</div>
+		</div>
+	</div>
 
 </body>
 
-	<!--   Core JS Files   -->
-	<script src="js/jquery.min.js" type="text/javascript"></script>
-	<script src="js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="js/material.min.js"></script>
-	<script type="text/javascript">
-		$(".success-alert").fadeTo(2000, 500).slideUp(500, function(){
-		    $(".success-alert").alert('close');
-		});
+<!--   Core JS Files   -->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/material.min.js"></script>
+<script type="text/javascript">
+	$(".success-alert").fadeTo(2000, 500).slideUp(500, function(){
+		$(".success-alert").alert('close');
+	});
 
-	</script>
+</script>
 </html>

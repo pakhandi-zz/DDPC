@@ -1,6 +1,7 @@
 <?php
 
     include("./includes/preProcess.php");  
+    $prevPageLink = "#";
 ?>
 
 
@@ -72,7 +73,9 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
+
                         <?php include("./includes/topright.php") ?>
+
                     </ul>
                 </div>
             </div>

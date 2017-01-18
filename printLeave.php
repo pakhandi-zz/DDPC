@@ -38,6 +38,7 @@
 
   	</head>
   	<body>
+
   		<a href="application.php" class="btn btn-default no-print">Home</a><br><br>
   		<a href="dashboard.php" class="btn btn-default no-print" onClick="window.print()">Print</a>
 

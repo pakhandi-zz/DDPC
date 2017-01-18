@@ -25,6 +25,7 @@
             {
                 $query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$id', '$description', '$issue_date', '$target_group', '$target_member')";
                 $id++;
+
                 // echo $query;
                 $result=mysqli_query($connection, $query);
                 if($result)
@@ -37,6 +38,7 @@
         {
             $target_member = $_GET['target_member'];
             $query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$id', '$description', '$issue_date', '$target_group', '$target_member')";
+
             // echo $query;
             $result=mysqli_query($connection, $query); 
             if($result)

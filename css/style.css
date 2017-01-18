@@ -1,5 +1,5 @@
 #inBody{
-	background: url("../img/banner.jpg") no-repeat;
+	/*background: url("../img/banner.jpg") no-repeat;*/
 	background-size: 100%;
 }
 
@@ -30,7 +30,6 @@
 form{
 	background: none; 
 }
-
 .whiteColor{
 	color: #fff;
 }
@@ -81,4 +80,16 @@ nav form{
 #flatImages img{
     height: auto;
     margin: 0 auto 0 auto;
+}
+.jumbotron {
+    padding: 0.5em 0.6em;
+    h1 {
+        font-size: 2em;
+    }
+    p {
+        font-size: 1.2em;
+        .btn {
+            padding: 0.5em;
+        }
+    }
 }

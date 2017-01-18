@@ -21,10 +21,11 @@
 	$total_credits = mysqli_real_escape_string($connection, $_POST['total_credits']);
 	$min_credits = mysqli_real_escape_string($connection, $_POST['min_credits']);
 	$max_credits = mysqli_real_escape_string($connection, $_POST['max_credits']);
-
+	$sem_type = mysqli_real_escape_string($connection, $_POST['sem_type']);
+	$academic_year = mysqli_real_escape_string($connection, $_POST['academic_year']);
 	
 
-	$query = "INSERT INTO `course` (`course_id`, `dept_id`, `course_name`, `course_coordinator`, `course_instructor`) VALUES ('$course_id', '$dept_id', '$course_name', '$course_coordinator', '$course_instructor')";
+	$query = "INSERT INTO `course` (`course_id`, `dept_id`, `course_name`, `course_coordinator`, `course_instructor`, `sem_type`, `academic_year`) VALUES ('$course_id', '$dept_id', '$course_name', '$course_coordinator', '$course_instructor', '$sem_type', '$academic_year' )";
 	$queryRan = mysqli_query($connection, $query);
 
 	// If successful, then redirect. 
@@ -32,7 +33,7 @@
 	{
 		if(!strcmp($course_type, "theory_courses")) 
 		{
-			$query = "INSERT INTO `theorycourses` (`course_id`, `total_credits`) VALUES ('$course_id', '$total_credits')";
+			$query = "INSERT INTO `theorycourses` (`course_id`, `total_credits`, `sem_type`, `academic_year`) VALUES ('$course_id', '$total_credits', '$sem_type', '$academic_year')";
 			$queryRan = mysqli_query($connection, $query);
 			if($queryRan)
 			{
@@ -44,7 +45,7 @@
 			}
 		}
 		else {
-			$query = "INSERT INTO `othercourses` (`course_id`, `min_credits`, `max_credits`) VALUES ('$course_id', '$min_credits', '$max_credits')";
+			$query = "INSERT INTO `othercourses` (`course_id`, `min_credits`, `max_credits`, `sem_type`, `academic_year`) VALUES ('$course_id', '$min_credits', '$max_credits', '$sem_type', '$academic_year')";
 			$queryRan = mysqli_query($connection, $query);
 			if($queryRan)
 			{

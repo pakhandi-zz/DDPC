@@ -60,12 +60,14 @@
 
   	</head>
   	<body>
+
   		<a href="application.php" class="btn btn-default no-print">Home</a><br><br>
   		<a href="dashboard.php" class="btn btn-default no-print" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
 
   		<div class="col-md-offset-10"> Form: DP-05</div>
                 <div class="col-md-offset-10"> (Clause 4.5)</div>
                 <center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
+
                 <center><u><h3>Change of Registration Status</h3></u></center>
                 <div class="col-md-offset-1" style="font-size:20px">
                 <form class="form-inline" id="dp05" action="submitDP05.php" method="post">
