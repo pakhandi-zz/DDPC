@@ -1,6 +1,7 @@
 	<?php
 
 		include("./includes/preProcess.php");
+	    $prevPageLink = "dashboard.php";
 		
 	?>
 
@@ -35,6 +36,11 @@
 		<link href="./css/myCss.css" rel="stylesheet">
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
+		<script>
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="no-back-button";}
+</script> 
 
 	</head>
 	<body>
@@ -64,32 +70,17 @@
 		</div>
 
 		<div class="main-panel">
-			<nav class="navbar navbar-default">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<?php include('./includes/logo.php'); ?>
-					</div>
-					<div class="collapse navbar-collapse">
-						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="ti-panel"></i>
+		<nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <?php include('./includes/logo.php'); ?>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <?php include("./includes/topright.php") ?>
 
-									<p style="display : none;">Stats</p>
-								</a>
-							</li>
-							<?php include('./includes/notifications.php'); ?>
-							<li>
-								<a href="./logout.php">
-									<i class="ti-settings"></i>
-									<p>LogOut</p>
-								</a>
-							</li>
-						</ul>
-
-					</div>
-				</div>
-			</nav>
+                </div>
+            </div>
+        </nav>
 				<div class="content">
 					<div class="container-fluid">
 						<div class="row">

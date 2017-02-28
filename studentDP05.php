@@ -1,8 +1,6 @@
 <?php
 
     include("./includes/preProcess.php");
-    if (!strcmp($_SESSION['role'], "Supervisor"))
-    {
         $supervisor_id = $_SESSION['reg_no'];
         $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
         $s_result = mysqli_query($connection, $s_query);
@@ -11,7 +9,7 @@
         {
             array_push($s_array, $s_row['reg_no']);
         }
-    }
+
 
     $prevPageLink = "approve.php";
     
@@ -117,12 +115,12 @@
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if( $thisStudent['progress'] != $_SESSION['role'] || !strcmp($thisStudent['status'], "approved"))
+                                                if(( $thisStudent['progress'] != $_SESSION['role'] && strcmp($thisStudent['progress'], "Supervisor")) || !strcmp($thisStudent['status'], "approved"))
                                                 {
                                                     continue;
                                                 }
                                                 else {
-                                                    if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                    if (!strcmp(thisStudent['progress'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
                                                     {
                                                         continue;
                                                     }
@@ -145,7 +143,25 @@
                                                     <?php 
                                                         if (!strcmp($thisStudent['status'], "pending")) 
                                                         {
-                                                            if(!strcmp($_SESSION['role'],"HOD"))
+                                                            if(!strcmp($thisStudent['progress'],"Supervisor") && in_array($thisStudent['reg_no'], $s_array)AND empty($thisStudent['supervisor_comment']))
+                                                            {
+                                                                $thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
+                                                                $thisResult = mysqli_query($connection, $thisQuery);
+                                                                $thisResult = mysqli_fetch_array($thisResult);
+                                                                $nextNotifTo = $thisResult['member_id'];
+
+                                                    ?>
+                                                    <td>
+                                                        <form method="post" id="comment" action="commentDP05.php">
+                                                        <textarea form="comment" style="vertical-align:top" class="form-control border-input" name="supervisor_comment" id="supervisor_comment"></textarea>
+                                                        <input type="text" hidden value="<?php echo $thisStudent['reg_no'];?>" name="reg_no">
+                                                        <input type="submit" value="Comment"/>
+                                                        </form>
+                                                    </td>
+                                                    <td></td>
+                                                    <?php
+                                                        }
+                                                        else if(!strcmp($_SESSION['role'],"HOD"))
                                                             {
 
                                                     ?>
@@ -161,21 +177,12 @@
                                                         </form>
                                                     </td>
                                                     <?php    
-                                                            } else if(!strcmp($_SESSION['role'],"Supervisor") AND empty($thisStudent['supervisor_comment']))
-                                                            {
-
-                                                    ?>
-                                                    <td>
-                                                        <form method="post" id="comment" action="commentDP05.php">
-                                                        <textarea form="comment" style="vertical-align:top" class="form-control border-input" name="supervisor_comment" id="supervisor_comment"></textarea>
-                                                        <input type="text" hidden value="<?php echo $thisStudent['reg_no'];?>" name="reg_no">
-                                                        <input type="submit" value="Comment"/>
-                                                        </form>
-                                                    </td>
-                                                    <td></td>
-                                                    <?php
-                                                        } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
+                                                            }  else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
                                                         {
+                                                            $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
+                                                            $thisResult = mysqli_query($connection, $thisQuery);
+                                                            $thisResult = mysqli_fetch_array($thisResult);
+                                                            $nextNotifTo = $thisResult['member_id'];
                                                     ?>
                                                     <td>
                                                         <form method="post">

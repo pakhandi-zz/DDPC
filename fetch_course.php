@@ -17,6 +17,7 @@ function getFacultyName($faculty_id){
 $doc=new DOMDocument("1.0");//creating XML DOM
 $my_node=$doc->createElement("courses");//parent node of XML
 $pnode=$doc->appendChild($my_node);
+include("./includes/connect.php");
 $course_id = $_GET['course_id'];
 $query="SELECT * FROM course NATURAL JOIN theorycourses NATURAL JOIN department WHERE course_id ='$course_id'";
 $result=mysqli_query($connection, $query);

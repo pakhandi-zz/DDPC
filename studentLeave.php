@@ -2,37 +2,45 @@
 
     include("./includes/preProcess.php");
     $nextNotifTo = "";
-    if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
+    $supervisor_id = $_SESSION['reg_no'];
+    $s_query = "SELECT reg_no from `currentsupervisor` WHERE supervisor1_id = '$supervisor_id'";
+    $s_result = mysqli_query($connection, $s_query);
+    $s_array = array();
+    while($s_row = mysqli_fetch_array($s_result))
     {
-        $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
-        $thisResult = mysqli_query($connection, $thisQuery);
-        $thisResult = mysqli_fetch_array($thisResult);
-        $nextNotifTo = $thisResult['member_id'];
+        array_push($s_array, $s_row['reg_no']);
     }
-    if (!strcmp($_SESSION['role'], "Supervisor"))
-    {
-        $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "SELECT reg_no from `currentsupervisor` WHERE supervisor1_id = '$supervisor_id'";
-        $s_result = mysqli_query($connection, $s_query);
-        $s_array = array();
-        while($s_row = mysqli_fetch_array($s_result))
-        {
-            array_push($s_array, $s_row['reg_no']);
-        }
+    // if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
+    // {
+    //     $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
+    //     $thisResult = mysqli_query($connection, $thisQuery);
+    //     $thisResult = mysqli_fetch_array($thisResult);
+    //     $nextNotifTo = $thisResult['member_id'];
+    // }
+    // if (!strcmp($_SESSION['role'], "Supervisor"))
+    // {
+    //     $supervisor_id = $_SESSION['reg_no'];
+    //     $s_query = "SELECT reg_no from `currentsupervisor` WHERE supervisor1_id = '$supervisor_id'";
+    //     $s_result = mysqli_query($connection, $s_query);
+    //     $s_array = array();
+    //     while($s_row = mysqli_fetch_array($s_result))
+    //     {
+    //         array_push($s_array, $s_row['reg_no']);
+    //     }
 
-        $thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
-        $thisResult = mysqli_query($connection, $thisQuery);
-        $thisResult = mysqli_fetch_array($thisResult);
-        $nextNotifTo = $thisResult['member_id'];
-    }
-    if ( !strcmp($_SESSION['role'], "student") )
-    {
-        $thisUniqueId = $_SESSION['reg_no'];
-        $thisQuery = "SELECT supervisor1_id FROM `currentsupervisor` WHERE reg_no='$thisUniqueId'";
-        $thisResult = mysqli_query($connection, $thisQuery);
-        $thisResult = mysqli_fetch_array($thisResult);
-        $nextNotifTo = $thisResult['supervisor1_id'];
-    }
+    //     $thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
+    //     $thisResult = mysqli_query($connection, $thisQuery);
+    //     $thisResult = mysqli_fetch_array($thisResult);
+    //     $nextNotifTo = $thisResult['member_id'];
+    // }
+    // if ( !strcmp($_SESSION['role'], "student") )
+    // {
+    //     $thisUniqueId = $_SESSION['reg_no'];
+    //     $thisQuery = "SELECT supervisor1_id FROM `currentsupervisor` WHERE reg_no='$thisUniqueId'";
+    //     $thisResult = mysqli_query($connection, $thisQuery);
+    //     $thisResult = mysqli_fetch_array($thisResult);
+    //     $nextNotifTo = $thisResult['supervisor1_id'];
+    // }
 
     $prevPageLink = "approve.php";
     
@@ -142,12 +150,17 @@
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
                                                 //echo $thisStudent['progress'];
-                                                if( $thisStudent['progress'] != $_SESSION['role'])
+                                                if( !strcmp($thisStudent['status'], "approved"))
+                                                {
+                                                    continue;
+                                                }
+
+                                                if( $thisStudent['progress'] != $_SESSION['role'] && strcmp($thisStudent['progress'], "Supervisor"))
                                                 {
                                                     continue;
                                                 }
                                                 else {
-                                                    if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                    if (!strcmp($thisStudent['progress'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
                                                     {
                                                         continue;
                                                     }
@@ -200,7 +213,28 @@
                                                     <?php 
                                                         if (!strcmp($thisStudent['status'], "pending") && (strtotime($thisStudent['from_date']) > time())) 
                                                         {
-                                                            if(!strcmp($_SESSION['role'],"HOD"))
+                                                            if(!strcmp($thisStudent['progress'],"Supervisor") && in_array($thisStudent['reg_no'], $s_array))
+                                                            {
+
+                                                                $thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
+                                                                $thisResult = mysqli_query($connection, $thisQuery);
+                                                                $thisResult = mysqli_fetch_array($thisResult);
+                                                                $nextNotifTo = $thisResult['member_id'];
+
+                                                    ?>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="ConvenerDDPC" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="Supervisor" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        </form>
+                                                    </td>
+                                                    <?php
+                                                        } 
+                                                         else if(!strcmp($_SESSION['role'],"HOD"))
                                                             {
 
                                                     ?>
@@ -216,23 +250,13 @@
                                                         </form>
                                                     </td>
                                                     <?php    
-                                                            } else if(!strcmp($_SESSION['role'],"Supervisor"))
-                                                            {
-
-                                                    ?>
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="pending" progress="ConvenerDDPC" nextNotifTo="<?php echo $nextNotifTo ?>"/>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="Supervisor" nextNotifTo="<?php echo $nextNotifTo ?>"/>
-                                                        </form>
-                                                    </td>
-                                                    <?php
-                                                        } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
+                                                            } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
                                                         {
+
+                                                            $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
+                                                            $thisResult = mysqli_query($connection, $thisQuery);
+                                                            $thisResult = mysqli_fetch_array($thisResult);
+                                                            $nextNotifTo = $thisResult['member_id'];
                                                     ?>
                                                     <td>
                                                         <form method="post">
@@ -347,7 +371,7 @@
                 type:'post',
                 data: formData,
                 success: function(data){
-                    // alert(data);
+                    alert("Approved");
                     location.reload();
                 },
                 error: function(){

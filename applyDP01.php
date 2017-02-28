@@ -16,6 +16,14 @@
 	if($date_of_reg === null) {
 		$date_of_reg = date('Y-m-d');
 	}
+	  if ( !strcmp($_SESSION['role'], "student") )
+	    {
+	        $thisUniqueId = $_SESSION['reg_no'];
+	        $thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
+	        $thisResult = mysqli_query($connection, $thisQuery);
+	        $thisResult = mysqli_fetch_array($thisResult);
+	        $nextNotifTo = $thisResult['supervisor1_id'];
+	    }
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -367,7 +375,7 @@
 								</tr>
 								<tr>
 									<td>5.</td>
-									<td><select class="form-control border-input" name="course4" 
+									<td><select class="form-control border-input" name="course5" 
 										onchange="nowsearch(this.value, 5);">
 										<option value="">Select</option>
 										<?php
@@ -396,6 +404,7 @@
 								<td id=52></td>
 								<td><p id=53></p><input type="text" id="student_selected_coordinator5" name="student_selected_coordinator5" style="visibility:hidden;" /></td>
 							</tr>
+							<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
 						</tbody>
 					</table>
 				</div>
@@ -500,7 +509,7 @@
 		var credits5 = document.getElementById(51).value;
 		var total_credits = Number(credits1) + Number(credits2) + Number(credits3) + Number(credits4) + Number(credits5);
 		if (total_credits < 8 || total_credits > 20) {
-			alert(total_credits);
+			// alert(total_credits);
 			document.getElementById("msg").innerHTML = "Sum of credits is out of bound. Please fill correctly.";
 			return false;
 		} else {

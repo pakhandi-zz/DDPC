@@ -2,7 +2,8 @@
 
     include("./includes/preProcess.php");
 
-    $prevPageLink = "add.php";
+    $prevPageLink = "update.php";
+
     
 ?>
 
@@ -76,7 +77,9 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                     <?php include('./includes/logo.php'); ?>
                 </div>
                 <div class="collapse navbar-collapse">
+
                     <?php include("./includes/topright.php") ?>
+
 
                 </div>
             </div>
@@ -89,28 +92,14 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Add New Role</h4>
+                                <h4 class="title">Change Variables</h4>
                             </div>
                             <div class="content">
-                                <form method="POST" action="insertRole.php">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Role Id</label>
-                                                <input type="text" class="form-control border-input" placeholder="role_id"  name="role_id">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Role Name</label>
-                                                <input type="text" class="form-control border-input" placeholder="role_name"  name="role_name">
-                                            </div>
-                                        </div>
-                                    
-
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-info btn-fill btn-wd">Add New Role</button>
+                                <form method="POST" action="updateVariables.php">
+                                <div class="content table-responsive table-full-width">
+                                    <div class="row">
+                                    <div 
                                     </div>
-                                    <div class="clearfix"></div>
                                 </form>
                             </div>
                         </div>

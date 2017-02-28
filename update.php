@@ -54,7 +54,7 @@
 
                 <?php
 
-                    $currentTab = "add";
+                    $currentTab = "update";
 
                     include("./includes/sideNav.php");
 
