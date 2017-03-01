@@ -43,11 +43,35 @@ if(isset($_POST['login']))
 				$results = mysqli_query($connection, $query);
 				if(mysqli_num_rows($results) == 1)
 				{
-					session_start();
-					$_SESSION['reg_no'] = $reg_no;
 					$result = mysqli_fetch_array($results);
-					$_SESSION['role'] = $result['role'];
-					header("location: ./dashboard.php");
+					$_SESSION['in_ddpc'] = 1;
+					if (strcmp($result['role'], "member")){
+						session_start();
+						$_SESSION['reg_no'] = $reg_no;
+						$_SESSION['role'] = $result['role'];
+						header("location: ./dashboard.php");
+					}
+					else 
+					{
+						$query = "SELECT * FROM currentsupervisor WHERE supervisor1_id ='$reg_no'";
+						$results = mysqli_query($connection, $query);
+						if(mysqli_num_rows($results) >= 1)
+						{
+							session_start();
+							$_SESSION['reg_no'] = $reg_no;
+							$_SESSION['role'] = "Supervisor";			
+							header("location: ./dashboard.php");
+						}	
+						else
+						{
+							session_start();
+							$_SESSION['reg_no'] = $reg_no;
+							$result = mysqli_fetch_array($results);
+							$_SESSION['role'] = "faculty";
+							header("location: ./dashboard.php");
+						}
+					}
+					
 				}	
 				else 
 				{

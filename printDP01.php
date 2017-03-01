@@ -7,6 +7,14 @@
     $form = mysqli_fetch_assoc($results);
     $sem_no = $form['sem_no'];
     $sem_type = $form['sem_type'];
+    function getFacultyName($faculty_id){
+    include("./includes/connect.php");
+    $query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+    $result = mysqli_query($connection, $query);
+    $faculty = mysqli_fetch_assoc($result);
+    $faculty_name = $faculty['name'];
+    return $faculty_name;
+  }
     
 ?>
 
@@ -79,7 +87,7 @@
                         <td><?php echo $form['course_id']. " - ". $form['course_name']; ?></td>
                         <td><?php echo $form['credits_enrolled'];?></td>
                         <td>Computer Science and Engineering</td>php
-                        <td><?php echo $form['course_coordinator']; ?></td>
+                        <td><?php echo getFacultyName($form['course_coordinator']); ?></td>
                       </tr>
                     <?php
                       }

@@ -113,7 +113,6 @@
 							document.getElementById(s_id).style.visibility = "visible";
 						} 
 					}
-					var course
 
 				});
 			}

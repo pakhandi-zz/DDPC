@@ -37,7 +37,6 @@ if (!$result)
 		$query = "INSERT INTO `notifications` (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
 		$result = mysqli_query($connection, $query);
 	}
-	echo $query;
 }
 
 ?>

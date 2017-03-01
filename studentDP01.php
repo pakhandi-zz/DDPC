@@ -192,7 +192,7 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" nextNotifTo="<?php echo $nextNotifTo ?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     <td>
@@ -231,7 +231,7 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time" nextNotifTo="<?php echo $nextNotifTo ?>"/>
                                                         </form>
                                                     </td>
                                                     <td>

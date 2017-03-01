@@ -169,12 +169,16 @@
                                                         {
                                                             if(!strcmp($_SESSION['role'],"HOD"))
                                                             {
+                                                                $thisQuery = "SELECT member_id FROM `members` WHERE role='ChairmanSDPC'";
+                                                                $thisResult = mysqli_query($connection, $thisQuery);
+                                                                $thisResult = mysqli_fetch_array($thisResult);
+                                                                $nextNotifTo = $thisResult['member_id'];
 
                                                     ?>
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" />
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" nextNotifTo="<?php echo $nextNotifTo ?>"/>
                                                         </form>
                                                     </td>
                                                     <td>
@@ -186,11 +190,15 @@
                                                     <?php
                                                         } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
                                                         {
+                                                            $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
+                                                            $thisResult = mysqli_query($connection, $thisQuery);
+                                                            $thisResult = mysqli_fetch_array($thisResult);
+                                                            $nextNotifTo = $thisResult['member_id'];
                                                     ?>
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" />
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
                                                         </form>
                                                     </td>
                                                     <td>
@@ -307,7 +315,8 @@
             var formData = {  // Javascript object
                 reg_no: $(this).attr('reg_no'),
                 status: $(this).attr('status'),
-                progress: $(this).attr('progress')
+                progress: $(this).attr('progress'),
+                nextNotifTo: $(this).attr('nextNotifTo')
             };
             
             $.ajax({

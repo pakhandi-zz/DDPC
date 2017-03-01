@@ -162,12 +162,18 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                                                 <label>Role</label>
                                                 <select class="form-control border-input" name="role">
                                                 <option selected disabled>Select</option>
-                                                <option value="student">Student</option>
-                                                <option value="faculty">Faculty</option>
-                                                <option value="HOD">HOD</option>
-                                                <option value="ConvenerDDPC">DDPC Convener</option>
-                                                <option value="ChairmanSDPC">SDPC Chairman</option>
-                                                <option value="Supervisor">Supervisor</option>
+                                                <?php
+
+                                                    $query = "SELECT * FROM rolelookup";
+                                                    $results = mysqli_query($connection, $query);
+
+                                                    while($role = mysqli_fetch_assoc($results))
+                                                    {
+                                                ?>
+                                                <option value="<?php echo $role['role_id'];?>"><?php echo $role['role_name'];?></option>
+                                                <?php
+                                                    }
+                                                ?>
                                                 </select>
                                             </div>
                                         </div>

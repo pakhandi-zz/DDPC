@@ -2,15 +2,13 @@
 
 		include("./includes/preProcess.php");
 	    $prevPageLink = "dashboard.php";
-
 	    $supervisor_id = $_SESSION['reg_no'];
-	    $s_query = "Select * from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
+	    $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
 	    $s_result = mysqli_query($connection, $s_query);
-	    if(mysqli_num_rows($s_result) >= 1){
-	    	$_SESSION['supervisor'] = 1;
-	    }
-	    else{
-	    	$_SESSION['supervisor'] = 0;
+	    $s_array = array();
+	    while($s_row = mysqli_fetch_array($s_result))
+	    {
+	        array_push($s_array, $s_row['reg_no']);
 	    }
 		
 	?>
@@ -95,55 +93,54 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-6">
-							<h4>Apply an application</h4>
-							<?php
-								if (!strcmp($_SESSION['role'], "student")) {
-							?>
-							<ol style="font-size:25px;">
-								<li><a href="applyLeave.php"> Apply Leave </a></li>
+							<div class="card">
+                            <div class="header">
+                                <h4 class="title">Apply SRC for</h4>
+                                <p class="category">List of students under supervision</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                    	<th>S.No</th>
+                                        <th>Registration Number</th>
+                                    	<th>Name</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $query = "SELECT * FROM studentmaster";
+                                            $allStudents = mysqli_query($connection, $query);
+                                            $counter = 0;
 
-								<li><a href="changeRegStatus.php"> Apply for Change of Registration Status </a></li>
+                                            while( $thisStudent = mysqli_fetch_array($allStudents) )
+                                            {
+                                                if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                {
+                                                    continue;
+                                                }
+                                                $counter = $counter + 1;
+                                        ?>
+                                                <tr>
+                                                	<td>
+                                                		<?php echo $counter."."; ?>
+                                                	</td>
+                                                    <td>
+                                                        <a href="./applyDP02.php?student_reg_no=<?php echo $thisStudent['reg_no'] ?>">
+                                                        <?php echo $thisStudent['reg_no'] ?>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['name'] ?>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        ?>
 
-								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
+                                    </tbody>
+                                </table>
 
-							</ol>
-							<?php
-								}
-								if (!strcmp($_SESSION['role'], "Supervisor") || $_SESSION['supervisor']) {
-							?>
-							<ol style="font-size:25px;">
-								<li><a href="studentList.php"> Student Reasearch Committee </a></li>
-
-							</ol>
-							<?php
-								}
-							?>
-							</div>
-							<div class="col-md-6">
-							<h4>Print an application</h4>
-							<?php
-								if (!strcmp($_SESSION['role'], "student")) {
-							?>
-							<ol style="font-size:25px;">
-
-								<li><a href="viewLeave.php"> View and Print Leave Application</a></li>
-
-								<li><a href="printDP05.php"> Print Change of Registration Status Application</a></li>
-
-								<li><a href="printDP01.php"> Print latest Academic Registration Application</a></li>
-							</ol>
-							<?php
-								}
-								if (!strcmp($_SESSION['role'], "Supervisor")) {
-							?>
-							<ol style="font-size:25px;">
-
-								<!--<li><a href="printDP02.php"> Print SRC</a></li>-->
-							</ol>
-							<?php
-								}
-							?>
-							</div>
+                            </div>
+                        </div>
 
 			<footer class="footer">
 			</footer>

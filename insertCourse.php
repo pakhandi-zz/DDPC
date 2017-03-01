@@ -37,7 +37,10 @@
 			$queryRan = mysqli_query($connection, $query);
 			if($queryRan)
 			{
-				header("location: ./adminDashboard.php");
+				echo "<script>
+alert('Theory Course inserted successfully.');
+window.location.href='./add.php';
+</script>";
 			}
 			else
 			{
@@ -49,7 +52,10 @@
 			$queryRan = mysqli_query($connection, $query);
 			if($queryRan)
 			{
-				header("location: ./adminDashboard.php");
+				echo "<script>
+alert('Other Course inserted successfully.');
+window.location.href='./add.php';
+</script>";
 			}
 			else
 			{

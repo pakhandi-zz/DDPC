@@ -32,12 +32,14 @@
 
 	$query = "INSERT INTO `studentmaster` (`reg_no`, `name`, `mail_id`, `contact_no`, `address`, `father_name`, `category`, `program`, `highest_qualification`, `hostel`, `gender`, `nationality`, `admission_category_code`, `stipendiary`, `program_type`, `program_category`, `password`) VALUES ('$thisRegNo', '$name', '$mail_id', '$contact_no', '$address', '$father_name', '$category', '$program', '$highest_qualification', '$hostel', '$gender', '$nationality', '$admission_category_code', '$stipendiary', '$program_type', '$program_category', '$password')";
 
-	echo $query;
 	$queryRan = mysqli_query($connection, $query);
 	// If successful, then redirect. 
 	if($queryRan)
 	{
-		header('Location: ./adminDashboard.php');	
+		echo "<script>
+alert('Student inserted successfully.');
+window.location.href='./add.php';
+</script>";	
 	}
 	else
 	{

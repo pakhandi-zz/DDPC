@@ -1,17 +1,41 @@
 	<?php
 
 		include("./includes/preProcess.php");
-		if (!strcmp($_SESSION['role'], "Supervisor"))
-    	{
-        $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
-        $s_result = mysqli_query($connection, $s_query);
-        $s_array = array();
-        while($s_row = mysqli_fetch_array($s_result))
-        {
-            array_push($s_array, $s_row['reg_no']);
-        }
-
+		$student_reg_no = $_GET['student_reg_no'];
+		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
+		$results = mysqli_query($connection, $query);
+		$student = mysqli_fetch_array($results);
+		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
+		$results = mysqli_query($connection, $query);
+		$arr = mysqli_fetch_array($results);
+		$date_of_reg = $arr['date_of_reg'];
+		if($date_of_reg === null) {
+			$date_of_reg = date('Y-m-d');
+		}
+		$query = "SELECT sem_no FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no DESC";
+		$results = mysqli_query($connection, $query);
+		if(mysqli_num_rows($results) == 0)
+		{
+		 $current_sem_no = 0;
+		}
+		else
+		{
+		    $arr = mysqli_fetch_array($results);
+		    $current_sem_no = $arr['sem_no'];
+		}
+		$sem_no = $current_sem_no + 1;
+		$thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
+		$thisResult = mysqli_query($connection, $thisQuery);
+		$thisResult = mysqli_fetch_array($thisResult);
+		$nextNotifTo = $thisResult['member_id'];
+		function getFacultyName($faculty_id){
+		include("./includes/connect.php");
+		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+		$result = mysqli_query($connection, $query);
+		$faculty = mysqli_fetch_assoc($result);
+		$faculty_name = $faculty['name'];
+		return $faculty_name;
+	}
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -45,87 +69,45 @@
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
 		<script type="text/javascript">
-
-			function nowsearch(reg_no)
+			function nowsearch(faculty_id, num)
 			{
-				
-				var url='./fetch_student.php?reg_no=' + reg_no;
-				var fname1, fname2;
-				load_my_URL(url,function(data){
-				var xml=parse_my_XMLdata(data);
-				var students = xml.documentElement.getElementsByTagName("student");
-				document.getElementById("reg_no").value = "";
-				document.getElementById("date_of_reg").value = "";
-				document.getElementById("dept").value = "";
-				document.getElementById("AOR").value = "";
-				document.getElementById("supervisor").value = "";
-				document.getElementById("reg_no").value = students[0].getAttribute('reg_no');
-				document.getElementById("date_of_reg").value = students[0].getAttribute('date_of_reg');
-				document.getElementById("dept").value = "Computer Science and Engineering";
-				document.getElementById("AOR").value = students[0].getAttribute('AOR');
-				var fid1 = students[0].getAttribute('supervisor1_id')
-				
-				fname1 = students[0].getAttribute('supervisor1_id');
-				fname2 = students[0].getAttribute('supervisor2_id');
-				search_supervisor(fname1);
-				search_supervisor(fname2);
-				});
-				
-			}
-			function search_supervisor(faculty_id)
-			{
-				
 				var url='./fetch_faculty.php?faculty_id=' + faculty_id;
-				var fname;
 				load_my_URL(url,function(data){
 				var xml=parse_my_XMLdata(data);
-				var faculty = xml.documentElement.getElementsByTagName("faculty");
-				document.getElementById("supervisor").value += "  " + faculty[0].getAttribute('name');
-				});
-			}
-			function search_faculty(faculty_id, num)
-			{
-				
-				var url='./fetch_faculty.php?faculty_id=' + faculty_id;
-				var fname;
-				load_my_URL(url,function(data){
-				var xml=parse_my_XMLdata(data);
-				var faculty = xml.documentElement.getElementsByTagName("faculty");
-
-				var id1 = num + "1";
-				var id2 = num + "2";
-
-				document.getElementById(id1).innerHTML = faculty[0].getAttribute('designation');
-				document.getElementById(id2).innerHTML = faculty[0].getAttribute('dept_name');
-
+				var Faculty = xml.documentElement.getElementsByTagName("faculty");
+				var name = Faculty[0].getAttribute("name");
+				var dept_name = Faculty[0].getAttribute("dept_name");
+				var id = "1" + num;
+				document.getElementById(id).innerHTML = dept_name;
 				});
 			}
 			function load_my_URL(url, do_func)
 			{
-			    var my_req = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
-			    my_req.onreadystatechange = function()
+				var my_req = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
+				my_req.onreadystatechange = function()
 				{
-			        if (my_req.readyState == 4)
+					if (my_req.readyState == 4)
 					{
 						my_req.onreadystatechange = no_func;
 						do_func(my_req.responseText, my_req.status);
-			        }
-			    };
-			    my_req.open('GET', url, true);
-			    my_req.send(null);
+					}
+				};
+				my_req.open('GET', url, true);
+				my_req.send(null);
 			}
 			function parse_my_XMLdata(data)
 			{
-			    if (window.ActiveXObject)
+				if (window.ActiveXObject)
 				{
-			        var doc = new ActiveXObject('Microsoft.XMLDOM');
-			        doc.loadXML(data);
-			        return doc;
-			    }
+					var doc = new ActiveXObject('Microsoft.XMLDOM');
+					doc.loadXML(data);
+					return doc;
+				}
 				else if (window.DOMParser)
 				{
-			        return (new DOMParser).parseFromString(data, 'text/xml');
-			    }
+					return (new DOMParser).parseFromString(data, 'text/xml');
+				}
+
 			}
 			function no_func() {}
 			
@@ -133,310 +115,258 @@
 
 	</head>
 	<body>
-
-	<div class="wrapper">
-		<div class="sidebar" data-background-color="black" data-active-color="warning">
+		<div class="wrapper">
+			<div class="sidebar" data-background-color="black" data-active-color="warning">
 
 		<!--
 			Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
 			Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
 		-->
-
-			<div class="sidebar-wrapper">
-				<div class="logo">
-					<?php include('./includes/topleft.php') ?>
-				</div>
-
-				<?php
-
-					$currentTab = "application";
-
-					include("./includes/sideNav.php");
-
-				?>
-
-			</div>
-		</div>
-
-		<div class="main-panel">
-			<nav class="navbar navbar-default">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<?php include('./includes/logo.php'); ?>
-					</div>
-					<div class="collapse navbar-collapse">
-						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="ti-panel"></i>
-									<p style="display : none;">Stats</p>
-
-								</a>
-							</li>
-							<?php include('./includes/notifications.php'); ?>
-							<li>
-								<a href="./logout.php">
-									<i class="ti-settings"></i>
-									<p>LogOut</p>
-								</a>
-							</li>
-						</ul>
-
-					</div>
-				</div>
-			</nav>
-				<div class="content">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="card">
-								<b>
-								<div class="col-md-offset-10"> Form: DP-02</div>
-								<div class="col-md-offset-10"> (Clause 4.3, 12.2)</div>
-								<center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
-								<center><u><h3>Student Research Committee(SRC)</h3></u></center><br><br><br>
-								<div class="col-md-offset-1" style="font-size:20px">
-								<form class="form-inline" id="dp02" name="dp02" action="submitDP02.php" method="post">
-									</b>
-									Name of the Student : <select class="form-control border-input" name="student_reg_no" 
-										onchange="nowsearch(this.value);">
-                                            <option selected disabled>Select</option>
-                                       		<?php
-                                                $query = "SELECT reg_no, name FROM studentmaster";
-                                                $students = mysqli_query($connection, $query);
-                                                
-                                                while( $thisStudent = mysqli_fetch_array($students)  )
-                                                {
-                                                	if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
-                                                    {
-                                                        continue;
-                                                    }
-                                            ?>
-                                                <option value="<?php echo $thisStudent['reg_no'] ?>"><?php echo $thisStudent['reg_no']." - ".$thisStudent['name'] ?></option>
-                                            <?php
-                                                }
-                                            ?>
-                                       		</select>	 ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No.: <b><input disabled type="text" class="form-control" id="reg_no" style="color:black;"></b>
-                                    <div class ="row">
-                                    	<div class="col-md-6">
-											Department : <b><input disabled type="text" class="form-control" id="dept" name="student_dept" style="color:black;"></b>
-										</div>
-										<div class="col-md-6">
-											Date of First Registration:<b> <input disabled type="text" class="form-control" id="date_of_reg" name="date_of_reg" style="color:black;"></b>
-										</div>
-									</div>
-									<div class="row col-md-12">
-									Area of Reasearch :<b><input disabled type="text" class="form-control" id="AOR" name="AOR" style="color:black;"></b><br>
-									</div>
-									<div class="row col-md-12">
-									Supervisor(s) :<b><input disabled type="text" class="form-control" id="supervisor" name="supervisor" style="color:black;"><br></b>
-									</div>
-											
-								</div>
-								<br>
-								<br><br><br>
-								<div class="row col-md-offset-1">
-								<table class="table table-bordered table-condensed">
-								<thead>
-									<th>SI. No.</th>
-									<th>Role</th>
-									<th>Name of Members</th>
-									<th>Designation</th>
-									<th>Department</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1.</td>
-										<td>Internal SRC Member</td>
-										<td>
-											<select class="form-control border-input" name="faculty1" 
-										onchange="search_faculty(this.value, 1);">
-                                            <option selected disabled>Select</option>
-                                       		<?php
-                                                $query = "SELECT * FROM faculty";
-                                                $members = mysqli_query($connection, $query);
-                                                
-                                                while( $thisFaculty = mysqli_fetch_array($members)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
-                                            <?php
-                                                }
-                                                
-                                            ?>
-                                       		</select>	
-                                       	</td>
-										<td id=11></td>
-										<td id=12></td>
-									</tr>
-									<tr>
-										<td>2.</td>
-										<td>External SRC Member</td>
-										<td>
-											<select class="form-control border-input" name="faculty2" 
-										onchange="search_faculty(this.value, 2);">
-                                            <option selected disabled>Select</option>
-                                       		<?php
-                                                $query = "SELECT * FROM faculty";
-                                                $members = mysqli_query($connection, $query);
-                                                
-                                                while( $thisFaculty = mysqli_fetch_array($members)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
-                                            <?php
-                                                }
-                                                
-                                            ?>
-                                       		</select>	
-                                       	</td>
-										<td id=21></td>
-										<td id=22></td>
-									</tr>
-									<tr>
-										<td>3.</td>
-										<td>Supervisor 1</td>
-										<td>
-											<select class="form-control border-input" name="faculty3" 
-										onchange="search_faculty(this.value, 3);">
-                                            <option selected disabled>Select</option>
-                                       		<?php
-                                                $query = "SELECT * FROM faculty";
-                                                $members = mysqli_query($connection, $query);
-                                                
-                                                while( $thisFaculty = mysqli_fetch_array($members)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
-                                            <?php
-                                                }
-                                                
-                                            ?>
-                                       		</select>	
-                                       	</td>
-										<td id=31></td>
-										<td id=32></td>
-									</tr>
-									<tr>
-										<td>4.</td>
-										<td>Supervisor 2</td>
-										<td>
-											<select class="form-control border-input" name="faculty4" 
-										onchange="search_faculty(this.value, 4);">
-                                            <option selected disabled>Select</option>
-                                       		<?php
-                                                $query = "SELECT * FROM faculty";
-                                                $members = mysqli_query($connection, $query);
-                                                
-                                                while( $thisFaculty = mysqli_fetch_array($members)  )
-                                                {
-                                            ?>
-                                                <option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'] ?></option>
-                                            <?php
-                                                }
-                                                
-                                            ?>
-                                       		</select>	
-                                       	</td>
-										<td id=41></td>
-										<td id=42></td>
-									</tr>
-								</tbody>
-								</table>
-								</div>
-								<br><br><br>
-								<div style="font-size:25px">
-									<div class="col-md-offset-1">Proposed By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br><br>
-									<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br><br>
-									<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br><br>
-									
-
-
-								</div>
-
-								<div class="text-center">
-									<button type="submit" class="btn btn-info btn-fill btn-wd">Propose</button>
-								</div><br>
-								</form>
-								</div>
-							</div>
-						</div>
-					<div>
-				</div>
-				</div>
-				
+		<div class="sidebar-wrapper">
+			<div class="logo">
+				<?php include('./includes/topleft.php') ?>
 			</div>
 
-			</div>
+			<?php
 
+			$currentTab = "application";
 
-			<footer class="footer">
-			</footer>
+			include("./includes/sideNav.php");
+
+			?>
+
 		</div>
 	</div>
-	<p></p>
 
-	</body>
+	<div class="main-panel">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<?php include('./includes/logo.php'); ?>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="ti-panel"></i>
+									<p style="display : none;">Stats</p>
+							</a>
+						</li>
+						<?php include('./includes/notifications.php'); ?>
+						<li>
+							<a href="./logout.php">
+								<i class="ti-settings"></i>
+								<p>LogOut</p>
+							</a>
+						</li>
+					</ul>
 
-		<!--   Core JS Files   -->
-		<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-		<script src="assets/js/jquery-1.10.4.js" type="text/javascript"></script>
-		<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-
-		<!--  Checkbox, Radio & Switch Plugins -->
-		<script src="assets/js/bootstrap-checkbox-radio.js"></script>
-
-		<!--  Charts Plugin -->
-		<script src="assets/js/chartist.min.js"></script>
-
-		<!--  Notifications Plugin    -->
-		<script src="assets/js/bootstrap-notify.js"></script>
-
-		<!--  Google Maps Plugin    -->
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
-
-		<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
-		<script src="assets/js/paper-dashboard.js"></script>
-
-
-		<!-- Javascript for Datepicker -->
-		<!-- <script src="assets/js/datepicker.js"></script> -->
-
-		<script type="text/javascript">
-
-			  $("#from_datepicker").datepicker({
-				  minDate: 0,
-				  dateFormat: 'yy-mm-dd',
-				  onSelect: function(date) {
-					$("#to_datepicker").datepicker('option', 'minDate', date);
-				  }
-				});
-
-			  $("#to_datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
-			  $('#to_datepicker').change(function () {
-                var diff = $('#from_datepicker').datepicker("getDate") - $('#to_datepicker').datepicker("getDate");
-                $('#diff').val((diff / (1000 * 60 * 60 * 24) * -1) + 1);
-            });
-			function removeNot() {
-
-				$('.notificationAlert').css({
-					'display': 'none'
-				});
-
-				xmldata = new XMLHttpRequest();
-
-				var el = document.getElementById('notid').innerHTML;
-
-				var urltosend = "set_cookie.php?notid="+el;
-
-				xmldata.open("GET", urltosend,false);
-				xmldata.send(null);
-				if(xmldata.responseText != ""){
-					toPrint = xmldata.responseText;
-				}
-			}
-			
-		</script>
+				</div>
+			</div>
+		</nav>
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<b>
+								<div class="col-md-offset-10"> Form: DP-02</div>
+								<div class="col-md-offset-10"> (Clause 4.3, 12.2)</div>
+								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
+								<center><u><h5>Student Research Committee(SRC)</h5></u></center><br>
+								<div class="col-md-offset-1" style="font-size:15px">
+									<form class="form-inline" id="dp02" name="dp02" action="submitDP02.php" method="post">
 
 
-	</html>
+									</b>
+									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
+									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
+									Area of Research : <b><?php echo $student['AOR'] ?></b><br>
+									Supervisor(s) : <b><?php echo getFacultyName($student['supervisor1_id']); 
+									if(!empty($student['supervisor2_id'])){
+										echo getFacultyName($student['supervisor2_id']); 
+									}
+									?></b>
+								</div>
+								
+								<div class="row col-md-offset-1">
+									<div class="col-md-11" style="font-size:10px;">
+										<table class="table table-bordered table-condensed" style="font-size:15px">
+											<thead>
+												<th>SI. No.</th>
+												<th>Designation</th>
+												<th>Name of Members</th>
+												<th>Department</th>
+											</thead>
+											<tbody>
+												<tr>
+													<td>1.</td>
+													<td>Internal SRC Member</td>
+													<td><select class="form-control border-input" name="src_int_id" 
+														onchange="nowsearch(this.value, 1);" required>
+														<option value="">Select</option>
+														<?php
+														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$faculty = mysqli_query($connection, $query);
+
+														while( $thisFaculty = mysqli_fetch_array($faculty)  )
+														{
+														?>
+															<option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['name'] ?></option>
+															<?php
+														}
+														?>
+													</select>	
+												</td>
+												<td><p id=11></p></td>
+											</tr>
+											<tr>
+													<td>2.</td>
+													<td>External SRC Member</td>
+													<td><select class="form-control border-input" name="src_ext_id" 
+														onchange="nowsearch(this.value, 2);" required>
+														<option value="">Select</option>
+														<?php
+														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$faculty = mysqli_query($connection, $query);
+
+														while( $thisFaculty = mysqli_fetch_array($faculty)  )
+														{
+														?>
+															<option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['name'] ?></option>
+															<?php
+														}
+														?>
+													</select>	
+												</td>
+												<td><p id=12></p></td>
+											</tr>
+										<tr>
+													<td>3.</td>
+													<td>Supervisor 1</td>
+													<td><select class="form-control border-input" name="supervisor1_id" 
+														onchange="nowsearch(this.value, 3);" required>
+														<option value="">Select</option>
+														<?php
+														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$faculty = mysqli_query($connection, $query);
+
+														while( $thisFaculty = mysqli_fetch_array($faculty)  )
+														{
+														?>
+															<option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['name'] ?></option>
+															<?php
+														}
+														?>
+													</select>	
+												</td>
+												<td><p id=13></p></td>
+											</tr>
+									<tr>
+													<td>4.</td>
+													<td>Supervisor 2</td>
+													<td><select class="form-control border-input" name="supervisor2_id" 
+														onchange="nowsearch(this.value, 4);">
+														<option value="">Select</option>
+														<?php
+														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$faculty = mysqli_query($connection, $query);
+
+														while( $thisFaculty = mysqli_fetch_array($faculty)  )
+														{
+														?>
+															<option value="<?php echo $thisFaculty['faculty_id'] ?>"><?php echo $thisFaculty['name'] ?></option>
+															<?php
+														}
+														?>
+													</select>	
+												</td>
+												<td><p id=14></p></td>
+											</tr>
+							<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
+							<input type="text" name="student_reg_no" value="<?php echo $student_reg_no ?>" style="display: none;">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div style="font-size:15px">
+				<div class="col-md-offset-1">Proposed By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br>
+				<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
+				<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br>
+
+
+
+			</div>
+
+			<div class="text-center">
+				<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+			</div><br>
+			<h5 class="text-center" id="msg" style="color:red;"></h5>
+		</form>
+	</div>
+</div>
+<div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+<footer class="footer">
+</footer>
+</div>
+</div>
+<p></p>
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/jquery-1.10.4.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!--  Checkbox, Radio & Switch Plugins -->
+<script src="assets/js/bootstrap-checkbox-radio.js"></script>
+
+<!--  Charts Plugin -->
+<script src="assets/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="assets/js/bootstrap-notify.js"></script>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+<!-- Paper Dashboard Core javascript and methods for Demo purpose -->
+<script src="assets/js/paper-dashboard.js"></script>
+
+
+<!-- Javascript for Datepicker -->
+<!-- <script src="assets/js/datepicker.js"></script> -->
+
+<script type="text/javascript">
+	function removeNot() {
+
+		$('.notificationAlert').css({
+			'display': 'none'
+		});
+
+		xmldata = new XMLHttpRequest();
+
+		var el = document.getElementById('notid').innerHTML;
+
+		var urltosend = "set_cookie.php?notid="+el;
+
+		xmldata.open("GET", urltosend,false);
+		xmldata.send(null);
+		if(xmldata.responseText != ""){
+			toPrint = xmldata.responseText;
+		}
+	}
+
+</script>
+
+
+</html> 
