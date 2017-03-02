@@ -10,6 +10,7 @@
 	    {
 	        array_push($s_array, $s_row['reg_no']);
 	    }
+	    $form_no = $_GET['form'];
 		
 	?>
 
@@ -124,7 +125,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                                                 		<?php echo $counter."."; ?>
                                                 	</td>
                                                     <td>
-                                                        <a href="./applyDP02.php?student_reg_no=<?php echo $thisStudent['reg_no'] ?>">
+                                                        <a href="./applyDP<?php echo $form_no ?>.php?student_reg_no=<?php echo $thisStudent['reg_no'] ?>">
                                                         <?php echo $thisStudent['reg_no'] ?>
                                                         </a>
                                                     </td>

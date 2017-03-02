@@ -112,7 +112,9 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								if (!strcmp($_SESSION['role'], "Supervisor") || $_SESSION['supervisor']) {
 							?>
 							<ol style="font-size:25px;">
-								<li><a href="studentList.php"> Student Reasearch Committee </a></li>
+								<li><a href="studentList.php?form=02"> Student Reasearch Committee </a></li>
+								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination </a></li>
+								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board </a></li>
 
 							</ol>
 							<?php
@@ -131,6 +133,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="printDP05.php"> Print Change of Registration Status Application</a></li>
 
 								<li><a href="printDP01.php"> Print latest Academic Registration Application</a></li>
+								<li><a href="printDP20.php"> Print Undertaking</a></li>
 							</ol>
 							<?php
 								}

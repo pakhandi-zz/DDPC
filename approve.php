@@ -110,6 +110,8 @@
 								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
 								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
+								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
+								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
 							<?php
 								} else if(!strcmp($_SESSION['role'], "HOD"))
 								{
@@ -118,6 +120,8 @@
 								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
 								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
+								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
+								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
 							<?php
 								} else if(!strcmp($_SESSION['role'], "ChairmanSDPC"))
 								{
@@ -125,6 +129,8 @@
 								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
 								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
+								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
+								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
 							<?php
 								}
 							?>

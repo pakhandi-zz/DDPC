@@ -20,6 +20,7 @@ $result=mysqli_query($connection, $query);
 		$newnode->setAttribute("name",$row['name']);
 		$newnode->setAttribute("designation",$row['designation']);
 		$newnode->setAttribute("dept_name",$row['dept_name']);
+		$newnode->setAttribute("dept_id",$row['dept_id']);
 		}
 		echo $doc->saveXML();//saving XML Document
 ?>
