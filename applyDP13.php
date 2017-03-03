@@ -82,8 +82,10 @@
 				var designation = Faculty[0].getAttribute("designation");
 				var dept_id = Faculty[0].getAttribute("dept_id");
 				var student_dept_id = <?php echo $student['dept_id'] ?>;
+				var id0 = "0" + num;
 				var id1 = "1" + num;
 				var id2 = "2" + num;
+				document.getElementById(id0).innerHTML = designation;
 				document.getElementById(id1).innerHTML = dept_name;
 				if(dept_id == student_dept_id) {
 					document.getElementById(id2).value = "Internal";
@@ -181,18 +183,22 @@
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-16</div>
-								<div class="col-md-offset-10"> (Clause 12.5(2))</div>
+								<div class="col-md-offset-10"> Form: DP-08</div>
+								<div class="col-md-offset-10"> (Clause 9, 12.3)</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
 								<center><u><h5>List of Suggested Examiners for Ph.D Comprehensive Examination</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp02" name="dp02" action="submitDP16.php" method="post">
+									<form class="form-inline" id="dp02" name="dp02" action="submitDP08.php" method="post">
 
 
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
-									Department : <b> Computer Science and Engineering </b><br>
-									Thesis : <b></b><br>
+									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
+									Name of Supervisor(s) : <b><?php echo getFacultyName($student['supervisor1_id']); 
+									if(!empty($student['supervisor2_id'])){
+										echo getFacultyName($student['supervisor2_id']); 
+									}
+									?></b>
 								</div>
 								
 								<div class="row col-md-offset-1">
@@ -201,6 +207,7 @@
 											<thead>
 												<th>SI. No.</th>
 												<th>Name of Examiners</th>
+												<th>Designation</th>
 												<th>Department</th>
 											</thead>
 											<tbody>
@@ -230,6 +237,7 @@
 														?>
 																</select>	
 															</td>
+														<td><p id=0<?php echo $j ?> ></p></td>
 														<td><p id=1<?php echo $j ?> ></p></td>
 														<input id=2<?php echo $j ?> type="hidden" name="role<?php echo $j ?>" value="" />
 													</tr>

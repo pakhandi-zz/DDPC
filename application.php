@@ -105,6 +105,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="changeRegStatus.php"> Apply for Change of Registration Status </a></li>
 
 								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
+								<li><a href="applyDP04.php"> Apply for addition or deletion of courses </a></li>
 
 							</ol>
 							<?php
@@ -115,6 +116,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="studentList.php?form=02"> Student Reasearch Committee </a></li>
 								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination </a></li>
 								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board </a></li>
+								<li><a href="studentList.php?form=15"> List of Suggested Examiners for Ph.D Thesis Evaluation Board </a></li>
+								<li><a href="studentList.php?form=13"> Supervisor Selection </a></li>
 
 							</ol>
 							<?php

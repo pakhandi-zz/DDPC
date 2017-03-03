@@ -1,18 +1,24 @@
 <?php
 
     include("./includes/preProcess.php");
-
-    function faculty($faculty_id, $connection)
-    {
-        $query = "SELECT * FROM faculty NATURAL JOIN department WHERE faculty_id = '$faculty_id'";
+        $supervisor_id = $_SESSION['reg_no'];
+        $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
+        $s_result = mysqli_query($connection, $s_query);
+        $s_array = array();
+        while($s_row = mysqli_fetch_array($s_result))
+        {
+            array_push($s_array, $s_row['reg_no']);
+        }
+    $prevPageLink = "approve.php";
+    function getFacultyName($faculty_id){
+        include("./includes/connect.php");
+        $query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
         $result = mysqli_query($connection, $query);
-
         $faculty = mysqli_fetch_assoc($result);
-        return $faculty;
+        $faculty_name = $faculty['name'];
+        return $faculty_name;
     }
 
-    $prevPageLink = "approve.php";
-    
 ?>
 
 <!doctype html>
@@ -96,42 +102,48 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">List of Examiners</h4>
-                                <p class="category">List of Suggested Examiners for Ph.D Comprehensive Examination</p>
+                                <h4 class="title">Approve addition and deletion of courses</h4>
+                                <p class="category">List of application of all the students</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
                                         <th>Registration Number</th>
-                                        <th>Student Name</th>
-                                        <th>Panel Member Name</th>
-                                        <th>Panel Member Role</th>
-                                        <th>Panel Member Designation</th>
-                                        <th>Panel Member Department</th>
+                                        <th>Course Id - Course Name</th>
+                                        <th>Credits Enrolled</th>
+                                        <th>Course Coordinator</th>
+                                        <th>Department</th>
+                                        <th>Add/Drop</th>
+                                        <th></th>
                                         <th></th>
                                     </thead>
                                     <tbody>
-
                                         <?php
-                                            $query = "SELECT name, reg_no, status, progress FROM examinarpanel NATURAL JOIN studentmaster WHERE status = 'pending' AND type = 'Comprehensive Examination' GROUP BY reg_no";
+                                            $query = "SELECT reg_no, status, progress FROM courseregistration WHERE status = 'pending' GROUP BY reg_no";
                                             $allStudents = mysqli_query($connection, $query);
 
                                             while( mysqli_num_rows($allStudents) !=0 && $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if( $thisStudent['progress'] != $_SESSION['role'] )
+                                                if( $thisStudent['progress'] != $_SESSION['role'] && strcmp($thisStudent['progress'], "Supervisor") )
                                                     {
                                                         continue;
                                                     }
                                                 $app_reg_no = $thisStudent['reg_no'];
-                                                $query = "SELECT * FROM examinarpanel NATURAL JOIN faculty NATURAL JOIN department WHERE reg_no = '$app_reg_no'";
+                                                $query = "SELECT * FROM courseregistration NATURAL JOIN course WHERE reg_no = '$app_reg_no' AND sem_no = (SELECT max(sem_no) FROM courseregistration WHERE reg_no='$app_reg_no') AND status = 'pending' ORDER BY dropcourse ASC";
+
+
                                                 $allApps = mysqli_query($connection, $query);
                                                 $rnum = mysqli_num_rows($allApps);
                                                 $rnum = $rnum + 1;
+                                                $sem_no = 0;
+
+                                                if (!strcmp($thisStudent['progress'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                            {
+                                                                continue;
+                                                            }
                                         ?>
                                             <tr>
                                                 <td rowspan="<?php echo $rnum ?>"><?php echo $thisStudent['reg_no']; ?>
-                                                </td>
-                                                <td rowspan="<?php echo $rnum ?>"><?php echo $thisStudent['name']; ?>
                                                 </td>
                                             </tr>
                                         <?php
@@ -139,26 +151,43 @@
                                                 while ( $thisApp = mysqli_fetch_array($allApps)) 
                                                 {
                                                     $sem_no = $thisApp['sem_no'];
+                                                    $sem_type = $thisApp['sem_type'];
 
-                                                    if( $thisApp['progress'] != $_SESSION['role'])
+                                                    if( $thisApp['progress'] != $_SESSION['role'] && strcmp($thisStudent['progress'], "Supervisor"))
                                                     {
                                                         continue;
                                                     }
                                                     else {
+                                                        if (!strcmp($thisApp['progress'], "Supervisor") && !in_array($thisApp['reg_no'], $s_array))
+                                                        {
+                                                            continue;
+                                                        }
                                         ?>
                                                     <tr>
                                                         <td>
-                                                           <?php echo $thisApp['name']; ?>
+                                                           <?php echo $thisApp['course_id']." - ".$thisApp['course_name']; ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $thisApp['role']; ?>
+                                                            <?php echo $thisApp['credits_enrolled']; ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $thisApp['designation']; ?>
+                                                            <?php echo getFacultyName($thisApp['course_coordinator']); ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $thisApp['dept_name']; ?>
+                                                            Computer Science and Engineering
                                                         </td>
+                                                        <td>
+                                                            <?php
+                                                                if(isset($thisApp['dropcourse']) && $thisApp['dropcourse'] == '1'){
+                                                                    echo "Drop";
+                                                                }
+                                                                else{
+                                                                    echo "Add";
+                                                                }
+                                                            ?>
+                                                        </td>
+
+
                                                     </tr>
                                                         <?php 
                                                     }
@@ -177,12 +206,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" nextNotifTo="<?php echo $nextNotifTo ?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Advise" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" sem_type="<?php echo $sem_type;?>" nextNotifTo="<?php echo $nextNotifTo ?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Not Advised" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="Supervisor" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -195,12 +224,12 @@
                                                     <tr>
                                                     <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     <td rowspan="<?php echo $rnum ?>>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -216,12 +245,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        <input type="submit" name="submit" value="Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Full-Time" nextNotifTo="<?php echo $nextNotifTo ?>"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Don't Forward" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ConvenerDDPC" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -232,12 +261,12 @@
                                                     <tr>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>" reg_status="Part-Time"/>
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="approved" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Part-Time"/>
                                                         </form>
                                                     </td>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>" reg_status="Full-Time"/>
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="ChairmanSDPC" sem_no="<?php echo $sem_no;?>"  sem_type="<?php echo $sem_type;?>" reg_status="Full-Time"/>
                                                         </form>
                                                     </td>
                                                     </tr>
@@ -333,11 +362,13 @@
                 reg_no: $(this).attr('reg_no'),
                 status: $(this).attr('status'),
                 progress: $(this).attr('progress'),
-                nextNotifTo: $(this).attr('nextNotifTo')
+                sem_no: $(this).attr('sem_no'),
+                sem_type: $(this).attr('sem_type'),
+                reg_status: $(this).attr('reg_status')
             };
             
             $.ajax({
-                url:'./approveDP08.php',
+                url:'./approveDP04.php',
                 type:'post',
                 data: formData,
                 success: function(data){

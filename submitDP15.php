@@ -14,19 +14,21 @@ $faculty2= mysqli_real_escape_string($connection, $_POST['faculty2']);
 $faculty3= mysqli_real_escape_string($connection, $_POST['faculty3']);
 $faculty4= mysqli_real_escape_string($connection, $_POST['faculty4']);
 $faculty5= mysqli_real_escape_string($connection, $_POST['faculty5']);
+$faculty6= mysqli_real_escape_string($connection, $_POST['faculty6']);
 $role1= mysqli_real_escape_string($connection, $_POST['role1']);
 $role2= mysqli_real_escape_string($connection, $_POST['role2']);
 $role3= mysqli_real_escape_string($connection, $_POST['role3']);
 $role4= mysqli_real_escape_string($connection, $_POST['role4']);
 $role5= mysqli_real_escape_string($connection, $_POST['role5']);
+$role6= mysqli_real_escape_string($connection, $_POST['role6']);
 $student_reg_no = mysqli_real_escape_string($connection, $_POST['student_reg_no']);
 $status = "pending";
 $progress = "ConvenerDDPC";
-$type = "Ph.D Oral Board";
+$type = "Ph.D Thesis Evaluation Board";
 
 $academic_year = date('Y');
 
-for ($i=1; $i <= 5; $i++) { 
+for ($i=1; $i <= 6; $i++) { 
 	# code...
 	$faculty = ${"faculty" . $i};
 	$role = ${"role" . $i};
@@ -45,7 +47,7 @@ for ($i=1; $i <= 5; $i++) {
 	$allnotifications = mysqli_query($connection, $query);
 	$notificationsCount = mysqli_num_rows($allnotifications);
 	$newNotificationId = $notificationsCount + 1;
-	$description = "New DP16 application";
+	$description = "New DP15 application";
 	$issue_date = date('Y-m-d');
 	$target_group = "";
 	$target_member = $nextNotifTo;

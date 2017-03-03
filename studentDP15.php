@@ -97,7 +97,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">List of Examiners</h4>
-                                <p class="category">List of Suggested Examiners for Ph.D Comprehensive Examination</p>
+                                <p class="category">List of Suggested Examiners for Ph.D Thesis Evaluation Board</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
@@ -105,7 +105,6 @@
                                         <th>Registration Number</th>
                                         <th>Student Name</th>
                                         <th>Panel Member Name</th>
-                                        <th>Panel Member Role</th>
                                         <th>Panel Member Designation</th>
                                         <th>Panel Member Department</th>
                                         <th></th>
@@ -113,7 +112,7 @@
                                     <tbody>
 
                                         <?php
-                                            $query = "SELECT name, reg_no, status, progress FROM examinarpanel NATURAL JOIN studentmaster WHERE status = 'pending' AND type = 'Comprehensive Examination' GROUP BY reg_no";
+                                            $query = "SELECT name, reg_no, status, progress FROM examinarpanel NATURAL JOIN studentmaster WHERE status = 'pending' AND type = 'Ph.D Thesis Evaluation Board' GROUP BY reg_no";
                                             $allStudents = mysqli_query($connection, $query);
 
                                             while( mysqli_num_rows($allStudents) !=0 && $thisStudent = mysqli_fetch_array($allStudents) )
@@ -149,9 +148,6 @@
                                                     <tr>
                                                         <td>
                                                            <?php echo $thisApp['name']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php echo $thisApp['role']; ?>
                                                         </td>
                                                         <td>
                                                             <?php echo $thisApp['designation']; ?>
@@ -337,7 +333,7 @@
             };
             
             $.ajax({
-                url:'./approveDP08.php',
+                url:'./approveDP15.php',
                 type:'post',
                 data: formData,
                 success: function(data){

@@ -10,7 +10,7 @@
     if(empty($_GET['description']))
         echo "add description";
     else if(empty($_GET['issue_date']))
-        echo "add issue date";
+        echo '<script>alert("add issue date");</script>';
     else
     {
         $target_group = (string) NULL;

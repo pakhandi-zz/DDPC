@@ -16,14 +16,14 @@
 	if($date_of_reg === null) {
 		$date_of_reg = date('Y-m-d');
 	}
-	  if ( !strcmp($_SESSION['role'], "student") )
-	    {
-	        $thisUniqueId = $_SESSION['reg_no'];
-	        $thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
-	        $thisResult = mysqli_query($connection, $thisQuery);
-	        $thisResult = mysqli_fetch_array($thisResult);
-	        $nextNotifTo = $thisResult['supervisor1_id'];
-	    }
+	if ( !strcmp($_SESSION['role'], "student") )
+	{
+		$thisUniqueId = $_SESSION['reg_no'];
+		$thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
+		$thisResult = mysqli_query($connection, $thisQuery);
+		$thisResult = mysqli_fetch_array($thisResult);
+		$nextNotifTo = $thisResult['supervisor1_id'];
+	}
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -61,8 +61,8 @@
 			{
 				var url='./fetch_course.php?course_id=' + course_id;
 				load_my_URL(url,function(data){
-				var xml=parse_my_XMLdata(data);
-				var mCourses = xml.documentElement.getElementsByTagName("course");
+					var xml=parse_my_XMLdata(data);
+					var mCourses = xml.documentElement.getElementsByTagName("course");
 					if (mCourses[0].hasAttribute("total_credits"))
 					{
 						var course_name = mCourses[0].getAttribute("course_name");
@@ -184,7 +184,7 @@
 						<li>
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="ti-panel"></i>
-									<p style="display : none;">Stats</p>
+								<p style="display : none;">Stats</p>
 							</a>
 						</li>
 						<?php include('./includes/notifications.php'); ?>
@@ -244,198 +244,81 @@
 												<th>Course Coordinator</th>
 											</thead>
 											<tbody>
-												<tr>
-													<td>1.</td>
-													<td><select class="form-control border-input" name="course1" 
-														onchange="nowsearch(this.value, 1);" required>
-														<option value="">Select</option>
-														<?php
-														$query = "SELECT * FROM course NATURAL JOIN theorycourses";
-														$courses = mysqli_query($connection, $query);
-
-														while( $thisCourse = mysqli_fetch_array($courses)  )
-														{
-															?>
-															<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+												<?php 
+												for ($i = 1; $i <= 5; $i++) { 
+													# code...
+													?>
+													<tr>
+														<td><?php echo $i ?></td>
+														<td><select class="form-control border-input" name="course<?php echo $i ?>" 
+															onchange="nowsearch(this.value, <?php echo $i ?>);">
+															<option value="">Select</option>
 															<?php
-														}
-														$query = "SELECT * FROM course NATURAL JOIN othercourses";
-														$courses = mysqli_query($connection, $query);
+															$query = "SELECT * FROM course NATURAL JOIN theorycourses";
+															$courses = mysqli_query($connection, $query);
 
-														while( $thisCourse = mysqli_fetch_array($courses)  )
-														{
-															if (!in_array($thisCourse['course_name'], $course_distribution[$sem_no]))
+															while( $thisCourse = mysqli_fetch_array($courses)  )
 															{
-																continue;
+																?>
+																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+																<?php
+															}
+															$query = "SELECT * FROM course NATURAL JOIN othercourses";
+															$courses = mysqli_query($connection, $query);
+
+															while( $thisCourse = mysqli_fetch_array($courses)  )
+															{
+																if (!in_array($thisCourse['course_name'], $course_distribution[$sem_no]))
+																{
+																	continue;
+																}
+																?>
+																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+																<?php
 															}
 															?>
-															<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-															<?php
-														}
-														?>
-													</select>	
-												</td>
-												<td><input id="11" name="credits1" class ="form-control border-input" type="number" min="10" max="20"/></td>
-												<td id=12></td>
-												<td><p id=13></p><input type="text" id="student_selected_coordinator1" name="student_selected_coordinator1" style="visibility:hidden;" /></td>
-											</tr>
-											<tr>
-												<td>2.</td>
-												<td><select class="form-control border-input" name="course2" 
-													onchange="nowsearch(this.value, 2);">
-													<option value="">Select</option>
-													<?php
-													$query = "SELECT * FROM course NATURAL JOIN theorycourses";
-													$courses = mysqli_query($connection, $query);
-
-													while( $thisCourse = mysqli_fetch_array($courses)  )
-													{
-														?>
-														<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-														<?php
-													}
-													$query = "SELECT * FROM course NATURAL JOIN othercourses";
-													$courses = mysqli_query($connection, $query);
-
-													while( $thisCourse = mysqli_fetch_array($courses)  )
-													{
-														?>
-														<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-														<?php
-													}
-													?>
-												</select>	
-											</td>
-											<td><input id="21" name="credits2" class ="form-control border-input" type="number" min="10" max="20"/></td>
-											<td id=22></td>
-											<td><p id=23></p><input type="text" id="student_selected_coordinator2" name="student_selected_coordinator2" style="visibility:hidden;" /></td>
-										</tr>
-										<tr>
-											<td>3.</td>
-											<td><select class="form-control border-input" name="course3" 
-												onchange="nowsearch(this.value, 3);">
-												<option value="">Select</option>
-												<?php
-												$query = "SELECT * FROM course NATURAL JOIN theorycourses";
-												$courses = mysqli_query($connection, $query);
-
-												while( $thisCourse = mysqli_fetch_array($courses)  )
-												{
-													?>
-													<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-													<?php
-												}
-												$query = "SELECT * FROM course NATURAL JOIN othercourses";
-												$courses = mysqli_query($connection, $query);
-
-												while( $thisCourse = mysqli_fetch_array($courses)  )
-												{
-													?>
-													<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-													<?php
-												}
-												?>
-											</select>	
-										</td>
-										<td><input id="31" name="credits3" class ="form-control border-input" type="number" min="10" max="20" /></td>
-										<td id=32></td>
-										<td><p id=33></p><input type="text" id="student_selected_coordinator3" name="student_selected_coordinator3" style="visibility:hidden;" /></td>
-									</tr>
-									<tr>
-										<td>4.</td>
-										<td><select class="form-control border-input" name="course4" 
-											onchange="nowsearch(this.value, 4);">
-											<option value="">Select</option>
-											<?php
-											$query = "SELECT * FROM course NATURAL JOIN theorycourses";
-											$courses = mysqli_query($connection, $query);
-
-											while( $thisCourse = mysqli_fetch_array($courses)  )
-											{
-												?>
-												<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-												<?php
-											}
-											$query = "SELECT * FROM course NATURAL JOIN othercourses";
-											$courses = mysqli_query($connection, $query);
-
-											while( $thisCourse = mysqli_fetch_array($courses)  )
-											{
-												?>
-												<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+														</select>	
+													</td>
+													<td><input id="<?php echo $i ?>1" name="credits<?php echo $i ?>" class ="form-control border-input" type="number" min="10" max="20"/></td>
+													<td id=<?php echo $i ?>2></td>
+													<td><p id=<?php echo $i ?>3></p><input type="text" id="student_selected_coordinator<?php echo $i ?>" name="student_selected_coordinator<?php echo $i ?>" style="visibility:hidden;" /></td>
+												</tr>
 												<?php
 											}
 											?>
-										</select>	
-									</td>
-									<td><input id="41" name="credits4" class ="form-control border-input" type="number" min="10" max="20"/></td>
-									<td id=42></td>
-									<td><p id=43></p><input type="text" id="student_selected_coordinator4" name="student_selected_coordinator4" style="visibility:hidden;" /></td>
-								</tr>
-								<tr>
-									<td>5.</td>
-									<td><select class="form-control border-input" name="course5" 
-										onchange="nowsearch(this.value, 5);">
-										<option value="">Select</option>
-										<?php
-										$query = "SELECT * FROM course NATURAL JOIN theorycourses";
-										$courses = mysqli_query($connection, $query);
+											<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div style="font-size:15px">
+								<div class="col-md-offset-8">(Signature of the Student)</div><br>
+								<div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br>
+								<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
+								<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br>
 
-										while( $thisCourse = mysqli_fetch_array($courses)  )
-										{
-											?>
-											<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-											<?php
-										}
-										$query = "SELECT * FROM course NATURAL JOIN othercourses";
-										$courses = mysqli_query($connection, $query);
 
-										while( $thisCourse = mysqli_fetch_array($courses)  )
-										{
-											?>
-											<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
-											<?php
-										}
-										?>
-									</select>	
-								</td>
-								<td><input id="51" name="credits5" class ="form-control border-input" type="number" min="10" max="20"/></td>
-								<td id=52></td>
-								<td><p id=53></p><input type="text" id="student_selected_coordinator5" name="student_selected_coordinator5" style="visibility:hidden;" /></td>
-							</tr>
-							<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
-						</tbody>
-					</table>
+
+							</div>
+
+							<div class="text-center">
+								<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+							</div><br>
+							<h5 class="text-center" id="msg" style="color:red;"></h5>
+						</form>
+					</div>
+				</div>
+				<div>
 				</div>
 			</div>
-			<div style="font-size:15px">
-				<div class="col-md-offset-8">(Signature of the Student)</div><br>
-				<div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br>
-				<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
-				<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br>
 
+		</div>
 
-
-			</div>
-
-			<div class="text-center">
-				<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
-			</div><br>
-			<h5 class="text-center" id="msg" style="color:red;"></h5>
-		</form>
 	</div>
-</div>
-<div>
-</div>
-</div>
-
-</div>
-
-</div>
 
 
-<footer class="footer">
-</footer>
+	<footer class="footer">
+	</footer>
 </div>
 </div>
 <p></p>

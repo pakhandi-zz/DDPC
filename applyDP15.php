@@ -78,17 +78,22 @@
 				var xml=parse_my_XMLdata(data);
 				var Faculty = xml.documentElement.getElementsByTagName("faculty");
 				var name = Faculty[0].getAttribute("name");
-				var dept_name = Faculty[0].getAttribute("dept_name");
-				var designation = Faculty[0].getAttribute("designation");
-				var dept_id = Faculty[0].getAttribute("dept_id");
-				var student_dept_id = <?php echo $student['dept_id'] ?>;
+				var contact = Faculty[0].getAttribute("contact");
+				var mail_id = Faculty[0].getAttribute("mail_id");
+				var address = Faculty[0].getAttribute("address");
+				var id0 = "0" + num;
 				var id1 = "1" + num;
 				var id2 = "2" + num;
-				document.getElementById(id1).innerHTML = dept_name;
+				document.getElementById(id0).innerHTML = address;
+				document.getElementById(id1).innerHTML = contact;
+				document.getElementById(id2).innerHTML = mail_id;
+				var dept_id = Faculty[0].getAttribute("dept_id");
+				var student_dept_id = <?php echo $student['dept_id'] ?>;
+				var id3 = "3" + num;
 				if(dept_id == student_dept_id) {
-					document.getElementById(id2).value = "Internal";
+					document.getElementById(id3).value = "Internal";
 				} else {
-					document.getElementById(id2).value = "External";
+					document.getElementById(id3).value = "External";
 				}
 				});
 			}
@@ -181,37 +186,42 @@
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-16</div>
-								<div class="col-md-offset-10"> (Clause 12.5(2))</div>
+								<div class="col-md-offset-10"> Form: DP-15</div>
+								<div class="col-md-offset-10"> (Clause 12.4)</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
-								<center><u><h5>List of Suggested Examiners for Ph.D Comprehensive Examination</h5></u></center><br>
+								<center><u><h5>List of Suggested Examiners for Ph.D Thesis Evaluation Board</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp02" name="dp02" action="submitDP16.php" method="post">
+									<form class="form-inline" id="dp02" name="dp02" action="submitDP15.php" method="post">
 
 
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
-									Department : <b> Computer Science and Engineering </b><br>
-									Thesis : <b></b><br>
+									Department : <b> Computer Science and Engineering </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date of First Registration : <b><?php echo $date_of_reg ?></b><br>
+									Date of Comprehensive Exam : Date of State-of-Art Seminar : <br>
+									Date of Open Seminar : <br>
+									Thesis : <b></b><br><br>
 								</div>
 								
 								<div class="row col-md-offset-1">
 									<div class="col-md-11" style="font-size:10px;">
 										<table class="table table-bordered table-condensed" style="font-size:15px">
+											<div style="font-size: 20px;"><b><u>Name of Examiners with Address/Fax/Phone/Email:</u></b></div>
 											<thead>
 												<th>SI. No.</th>
-												<th>Name of Examiners</th>
-												<th>Department</th>
+												<th>Name</th>
+												<th>Address</th>
+												<th>Phone/Fax</th>
+												<th>Email</th>
 											</thead>
 											<tbody>
 												<?php
-													$query = "SELECT * FROM faculty NATURAL JOIN department";
+													$query = "SELECT * FROM faculty";
 													$faculty = mysqli_query($connection, $query);
 													$thisFaculty = array();
 													while ( $row = mysqli_fetch_array($faculty) ){
 													    $thisFaculty[] = $row;
 													}
-													for( $i = 0; $i < 5; $i++){
+													for( $i = 0; $i < 6; $i++){
 														$j = $i + 1;
 														?>
 														<tr>
@@ -230,8 +240,48 @@
 														?>
 																</select>	
 															</td>
+														<td><p id=0<?php echo $j ?> ></p></td>
 														<td><p id=1<?php echo $j ?> ></p></td>
-														<input id=2<?php echo $j ?> type="hidden" name="role<?php echo $j ?>" value="" />
+														<td><p id=2<?php echo $j ?> ></p></td>
+														<input id=3<?php echo $j ?> type="hidden" name="role<?php echo $j ?>" value="" />
+													</tr>
+												<?php
+													}
+												?>
+									
+							<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
+							<input type="text" name="student_reg_no" value="<?php echo $student_reg_no ?>" style="display: none;">
+
+						</tbody>
+					</table>
+					<table class="table table-bordered table-condensed" style="font-size:15px">
+											<div style="font-size: 20px;"><b><u>Name(s) and communication details of Supervisor(s):</u></b></div>
+											<thead>
+												<th>SI. No.</th>
+												<th>Name</th>
+												<th>Address</th>
+												<th>Phone/Fax</th>
+												<th>Email</th>
+											</thead>
+											<tbody>
+												<?php
+													for( $i = 6; $i < 8; $i++){
+														$j = $i + 1;
+														$k = $i - 5;
+														$query = "SELECT * FROM currentsupervisor INNER JOIN faculty ON currentsupervisor.supervisor".$k."_id = faculty.faculty_id WHERE reg_no = '$student_reg_no'";
+														$faculty = mysqli_query($connection, $query);
+														if(mysqli_num_rows($faculty) < 1){
+															break;
+														}
+														$row = mysqli_fetch_assoc($faculty);
+														?>
+
+														<tr>
+															<td><?php echo $j - 6 ?></td>
+															<td><?php echo $row['name'] ?></td>
+															<td><?php echo $row['address'] ?></td>
+															<td><?php echo $row['contact'] ?></td>
+															<td><?php echo $row['mail_id'] ?></td>
 													</tr>
 												<?php
 													}

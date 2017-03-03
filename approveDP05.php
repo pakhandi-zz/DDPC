@@ -25,7 +25,7 @@ if (!$result)
 		$allnotifications = mysqli_query($connection, $query);
 		$notificationsCount = mysqli_num_rows($allnotifications);
 		$newNotificationId = $notificationsCount + 1;
-		$description = "New DP02 application";
+		$description = "New DP05 application";
 		$issue_date = date('Y-m-d');
 		$target_group = "";
 		$target_member = $nextNotifTo;

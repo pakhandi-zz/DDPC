@@ -12,9 +12,16 @@ include("./includes/connect.php");
 $reg_no = $_POST['reg_no'];
 $status = $_POST['status'];
 $progress = $_POST['progress'];
-$tyep = "Ph.D Oral Board";
+$sem_no = $_POST['sem_no'];
+$sem_type = $_POST['sem_type'];
+$reg_status = $_POST['status'];
 
-$query = "UPDATE examinarpanel SET status = '$status', progress = '$progress' WHERE reg_no = '$reg_no' AND type = '$type'"
+if(isset($status) && !strcmp($status, "approved")){
+	$query = "DELETE FROM courseregistration WHERE reg_no = '$reg_no' AND sem_no = '$sem_no' AND sem_type = '$sem_type' dropcourse = '1'";
+$result = mysqli_query($connection, $query);
+}
+
+$query = "UPDATE courseregistration SET status = '$status', progress = '$progress' WHERE reg_no = '$reg_no' AND sem_no = '$sem_no'";
 $result = mysqli_query($connection, $query);
 
 if (!$result)
@@ -26,7 +33,7 @@ if (!$result)
 		$allnotifications = mysqli_query($connection, $query);
 		$notificationsCount = mysqli_num_rows($allnotifications);
 		$newNotificationId = $notificationsCount + 1;
-		$description = "New DP16 application";
+		$description = "New DP04 application";
 		$issue_date = date('Y-m-d');
 		$target_group = "";
 		$target_member = $nextNotifTo;
@@ -35,4 +42,6 @@ if (!$result)
 		$result = mysqli_query($connection, $query);
 }
 
+
 ?>
+

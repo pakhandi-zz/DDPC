@@ -333,7 +333,7 @@
             };
             
             $.ajax({
-                url:'./approveDP02.php',
+                url:'./approveDP16.php',
                 type:'post',
                 data: formData,
                 success: function(data){

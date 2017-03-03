@@ -112,6 +112,7 @@
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
 								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
 								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
+								<li><a href="studentDP15.php"> Approve Examiner Panel for Ph.D Thesis Evaluation Board</a></li>
 							<?php
 								} else if(!strcmp($_SESSION['role'], "HOD"))
 								{
@@ -122,6 +123,8 @@
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
 								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
 								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
+								<li><a href="studentDP15.php"> Approve Examiner Panel for Ph.D Thesis Evaluation Board</a></li>
+
 							<?php
 								} else if(!strcmp($_SESSION['role'], "ChairmanSDPC"))
 								{
@@ -131,6 +134,8 @@
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
 								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
 								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
+								<li><a href="studentDP15.php"> Approve Examiner Panel for Ph.D Thesis Evaluation Board</a></li>
+
 							<?php
 								}
 							?>

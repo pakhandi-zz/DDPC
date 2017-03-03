@@ -12,7 +12,7 @@ include("./includes/connect.php");
 $reg_no = $_POST['reg_no'];
 $status = $_POST['status'];
 $progress = $_POST['progress'];
-$tyep = "Ph.D Oral Board";
+$tyep = "Ph.D Thesis Evaluation Board";
 
 $query = "UPDATE examinarpanel SET status = '$status', progress = '$progress' WHERE reg_no = '$reg_no' AND type = '$type'"
 $result = mysqli_query($connection, $query);
@@ -26,7 +26,7 @@ if (!$result)
 		$allnotifications = mysqli_query($connection, $query);
 		$notificationsCount = mysqli_num_rows($allnotifications);
 		$newNotificationId = $notificationsCount + 1;
-		$description = "New DP16 application";
+		$description = "New DP15 application";
 		$issue_date = date('Y-m-d');
 		$target_group = "";
 		$target_member = $nextNotifTo;
