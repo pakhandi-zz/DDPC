@@ -24,12 +24,14 @@
 
 	$query = "INSERT INTO `faculty` (`faculty_id`, `name`, `dept_id`, `designation`, `contact`, `mail_id`, `external`, `affiliation`, `password`) VALUES ('$faculty_id', '$name', '$dept_id', '$designation', '$contact', '$mail_id', '$external', '$affiliation', '$password')";
 
-	echo $query;
 	$queryRan = mysqli_query($connection, $query);
 	// If successful, then redirect. 
 	if($queryRan)
 	{
-		header('Location: ./adminDashboard.php');	
+		echo "<script>
+alert('Faculty inserted successfully.');
+window.location.href='./add.php';
+</script>";
 	}
 	else
 	{

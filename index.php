@@ -77,7 +77,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-3">
-						<img src="./img/index.jpg" alt="Mountain View" style="width:100px;height:100px; margin-top:20px;">
+						<img src="./img/index.jpg" alt="MNNIT Allahabad" style="width:100px;height:100px; margin-top:20px;">
 					</div>
 					<div class="col-md-6">
 						<h2>DDPC PORTAL</h2>

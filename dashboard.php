@@ -1,7 +1,7 @@
 <?php
 
     include("./includes/preProcess.php");  
-    $prevPageLink = "#";
+    $prevPageLink = "adminDashboard.php";
 ?>
 
 

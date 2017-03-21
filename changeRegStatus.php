@@ -19,6 +19,14 @@
 			$row1 = mysqli_fetch_array($r1);
 			$sname2 = $row1['name'];
 		}
+		if ( !strcmp($_SESSION['role'], "student") )
+	    {
+	        $thisUniqueId = $_SESSION['reg_no'];
+	        $thisQuery = "SELECT supervisor1_id FROM currentsupervisor WHERE reg_no='$thisUniqueId'";
+	        $thisResult = mysqli_query($connection, $thisQuery);
+	        $thisResult = mysqli_fetch_array($thisResult);
+	        $nextNotifTo = $thisResult['supervisor1_id'];
+	    }
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -145,6 +153,7 @@
 								<div class="text-center">
 									<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
 								</div><br>
+								<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
 								</form>
 								</div>
 							</div>

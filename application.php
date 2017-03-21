@@ -1,6 +1,17 @@
 	<?php
 
 		include("./includes/preProcess.php");
+	    $prevPageLink = "dashboard.php";
+
+	    $supervisor_id = $_SESSION['reg_no'];
+	    $s_query = "Select * from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
+	    $s_result = mysqli_query($connection, $s_query);
+	    if(mysqli_num_rows($s_result) >= 1){
+	    	$_SESSION['supervisor'] = 1;
+	    }
+	    else{
+	    	$_SESSION['supervisor'] = 0;
+	    }
 		
 	?>
 
@@ -35,6 +46,11 @@
 		<link href="./css/myCss.css" rel="stylesheet">
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
+		<script>
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="no-back-button";}
+</script> 
 
 	</head>
 	<body>
@@ -64,32 +80,17 @@
 		</div>
 
 		<div class="main-panel">
-			<nav class="navbar navbar-default">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<?php include('./includes/logo.php'); ?>
-					</div>
-					<div class="collapse navbar-collapse">
-						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="ti-panel"></i>
+		<nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <?php include('./includes/logo.php'); ?>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <?php include("./includes/topright.php") ?>
 
-									<p style="display : none;">Stats</p>
-								</a>
-							</li>
-							<?php include('./includes/notifications.php'); ?>
-							<li>
-								<a href="./logout.php">
-									<i class="ti-settings"></i>
-									<p>LogOut</p>
-								</a>
-							</li>
-						</ul>
-
-					</div>
-				</div>
-			</nav>
+                </div>
+            </div>
+        </nav>
 				<div class="content">
 					<div class="container-fluid">
 						<div class="row">
@@ -104,14 +105,19 @@
 								<li><a href="changeRegStatus.php"> Apply for Change of Registration Status </a></li>
 
 								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
+								<li><a href="applyDP04.php"> Apply for addition or deletion of courses </a></li>
 
 							</ol>
 							<?php
 								}
-								if (!strcmp($_SESSION['role'], "Supervisor")) {
+								if (!strcmp($_SESSION['role'], "Supervisor") || $_SESSION['supervisor']) {
 							?>
 							<ol style="font-size:25px;">
-								<li><a href="applyDP02.php"> Student Reasearch Committee </a></li>
+								<li><a href="studentList.php?form=02"> Student Reasearch Committee </a></li>
+								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination </a></li>
+								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board </a></li>
+								<li><a href="studentList.php?form=15"> List of Suggested Examiners for Ph.D Thesis Evaluation Board </a></li>
+								<li><a href="studentList.php?form=13"> Supervisor Selection </a></li>
 
 							</ol>
 							<?php
@@ -130,6 +136,7 @@
 								<li><a href="printDP05.php"> Print Change of Registration Status Application</a></li>
 
 								<li><a href="printDP01.php"> Print latest Academic Registration Application</a></li>
+								<li><a href="printDP20.php"> Print Undertaking</a></li>
 							</ol>
 							<?php
 								}

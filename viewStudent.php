@@ -33,6 +33,14 @@
         else
             return $arg;
     }
+    function getFacultyName($faculty_id){
+        include("./includes/connect.php");
+        $query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+        $result = mysqli_query($connection, $query);
+        $faculty = mysqli_fetch_assoc($result);
+        $faculty_name = $faculty['name'];
+        return $faculty_name;
+    }
 
 ?>
 
@@ -245,7 +253,7 @@
                                                                 <td><?php echo $course_details['course_id'];?></td>
                                                                 <td><?php echo $course_details['course_name'];?></td>
                                                                 <td><?php echo $course_details['credits_enrolled'];?></td>
-                                                                <td><?php echo $course_details['course_coordinator'];?></td>
+                                                                <td><?php echo getFacultyName($course_details['course_coordinator']);?></td>
                                                             </tr> 
                                                         <?php 
                                                         } else {
@@ -261,7 +269,7 @@
                                                                 <td><?php echo $course_details['course_id'];?></td>
                                                                 <td><?php echo $course_details['course_name'];?></td>
                                                                 <td><?php echo $course_details['credits_enrolled'];?></td>
-                                                                <td><?php echo $course_details['course_coordinator'];?></td>
+                                                                <td><?php echo getFacultyName($course_details['course_coordinator']);?></td>
                                                                 </tr>   
                                                         <?php
                                                         }

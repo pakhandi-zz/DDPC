@@ -38,6 +38,11 @@
     <link href="./css/myCss.css" rel="stylesheet">
 
     <link href="assets/css/datepicker.css" rel="stylesheet" />
+    <script>
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+window.onhashchange=function(){window.location.hash="no-back-button";}
+</script> 
 
 </head>
 <body>

@@ -7,6 +7,14 @@
     $form = mysqli_fetch_assoc($results);
     $sem_no = $form['sem_no'];
     $sem_type = $form['sem_type'];
+    function getFacultyName($faculty_id){
+    include("./includes/connect.php");
+    $query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+    $result = mysqli_query($connection, $query);
+    $faculty = mysqli_fetch_assoc($result);
+    $faculty_name = $faculty['name'];
+    return $faculty_name;
+  }
     
 ?>
 
@@ -43,26 +51,21 @@
 
   	</head>
   	<body>
-  		<a href="application.php" class="btn btn-default no-print">Home</a><br><br>
+  		<a href="application.php" class="btn btn-default no-print">Home</a>&nbsp;
   		<a href="dashboard.php" class="btn btn-default no-print" onClick="window.print()">Print</a>&nbsp;&nbsp; Status : <?php echo $form['status'];?>
 
   		<div class="col-md-offset-10"> Form: DP-01</div>
                 <div class="col-md-offset-10"> (Clause 4.2)</div>
                 <center><h3><b>Motilal Nehru National Institute of Technology Allahabad</b></h3></center>
-                <center><u><h3>ACADEMIC REGISTRATION</h3></u></center><br><br><br>
+                <center><u><h3>ACADEMIC REGISTRATION</h3></u></center><br>
                 <div class="col-md-offset-1" style="font-size:20px">
                 <form class="form-inline" id="dp01" name="dp01" action="submitDP01.php" method="post">
                   </b>
                   Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
                   Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-                 <!--  Status : <select name="status" class="form-control border-input">
-                                            <option selected disabled>Select</option>
-                                          <option>Regular</option>
-                                          <option>Part-Time</option>
-                                          </select>    -->
                 </div>
                 <br>
-                <center><u><h4>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h4></u></center><br><br><br>
+                <center><u><h5>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h5></u></center>
                 <div class="row col-md-offset-1">
                 <table class="table table-bordered table-condensed">
                 <thead>
@@ -84,7 +87,7 @@
                         <td><?php echo $form['course_id']. " - ". $form['course_name']; ?></td>
                         <td><?php echo $form['credits_enrolled'];?></td>
                         <td>Computer Science and Engineering</td>php
-                        <td><?php echo $form['course_coordinator']; ?></td>
+                        <td><?php echo getFacultyName($form['course_coordinator']); ?></td>
                       </tr>
                     <?php
                       }
@@ -96,12 +99,17 @@
                 <div class="row">
                 Sem-No:<?php echo $sem_no; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sem-Type:<?php echo $sem_type; ?></div>
                 </div>
-                <div style="font-size:25px">
+                <div style="font-size:15px">
                 <div class="col-md-offset-1">Date:<b style="font-size: 20px;"> <?php echo date('d-m-Y'); ?></b>&nbsp;&nbsp;&nbsp;&nbsp; Time: <b style="font-size: 20px;"><?php echo date('H:i:s'); ?></b><br><br>
-                <div class="col-md-offset-8">(Signature of the Student)</div><br><br><br>
-                  <div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br><br>
-                  <div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br><br>
-                  <div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br><br>
+                <div style="font-size:15px">
+        <div class="col-md-offset-8">(Signature of the Student)</div><br>
+        <div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br>
+        <div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
+        <div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br>
+
+
+
+      </div>
                   
 
 

@@ -54,7 +54,7 @@
                 ?>
                            <a href="update.php">
                                 <i class="ti-pencil-alt2"></i>
-                                    <p>update Functions</p>
+                                    <p>Update Functions</p>
                             </a>
                         </li>
                 <?php
