@@ -26,7 +26,10 @@
 	if($queryRan)
 	{
 		
-		header("location: ./adminDashboard.php");
+		echo "<script>
+alert('Department inserted successfully.');
+window.location.href='./add.php';
+</script>";
 	}
 	else
 	{

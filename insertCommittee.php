@@ -24,8 +24,10 @@
 	// If successful, then redirect. 
 	if($queryRan)
 	{
-		
-		header("location: ./adminDashboard.php");
+		echo "<script>
+alert('Committee inserted successfully.');
+window.location.href='./add.php';
+</script>";
 	}
 	else
 	{

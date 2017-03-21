@@ -1,6 +1,7 @@
 <?php
 
     include("./includes/preProcess.php");
+    $prevPageLink = "adminDashboard.php";
     if (!strcmp($_SESSION['role'], "Supervisor"))
     {
         $supervisor_id = $_SESSION['reg_no'];

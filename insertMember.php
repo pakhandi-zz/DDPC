@@ -23,7 +23,10 @@
 	// If successful, then redirect. 
 	if($queryRan)
 	{
-		header('Location: ./adminDashboard.php');	
+		echo "<script>
+alert('DDPC Member inserted successfully.');
+window.location.href='./add.php';
+</script>";	
 	}
 	else
 	{

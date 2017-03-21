@@ -26,7 +26,10 @@
 	if($queryRan)
 	{
 		
-		header("location: ./adminDashboard.php");
+		echo "<script>
+alert('Document Type inserted successfully.');
+window.location.href='./add.php';
+</script>";
 	}
 	else
 	{

@@ -9,12 +9,11 @@ else
     $reg_no = $_SESSION['reg_no'];
 
 include("./includes/connect.php");
-$faculty1= $_POST['faculty1'];
-$faculty2= $_POST['faculty2'];
-$faculty3= $_POST['faculty3'];
-$faculty4= $_POST['faculty4'];
-$student_reg_no = $_POST['student_reg_no'];
-
+$faculty1= mysqli_real_escape_string($connection, $_POST['src_int_id']);
+$faculty2= mysqli_real_escape_string($connection, $_POST['src_ext_id']);
+$faculty3= mysqli_real_escape_string($connection, $_POST['supervisor1_id']);
+$faculty4= mysqli_real_escape_string($connection, $_POST['supervisor2_id']);
+$student_reg_no = mysqli_real_escape_string($connection, $_POST['student_reg_no']);
 $status = "pending";
 $progress = "ConvenerDDPC";
 
@@ -28,5 +27,22 @@ if (!$result)
 	die("Unsuccessful".mysqli_error($connection));
 	echo $result;
 } 
-header("location: ./dashboard.php");
+else{
+	$nextNotifTo = $_POST['nextNotifTo'];
+	$query = "SELECT * FROM notifications";
+	$allnotifications = mysqli_query($connection, $query);
+	$notificationsCount = mysqli_num_rows($allnotifications);
+	$newNotificationId = $notificationsCount + 1;
+	$description = "New DP02 application";
+	$issue_date = date('Y-m-d');
+	$target_group = "";
+	$target_member = $nextNotifTo;
+
+	$query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
+	$result = mysqli_query($connection, $query);
+	echo "<script>
+alert('Application Submitted Successfully.');
+window.location.href='./dashboard.php';
+</script>";
+}
 ?>

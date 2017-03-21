@@ -96,7 +96,7 @@
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Members</h4>
-                                <p class="category">List of all the students</p>
+                                <p class="category">List of all the members</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
@@ -105,7 +105,7 @@
                                     	<th>Member Type</th>
                                     	<!-- <th>Program</th> -->
                                     	<th>Name</th>
-                                    	<th>Department</th>
+                                    	<!-- <th>Department</th> -->
                                     </thead>
                                     <tbody>
                                         <?php
@@ -117,14 +117,25 @@
                                         ?>
                                                 <tr>
                                                     <td>
-                                                        <?php echo $thisMember['member_id'] ?>
+                                                        <?php
+                                                            if(!strcmp($thisMember['member_type'],"Student"))
+                                                            {
+                                                        ?>
+                                                            <a href="./viewStudent.php?qwStudent=<?php echo $thisMember['member_id'] ?>">
+                                                        <?php
+                                                            echo $thisMember['member_id'];
+                                                            }
+                                                            else{
+                                                                echo $thisMember['member_id'];
+                                                            }
+                                                        ?>
                                                     </td>
                                                     <td>
                                                         <?php echo $thisMember['member_type'] ?>
                                                     </td>
                                                     <td>
                                                         <?php
-                                                            if(!strcmp($thisMember['member_type'],"student"))
+                                                            if(!strcmp($thisMember['member_type'],"Student"))
                                                             {
                                                                 $student_id = $thisMember['member_id'];
                                                                 $student_query = "SELECT name FROM studentmaster WHERE reg_no = '$student_id'";
@@ -141,11 +152,11 @@
                                                             } 
                                                         ?>
                                                     </td> 
-                                                    <td>
-                                                        <?php
-                                                            echo $thisMember['dept_name'];
-                                                        ?>
-                                                    </td>
+                                                    <!--<td>-->
+                                                         <?php
+                                                        //     echo $thisMember['dept_name'];
+                                                         ?>
+                                                   <!-- </td>-->
 
                                                 </tr>
                                         <?php

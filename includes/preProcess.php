@@ -27,11 +27,11 @@ if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1)
     {
         $user['photo_path']='./images/default.jpg';
     }
-    $query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
+    $query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY date_of_reg ASC";
     $results = mysqli_query($connection, $query);
     $arr = mysqli_fetch_array($results);
     $date_of_reg = $arr['date_of_reg'];
-    $query = "SELECT sem_no FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no DESC";
+    $query = "SELECT sem_no, sem_type FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY date_of_reg DESC";
     $results = mysqli_query($connection, $query);
     if(mysqli_num_rows($results) == 0)
     {
@@ -41,6 +41,7 @@ if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1)
     {
         $arr = mysqli_fetch_array($results);
         $current_sem_no = $arr['sem_no'];
+        $current_sem_type = $arr['sem_type'];
     }
     $name = ucfirst(strtolower(explode(" ", $user['name'])[0])); 
     $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
