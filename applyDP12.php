@@ -238,9 +238,7 @@
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
 								<center><u><h5>Supervisor Selection<br /> To be filled by the candidate</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp01" name="dp01" action="nothing.php" method="post" onsubmit="return checkform(this.form);">
-
-
+									<form class="form-inline" id="dp12" name="dp12" action="submitDP12.php" method="post" onsubmit="return checkform(this.form);">
 									</b>
 									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
@@ -263,14 +261,14 @@
 											</thead>
 											<tbody>
 												<?php 
-												for ($i = 1; $i <= 5; $i++) { 
-													# code...
+												$i = 0;
+												while($thisCourseResult = mysqli_fetch_array($resultCourses)) { 
+													$i++;
 													?>
 													<tr>
 														<td><?php echo $i ?></td>
 														<td>
 																<?php
-																	$thisCourseResult = mysqli_fetch_array($resultCourses);
 																	$tempVar = $thisCourseResult['course_id'];
 																	$tempQuery = "SELECT * FROM course WHERE course_id='$tempVar'";
 																	$tempResult = mysqli_query($connection, $tempQuery);
