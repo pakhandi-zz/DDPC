@@ -233,10 +233,10 @@
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-01</div>
-								<div class="col-md-offset-10"> (Clause 4.2)</div>
+								<div class="col-md-offset-10"> Form: DP-12</div>
+								<div class="col-md-offset-10"> (Clause 12.1(3))</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
-								<center><u><h5>ACADEMIC REGISTRATION</h5></u></center><br>
+								<center><u><h5>Supervisor Selection<br /> To be filled by the candidate</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
 									<form class="form-inline" id="dp01" name="dp01" action="nothing.php" method="post" onsubmit="return checkform(this.form);">
 
@@ -246,19 +246,6 @@
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
 									Status :<b> <?php echo $user['program_category'];?>	</b><br>
 									
-									<div class = "row">
-										<div class="col-md-6">
-											Sem-No: <b><input name="sem_no" class ="form-control border-input" style="width:50%; height:10%;" type="number" value="<?php echo $sem_no; ?>" max="8" min="<?php echo $sem_no; ?>" required/></b>
-										</div>
-										<div class="col-md-6">
-											Sem-Type:
-											<select name="sem_type" class="form-control border-input" style="width:50%;height:10%;" required>
-												<option value="">Select</option>
-												<option value ="0">Even</option>
-												<option value ="1">Odd</option>
-											</select>
-										</div>
-									</div>
 									<center><u><h5>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h5></u></center><br>
 								</div>
 								
@@ -386,6 +373,7 @@
 
 
 							<div style="font-size:15px">
+								<div class="col-md-offset-1"><b>Date: </b><?php echo date("d/m/Y"); ?></div>
 								<div class="col-md-offset-8">(Signature of the Student)</div><br>
 								<!-- <div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br>
 								<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
