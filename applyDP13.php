@@ -251,8 +251,8 @@
 
 
 									Name of the Faculty : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Designation : <b><?php echo $tempResult['designation'] ?> </b><br>
-									Department : <b> Computer Science and Engineering </b><br>
-									Co-Supervisor (if any): <b><?php echo "Nothing" ?></b><br>
+									Department : <b> Computer Science and Engineering </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									Co-Supervisor (if any): <b><?php echo " -- " ?></b><br>
 									<center><u><h5>Details of the Ph.D Students being supervised at present</h5></u></center><br>
 								</div>
 
@@ -329,7 +329,33 @@
 
 													<td>
 														<?php
-															// Forget the co-supervisor for now
+															// need to get the name of the co-supervisor
+															// in case this Faculty is the first supervisor.. print the name of the second supervisor
+															// in case this Faculty is the second supervisor.. print the name of the first supervisor
+
+															$tempVar = $thisStudent['reg_no'];
+															$tempQuery = "SELECT * FROM currentsupervisor WHERE reg_no='$tempVar'";
+															$tempResult = mysqli_query($connection, $tempQuery);
+															$tempResult = mysqli_fetch_array($tempResult);
+
+															$tempVar = "";
+
+															if( !strcmp($tempResult['supervisor1_id'], $user['faculty_id']) )
+															{
+																$tempVar = $tempResult['supervisor2_id'];
+															}
+															else
+															{
+																$tempVar = $tempResult['supervisor1_id'];
+															}
+
+															if(strlen($tempVar))
+															{
+																$tempQuery = "SELECT * FROM faculty WHERE faculty_id='$tempVar'";
+																$tempResult = mysqli_query($connection, $tempQuery);
+																$tempResult = mysqli_fetch_array($tempResult);
+																echo $tempResult['name'];
+															}
 														?>
 													</td>
 
@@ -346,35 +372,54 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="col-md-11" style="font-size:15px;">
-									I wish to supervise the the Ph.D Thesis of Mr./Mrs/Ms
-									<select class="form-control border-input" name="studentToSupervise" onchange="instaSearch(this.value);">
-										<option value="">Select</option>
-										<?php
-											// Get the list of students so that the supervisor can select the student
-											$tempQuery = "SELECT * FROM studentmaster";
-											$tempResult = mysqli_query($connection, $tempQuery);
+								<div class="row col-md-11" style="font-size:15px;">
+									<table>
+										<tbody>
+											<tr>
+												<td>
+													I wish to supervise the the Ph.D Thesis of Mr./Mrs/Ms
+												</td>
 
-											while( $thisStudent = mysqli_fetch_array($tempResult) )
-											{
-										?>
-											<option value=<?php echo $thisStudent['reg_no'] ?> >
-												<?php echo $thisStudent['reg_no']." - ".$thisStudent['name']; ?>
-											</option>
-										<?php
-											}
-										?>
-									</select>
+												<td>
+													<select class="form-control border-input" name="studentToSupervise" onchange="instaSearch(this.value);">
+														<option value="">Select</option>
+														<?php
+															// Get the list of students so that the supervisor can select the student
+															$tempQuery = "SELECT * FROM studentmaster";
+															$tempResult = mysqli_query($connection, $tempQuery);
+
+															while( $thisStudent = mysqli_fetch_array($tempResult) )
+															{
+														?>
+															<option value=<?php echo $thisStudent['reg_no'] ?> >
+																<?php echo $thisStudent['reg_no']." - ".$thisStudent['name']; ?>
+															</option>
+														<?php
+															}
+														?>
+													</select>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
+							<br /> <br /> <br />
 							<div style="font-size:15px">
-								<div class="col-md-offset-8">(Signature of the Student)</div><br>
-								<div class="col-md-offset-1">Advised By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisor(s) </div><br>
-								<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
-								<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br>
-
-
-
+								<div class="col-md-offset-1"><b>Date: </b><?php echo date("d/m/Y"); ?></div>
+								<div class="col-md-offset-8">(Signature of the Faculty)</div><br>
+								<div class="col-md-offset-1">Approved By: </div><br>
+								<div class="col-md-offset-1 col-md-11">
+									<table class="table">
+										<tbody>
+											<tr>
+												<td>Convener DDPC</td>
+												<td>Head of Department</td>
+												<td>Chairman SDPC</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 
 							<div class="text-center">
