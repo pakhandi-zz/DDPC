@@ -255,6 +255,18 @@
 									Co-Supervisor (if any): <b><?php echo "Nothing" ?></b><br>
 									<center><u><h5>Details of the Ph.D Students being supervised at present</h5></u></center><br>
 								</div>
+
+								<?php
+									// Prepare the ids of all the students supervised by the faculty
+									// These ids will be used to get the data of these students
+									// That data will be displayed in the following table
+
+									$tempVar = $user['faculty_id'];
+									$tempQuery = "SELECT * FROM currentsupervisor WHERE supervisor1_id='$tempVar' OR supervisor2_id='$tempVar'";
+									$tempResult = mysqli_query($connection, $tempQuery);
+
+									$supervisedStudents = $tempResult;
+								?>
 								
 								<div class="row col-md-offset-1">
 									<div class="col-md-11" style="font-size:10px;">
@@ -269,57 +281,90 @@
 												<th>Status of Research Work</th>
 											</thead>
 											<tbody>
-												<?php 
-												for ($i = 1; $i <= 6; $i++) { 
+												<?php
+												$i = 1;
+												while( $thisSupervisedStudent = mysqli_fetch_array($supervisedStudents) ) 
+												{
+													$thisSupervisedStudentRegno = $thisSupervisedStudent['reg_no'];
+
+													// get the details of the student using the reg_no
+													$tempQuery = "SELECT * FROM studentmaster WHERE reg_no='$thisSupervisedStudentRegno'";
+													$tempResult = mysqli_query($connection, $tempQuery);
+													$tempResult = mysqli_fetch_array($tempResult);
+													$thisStudent = $tempResult;
 												?>
 												<tr>
-													<td><?php echo $i ?></td>
+													<td><?php echo $i; $i++; ?></td>
 
-													<td><select class="form-control border-input" name="student<?php echo $i ?>" onchange="instaSearch(this.value, <?php echo $i ?>);">
-															<option value="">Select</option>
-															<?php
-															$query = "SELECT * FROM studentmaster";
-															$students = mysqli_query($connection, $query);
-
-															while( $thisStudent = mysqli_fetch_array($students)  )
-															{
-															?>
-																<option value="<?php echo $thisStudent['reg_no'] ?>"><?php 
-																	echo $thisStudent['reg_no']." - ".$thisStudent['name']; 
-																?>
-																</option>
-																<?php
-															}
-															?>
-														</select>	
+													<td>
+														<?php echo $thisStudent['name']; ?>	
 													</td>
 
 													<td>
-														<input id="<?php echo $i ?>1" name="studentRegno<?php echo $i ?>" class ="form-control border-input"/>
+														<?php echo $thisStudent['reg_no']; ?>
 													</td>
 
-													<td id=<?php echo $i ?>2>
-														
+													<td>
+														<?php 
+															// Get the student date of registration 
+															$tempQuery = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$thisSupervisedStudentRegno' ORDER BY sem_no ASC";
+															$tempResult = mysqli_query($connection, $tempQuery);
+															$tempResult = mysqli_fetch_array($tempResult);
+
+															echo $tempResult['date_of_reg'];
+														?>
 													</td>
 
-													<td id=<?php echo $i ?>3>
+													<td>
+														<?php
+															// Get the department name for the student
+															$tempVar = $thisStudent['dept_id'];
+															$tempQuery = "SELECT dept_name FROM department WHERE dept_id='$tempVar'";
+															$tempResult = mysqli_query($connection, $tempQuery);
+															$tempResult = mysqli_fetch_array($tempResult);
 
+															echo $tempResult['dept_name'];
+														?>
 													</td>
 
-													<td id=<?php echo $i ?>4>
-														
+													<td>
+														<?php
+															// Forget the co-supervisor for now
+														?>
 													</td>
 
-													<td id=<?php echo $i ?>5>
-														
+													<td>
+														<?php
+															// Forget the status of the Research Work for now
+														?>
 													</td>
 												</tr>
 												<?php
-											}
-											?>
+												}
+												?>
 											<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
 										</tbody>
 									</table>
+								</div>
+								<div class="col-md-11" style="font-size:15px;">
+									I wish to supervise the the Ph.D Thesis of Mr./Mrs/Ms
+									<select class="form-control border-input" name="studentToSupervise" onchange="instaSearch(this.value);">
+										<option value="">Select</option>
+										<?php
+											// Get the list of students so that the supervisor can select the student
+											$tempQuery = "SELECT * FROM studentmaster";
+											$tempResult = mysqli_query($connection, $tempQuery);
+
+											while( $thisStudent = mysqli_fetch_array($tempResult) )
+											{
+										?>
+											<option value=<?php echo $thisStudent['reg_no'] ?> >
+												<?php echo $thisStudent['reg_no']." - ".$thisStudent['name']; ?>
+											</option>
+										<?php
+											}
+										?>
+									</select>
 								</div>
 							</div>
 							<div style="font-size:15px">
