@@ -385,14 +385,21 @@
 														<option value="">Select</option>
 														<?php
 															// Get the list of students so that the supervisor can select the student
-															$tempQuery = "SELECT * FROM studentmaster";
+															$tempQuery = "SELECT * FROM supervisorselection WHERE supervisor_id='{$user['faculty_id']}' AND progress='{$_SESSION['role']}'";
 															$tempResult = mysqli_query($connection, $tempQuery);
 
-															while( $thisStudent = mysqli_fetch_array($tempResult) )
+															echo $tempQuery;
+
+															$students = $tempResult;
+
+															while( $thisStudent = mysqli_fetch_array($students) )
 															{
+																$tempQuery = "SELECT name from studentmaster WHERE reg_no='{$thisStudent['reg_no']}'";
+																$tempResult = mysqli_query($connection, $tempQuery);
+																$tempResult = mysqli_fetch_array($tempResult);
 														?>
 															<option value=<?php echo $thisStudent['reg_no'] ?> >
-																<?php echo $thisStudent['reg_no']." - ".$thisStudent['name']; ?>
+																<?php echo $thisStudent['reg_no']." - ".$tempResult['name']; ?>
 															</option>
 														<?php
 															}
