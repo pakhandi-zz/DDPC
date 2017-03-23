@@ -11,6 +11,10 @@ else
 include("./includes/connect.php");
 include("./includes/preProcess.php");
 
+$supervisor = "Supervisor";
+$pending = "Pending";
+$reg_no = $_SESSION['reg_no'];
+
 // Send notification to the supervisors that a student has filled DP12 for them
 
 if(isset($_POST[faculty1]))
@@ -27,6 +31,10 @@ if(isset($_POST[faculty1]))
 
 	$query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
 	$result = mysqli_query($connection, $query);
+
+	$query = "INSERT INTO supervisorselection (`reg_no`, `supervisor_id`, `progress`, `status`) 
+				VALUES ('$reg_no', '{$_POST['faculty1']}', '$supervisor', '$pending')";
+	$result = mysqli_query($connection, $query);
 }
 if(isset($_POST[faculty2]))
 {
@@ -41,6 +49,10 @@ if(isset($_POST[faculty2]))
 	$target_member = $nextNotifTo;
 
 	$query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
+	$result = mysqli_query($connection, $query);
+
+	$query = "INSERT INTO supervisorselection (`reg_no`, `supervisor_id`, `progress`, `status`) 
+				VALUES ('$reg_no', '{$_POST['faculty2']}', '$supervisor', '$pending')";
 	$result = mysqli_query($connection, $query);
 }
 echo "<script>
