@@ -162,13 +162,13 @@
 														$setStatus = "pending";
 														$setProgress = "HOD";
 													}
-													else if(in_array("HOD", $role_array))
+													if(in_array("HOD", $role_array))
 													{
 														$setAction = "Forward";
 														$setStatus = "pending";
 														$setProgress = "ChairmanSDPC";
 													}
-													else if(in_array("ChairmanSDPC", $role_array))
+													if(in_array("ChairmanSDPC", $role_array))
 													{
 														$setAction = "Approve";
 														$setStatus = "approved";
@@ -188,7 +188,8 @@
 														name="submit" 
 														value="<?php echo $setAction; ?>" 
 														reg_no = "<?php echo $thisApplication['reg_no'] ?>" 
-														status="<?php echo $setStatus; ?>" progress="<?php echo $setStatus; ?>" nextNotifTo="<?php echo $nextNotifTo; ?>"
+														status="<?php echo $setStatus; ?>" progress="<?php echo $setProgress; ?>" nextNotifTo="<?php echo $nextNotifTo; ?>"
+														facultyId="<?php echo $thisApplication['supervisor_id']; ?>"
 														/>
 													</form>
 												</td>
@@ -271,19 +272,20 @@
 
 			event.preventDefault();
 			var formData = {  // Javascript object
+				action: $(this).attr('value'),
 				reg_no: $(this).attr('reg_no'),
 				status: $(this).attr('status'),
 				progress: $(this).attr('progress'),
-				sem_no: $(this).attr('sem_no'),
-				reg_status: $(this).attr('reg_status')
+				nextNotifTo: $(this).attr('nextNotifTo'),
+				facultyId: $(this).attr('facultyId')
 			};
 			
 			$.ajax({
-				url:'./approveDP01.php',
+				url:'./approveDP13.php',
 				type:'post',
 				data: formData,
 				success: function(data){
-					// alert(data);
+					alert(data);
 					location.reload();
 				},
 				error: function(){
