@@ -285,7 +285,7 @@
 				type:'post',
 				data: formData,
 				success: function(data){
-					alert(data);
+					// alert(data);
 					location.reload();
 				},
 				error: function(){
