@@ -11,8 +11,8 @@ else
 include("./includes/connect.php");
 include("./includes/preProcess.php");
 
-$supervisor = "Supervisor";
-$pending = "Pending";
+$supervisor = "supervisor";
+$pending = "pending";
 $reg_no = $_SESSION['reg_no'];
 
 // Send notification to the supervisors that a student has filled DP12 for them

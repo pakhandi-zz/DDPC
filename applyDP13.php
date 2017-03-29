@@ -235,7 +235,7 @@
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
 								<center><u><h5>Supervisor Selection<br />(To be filled by the supervisor)</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp01" name="dp01" action="submitDP01.php" method="post" onsubmit="return checkform(this.form);">
+									<form class="form-inline" id="dp13" name="dp13" action="submitDP13.php" method="post" onsubmit="return checkform(this.form);">
 
 
 									</b>
@@ -385,7 +385,7 @@
 														<option value="">Select</option>
 														<?php
 															// Get the list of students so that the supervisor can select the student
-															$tempQuery = "SELECT * FROM supervisorselection WHERE supervisor_id='{$user['faculty_id']}' AND progress='{$_SESSION['role']}'";
+															$tempQuery = "SELECT * FROM supervisorselection WHERE supervisor_id='{$user['faculty_id']}'";
 															$tempResult = mysqli_query($connection, $tempQuery);
 
 															echo $tempQuery;
