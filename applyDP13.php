@@ -1,6 +1,7 @@
 	<?php
 
 	include("./includes/preProcess.php");
+	$prevPageLink = "application.php";
 	$query = "SELECT * from awarddistribution";
 	$result = mysqli_query($connection, $query);
 	$course_distribution = array();
@@ -206,20 +207,10 @@
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="ti-panel"></i>
-								<p style="display : none;">Stats</p>
-							</a>
-						</li>
-						<?php include('./includes/notifications.php'); ?>
-						<li>
-							<a href="./logout.php">
-								<i class="ti-settings"></i>
-								<p>LogOut</p>
-							</a>
-						</li>
-					</ul>
+
+                        <?php include("./includes/topright.php") ?>
+
+                    </ul>
 
 				</div>
 			</div>

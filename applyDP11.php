@@ -3,7 +3,7 @@
 		include("./includes/preProcess.php");
 		$prevPageLink = "application.php";
 		$student_reg_no = $_GET['student_reg_no'];
-		$query = "SELECT * FROM studentmaster NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
+		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
 		$results = mysqli_query($connection, $query);
 		$student = mysqli_fetch_array($results);
 		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
@@ -25,12 +25,10 @@
 		    $current_sem_no = $arr['sem_no'];
 		}
 		$sem_no = $current_sem_no + 1;
-
 		$thisQuery = "SELECT member_id FROM `members` WHERE role='ConvenerDDPC'";
 		$thisResult = mysqli_query($connection, $thisQuery);
 		$thisResult = mysqli_fetch_array($thisResult);
 		$nextNotifTo = $thisResult['member_id'];
-
 		function getFacultyName($faculty_id){
 		include("./includes/connect.php");
 		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
@@ -71,62 +69,7 @@
 		<link href="./css/myCss.css" rel="stylesheet">
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
-		<script type="text/javascript">
-			function nowsearch(faculty_id, num)
-			{
-				var url='./fetch_faculty.php?faculty_id=' + faculty_id;
-				load_my_URL(url,function(data){
-				var xml=parse_my_XMLdata(data);
-				var Faculty = xml.documentElement.getElementsByTagName("faculty");
-				var name = Faculty[0].getAttribute("name");
-				var dept_name = Faculty[0].getAttribute("dept_name");
-				var designation = Faculty[0].getAttribute("designation");
-				var dept_id = Faculty[0].getAttribute("dept_id");
-				var student_dept_id = <?php echo $student['dept_id'] ?>;
-				var id0 = "0" + num;
-				var id1 = "1" + num;
-				var id2 = "2" + num;
-				document.getElementById(id0).innerHTML = designation;
-				document.getElementById(id1).innerHTML = dept_name;
-				if(dept_id == student_dept_id) {
-					document.getElementById(id2).value = "Internal";
-				} else {
-					document.getElementById(id2).value = "External";
-				}
-				});
-			}
-			function load_my_URL(url, do_func)
-			{
-				var my_req = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
-				my_req.onreadystatechange = function()
-				{
-					if (my_req.readyState == 4)
-					{
-						my_req.onreadystatechange = no_func;
-						do_func(my_req.responseText, my_req.status);
-					}
-				};
-				my_req.open('GET', url, true);
-				my_req.send(null);
-			}
-			function parse_my_XMLdata(data)
-			{
-				if (window.ActiveXObject)
-				{
-					var doc = new ActiveXObject('Microsoft.XMLDOM');
-					doc.loadXML(data);
-					return doc;
-				}
-				else if (window.DOMParser)
-				{
-					return (new DOMParser).parseFromString(data, 'text/xml');
-				}
-
-			}
-			function no_func() {}
-			
-		</script>
-
+		
 	</head>
 	<body>
 		<div class="wrapper">
@@ -164,6 +107,7 @@
                         <?php include("./includes/topright.php") ?>
 
                     </ul>
+
 				</div>
 			</div>
 		</nav>
@@ -173,79 +117,84 @@
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-08</div>
-								<div class="col-md-offset-10"> (Clause 9, 12.3)</div>
+								<div class="col-md-offset-10"> Form: DP-11</div>
+								<div class="col-md-offset-10"> (Clause 11)</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
-								<center><u><h5>List of Suggested Examiners for Ph.D Comprehensive Examination</h5></u></center><br>
+								<center><u><h5>Report of Open Seminar</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp02" name="dp02" action="submitDP08.php" method="post">
+									<form class="form-inline" id="dp11" name="dp11" action="submitDP11.php" method="post">
 
 
+									
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Name of Supervisor(s) : <b><?php echo getFacultyName($student['supervisor1_id']); 
-									if(!empty($student['supervisor2_id'])){
-										echo getFacultyName($student['supervisor2_id']); 
-									}
+									Thesis Title: <b><?php echo $student['final_topic']; ?></b>
+
+									<div class="col-md-11">
+											<b>Date of delivery of the Seminar:</b>
+											<input type="text" id="sem_date" name="sem_date">
+									</div>
+									<div class="col-md-11">
+											Name of Thesis Supervisor(s):
+											<b><?php echo getFacultyName($student['supervisor1_id']); 
+											if(!empty($student['supervisor2_id'])){
+												echo getFacultyName($student['supervisor2_id']); 
+											}
 									?></b>
+									</div>
+
+									<div class="col-md-11">
+											<b>Comments:</b>
+											<input type="text" id="comments" name="comments" style="width: 75%;">
+									</div>
+									
 								</div>
 								
 								<div class="row col-md-offset-1">
 									<div class="col-md-11" style="font-size:10px;">
-										<table class="table table-bordered table-condensed" style="font-size:15px">
-											<thead>
-												<th>SI. No.</th>
-												<th>Name of Examiners</th>
-												<th>Designation</th>
-												<th>Department</th>
-											</thead>
-											<tbody>
-												<?php
-													$query = "SELECT * FROM faculty NATURAL JOIN department";
-													$faculty = mysqli_query($connection, $query);
-													$thisFaculty = array();
-													while ( $row = mysqli_fetch_array($faculty) ){
-													    $thisFaculty[] = $row;
-													}
-													for( $i = 0; $i < 5; $i++){
-														$j = $i + 1;
-														?>
-														<tr>
-															<td><?php echo $j ?></td>
-															<td><select class="form-control border-input" name="faculty<?php echo $j ?>" 
-														onchange="nowsearch(this.value, <?php echo $j ?>);" required>
-														<option value="">Select</option>
-														<?php
-
-														foreach ($thisFaculty as $key=>$obj) {
-														
-														?>
-															<option value="<?php echo $obj['faculty_id'] ?>"><?php echo $obj['name'] ?></option>
-															<?php
-														}
-														?>
-																</select>	
-															</td>
-														<td><p id=0<?php echo $j ?> ></p></td>
-														<td><p id=1<?php echo $j ?> ></p></td>
-														<input id=2<?php echo $j ?> type="hidden" name="role<?php echo $j ?>" value="" />
-													</tr>
-												<?php
-													}
-												?>
-									
+										
 							<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
 							<input type="text" name="student_reg_no" value="<?php echo $student_reg_no ?>" style="display: none;">
-
 						</tbody>
 					</table>
 				</div>
 			</div>
+			<br><br>
 			<div style="font-size:15px">
-				<div class="col-md-offset-1">Proposed By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thesis Supervisor(s) </div><br>
-				<div class="col-md-offset-1">Forwarded By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convener DDPC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Head of Department</div><br>
-				<div class="col-md-offset-1">Approved By: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chairman SDPC </div><br>
+				<div class="row col-md-offset-1">
+					<div class="col-md-4">
+						Supervisor(s)
+					</div>
+					<div class="col-md-4">
+						Internal Member SRC
+					</div>
+					<div class="col-md-3">
+						External Member SRC
+					</div>
+				</div>
+				<br/><br><br>
+				<div class="row col-md-offset-1">
+					<div class="col-md-4">
+						Forwarded By:
+					</div>
+					<div class="col-md-4">
+						Convener DDPC
+					</div>
+					<div class="col-md-3">
+						Head of Department
+					</div>
+				</div>
+				<br/><br><br>
+				<div class="row col-md-offset-1">
+					<div class="col-md-4">
+						Approved By:
+					</div>
+					<div class="col-md-4">
+						Chairman SPDC
+					</div>
+				</div>
+				<br>
 
 
 
@@ -300,6 +249,10 @@
 <!-- <script src="assets/js/datepicker.js"></script> -->
 
 <script type="text/javascript">
+	$("#sem_date").datepicker({
+				  minDate: 0,
+				  dateFormat: 'yy-mm-dd'
+				});
 	function removeNot() {
 
 		$('.notificationAlert').css({

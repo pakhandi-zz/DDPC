@@ -19,7 +19,7 @@
                     else
                         echo "<li>";
                 ?>
-                            <a href="viewStudents.php">
+                            <a href="yearWiseList.php">
                                 <i class="ti-pencil-alt2"></i>
                                 <p>View Students</p>
                             </a>
@@ -83,7 +83,16 @@
                             </a>
                         </li>
                  <?php
-                    if (!strcmp($_SESSION['role'], "student") OR !strcmp($_SESSION['role'], "Supervisor"))
+                    $query = "SELECT * FROM currentsupervisor WHERE supervisor1_id ='$reg_no'";
+                    $results = mysqli_query($connection, $query);
+                    if(mysqli_num_rows($results) >= 1)
+                    {
+                        $_SESSION['supervisor'] = 1;
+                    }
+                    else{
+                        $_SESSION['supervisor'] = 0;
+                    }  
+                    if (!strcmp($_SESSION['role'], "student") OR $_SESSION['supervisor'])
                     {  
                         // if(! strcmp($currentTab, "uploadDocument"))
                         //     echo "<li class=\"active\">";
@@ -110,6 +119,22 @@
                                 </li>
                 <?php
                     }
+                    if ($_SESSION['supervisor'])
+                    {  
+                        
+                        if(! strcmp($currentTab, "studentsundersupervision"))
+                               echo "<li class=\"active\">";
+                        else
+                                echo "<li>";
+                        ?>
+                                    <a href="studentsUnderSupervision.php">
+                                        <i class="ti-user"></i>
+                                            <p>View My Students</p>
+                                    </a>
+                                </li>
+                <?php
+                    }
+
                     if (!strcmp($_SESSION['role'], "ConvenerDDPC"))
                     { 
                         if(! strcmp($currentTab, "createMeeting"))
@@ -189,7 +214,7 @@
                         ?>
                 <?php
                     }
-                    if(!strcmp($_SESSION['role'], "Supervisor") OR !strcmp($_SESSION['role'], "ConvenerDDPC") OR !strcmp($_SESSION['role'], "HOD") OR !strcmp($_SESSION['role'], "ChairmanSDPC"))
+                    if($_SESSION['supervisor'] OR !strcmp($_SESSION['role'], "ConvenerDDPC") OR !strcmp($_SESSION['role'], "HOD") OR !strcmp($_SESSION['role'], "ChairmanSDPC"))
                     {
                         if(!strcmp($currentTab, "approve"))
                             echo "<li class=\"active\">"; 
@@ -207,18 +232,7 @@
                     }
                     if(!strcmp($_SESSION['role'], "ConvenerDDPC") OR !strcmp($_SESSION['role'], "HOD") OR !strcmp($_SESSION['role'], "ChairmanSDPC"))
                     {
-                        if(!strcmp($currentTab, "viewStudents"))
-                            echo "<li class=\"active\">"; 
-                        else
-                            echo "<li>";
                         
-                ?>
-                        <a href="viewStudents.php">
-                            <i class="ti-layout-list-thumb"></i>
-                            <p>View Students</p>
-                        </a>
-                    </li>
-                <?php
                     if(!strcmp($currentTab, "members"))
                             echo "<li class=\"active\">"; 
                         else
@@ -228,6 +242,18 @@
                         <a href="members.php">
                             <i class="ti-layout-list-thumb"></i>
                             <p>DDPC Members</p>
+                        </a>
+                    </li>
+                <?php
+                    if(!strcmp($currentTab, "report"))
+                            echo "<li class=\"active\">"; 
+                        else
+                            echo "<li>";
+                        
+                ?>
+                        <a href="reports.php">
+                            <i class="ti-layout-list-thumb"></i>
+                            <p>Reports</p>
                         </a>
                     </li>
                 <?php

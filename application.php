@@ -118,7 +118,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination </a></li>
 								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board </a></li>
 								<li><a href="studentList.php?form=15"> List of Suggested Examiners for Ph.D Thesis Evaluation Board </a></li>
-								<li><a href="applyDP13.php"> Supervisor Selection </a></li>
+								<li><a href="studentList.php?form=13"> Supervisor Selection </a></li>
+
 							</ol>
 							<?php
 								}
@@ -144,7 +145,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 							?>
 							<ol style="font-size:25px;">
 
-								<!--<li><a href="printDP02.php"> Print SRC</a></li>-->
+								<li><a href="studentList.php?form=03">Print Semester Progress Report of the Candidate </a></li>
+								<li><a href="studentList.php?form=09">Print Report of Examiners of the Comprehensive Examination</a></li>
+								<li><a href="studentList.php?form=10">Print Report of State-of-the-Art Seminar </a></li>
+								<li><a href="studentList.php?form=11">Print Report of Open Seminar </a></li>
 							</ol>
 							<?php
 								}

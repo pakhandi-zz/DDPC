@@ -24,7 +24,7 @@ if(isset($_POST[faculty1]))
 	$allnotifications = mysqli_query($connection, $query);
 	$notificationsCount = mysqli_num_rows($allnotifications);
 	$newNotificationId = $notificationsCount + 1;
-	$description = "<a href=\"applyDP13.php\">New DP12 application by ".$_SESSION[reg_no]." - ".$user['name']."</a>";
+	$description = "New DP12 application by ".$_SESSION[reg_no]." - ".$user['name'];
 	$issue_date = date('Y-m-d');
 	$target_group = "";
 	$target_member = $nextNotifTo;
@@ -36,14 +36,14 @@ if(isset($_POST[faculty1]))
 				VALUES ('$reg_no', '{$_POST['faculty1']}', '$supervisor', '$pending')";
 	$result = mysqli_query($connection, $query);
 }
-if(isset($_POST[faculty2]) && !empty($_POST[faculty2]))
+if(isset($_POST[faculty2]))
 {
 	$nextNotifTo = $_POST['faculty2'];
 	$query = "SELECT * FROM notifications";
 	$allnotifications = mysqli_query($connection, $query);
 	$notificationsCount = mysqli_num_rows($allnotifications);
 	$newNotificationId = $notificationsCount + 1;
-	$description = "<a href=\"applyDP13.php\">New DP12 application by ".$_SESSION[reg_no]." - ".$user['name']."</a>";
+	$description = "New DP12 application by ".$_SESSION[reg_no]." - ".$user['name'];
 	$issue_date = date('Y-m-d');
 	$target_group = "";
 	$target_member = $nextNotifTo;

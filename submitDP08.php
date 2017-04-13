@@ -22,7 +22,7 @@ $role5= mysqli_real_escape_string($connection, $_POST['role5']);
 $student_reg_no = mysqli_real_escape_string($connection, $_POST['student_reg_no']);
 $status = "pending";
 $progress = "ConvenerDDPC";
-$type = "Comprehensive Examination";
+$type = "Ph.D Comprehensive Examination";
 
 $academic_year = date('Y');
 

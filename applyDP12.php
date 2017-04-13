@@ -1,6 +1,18 @@
 	<?php
 
 	include("./includes/preProcess.php");
+	$prevPageLink = "application.php";
+	$reg_no = $_SESSION['reg_no'];
+	$query = "SELECT * from currentsupervisor WHERE reg_no ='$reg_no'";
+	$result = mysqli_query($connection, $query);
+	if(mysqli_num_rows($result) >= 1){
+		echo "<script>
+			alert('This form can only be applied once. You have already selected your supervisor.');
+			window.location.href='./application.php';
+			</script>";
+	}
+
+
 	$query = "SELECT * from awarddistribution";
 	$result = mysqli_query($connection, $query);
 	$course_distribution = array();
@@ -209,20 +221,10 @@
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="ti-panel"></i>
-								<p style="display : none;">Stats</p>
-							</a>
-						</li>
-						<?php include('./includes/notifications.php'); ?>
-						<li>
-							<a href="./logout.php">
-								<i class="ti-settings"></i>
-								<p>LogOut</p>
-							</a>
-						</li>
-					</ul>
+
+                        <?php include("./includes/topright.php") ?>
+
+                    </ul>
 
 				</div>
 			</div>
@@ -243,15 +245,16 @@
 									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
 									Status :<b> <?php echo $user['program_category'];?>	</b><br>
+									Area/Field of Research : <input type="text" class="form-control border-input" name="AOR" style="width:75%; height:35px;">
 									
-									<center><u><h5>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h5></u></center><br>
+									<br>
+									<br>
 								</div>
 								
 								<div class="row col-md-offset-1">
 									<div class="col-md-11" style="font-size:10px;">
-										Area/Field of Research : <input type="text" name="AOR" style="width: 100%; height: 50px;" >
-										<br /> <br />
 										<table class="table table-bordered table-condensed">
+											<h4><center><u>Details of the Course Work</u></center></h4>
 											<thead>
 												<th>SI. No.</th>
 												<th>Course Name with Code</th>
@@ -319,6 +322,7 @@
 							<div class="row col-md-offset-1">
 								<div class="col-md-11" style="font-size:10px;">
 									<table class="table table-bordered table-condensed">
+									<h4><center><u>Name of Supervisor(s)</u></center></h4>
 										<thead>
 											<th>SI. No.</th>
 											<th>Name of the Faculty</th>

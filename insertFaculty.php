@@ -35,6 +35,12 @@ window.location.href='./add.php';
 	}
 	else
 	{
+		if(mysqli_errno($connection)==1062){
+			echo "<script>
+			alert('Duplicate Entry.');
+			window.location.href='./add.php';
+			</script>";
+					}
 		echo "Unknown Error Occured";
 	}
 	
