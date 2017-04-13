@@ -31,7 +31,7 @@ $query = "SELECT * FROM notifications";
 $allnotifications = mysqli_query($connection, $query);
 $notificationsCount = mysqli_num_rows($allnotifications);
 $newNotificationId = $notificationsCount + 1;
-$description = "New DP13 application by ".$_SESSION[reg_no]." - ".$user['name'];
+$description = "<a href=\"studentDP13.php\">New DP13 application by ".$_SESSION[reg_no]." - ".$user['name']."</a>";
 $issue_date = date('Y-m-d');
 $target_group = "";
 $target_member = $nextNotifTo;

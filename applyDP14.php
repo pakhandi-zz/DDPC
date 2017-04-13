@@ -244,7 +244,64 @@
 									Department : <b> Computer Science and Engineering </b><br>Existing Supervisor(s): <b> -- </b><br>
 									Present Status of Work :<b> -- </b><br>
 									Suggested Supervisor(s): <br />
-									Reason for change: <br />
+
+
+									<div class="row col-md-offset-1">
+										<div class="col-md-11" style="font-size:10px;">
+											<table class="table table-bordered table-condensed">
+												<thead>
+													<th>SI. No.</th>
+													<th>Name of the Faculty</th>
+													<th>Designation</th>
+													<th>Department</th>
+												</thead>
+
+												<tbody>
+													<?php
+														for($i = 1; $i <= 2; $i++)
+														{
+													?>
+													<tr>
+														<td><?php echo $i ?></td>
+
+														<td>
+															<select class="form-control border-input" name="faculty<?php echo $i ?>" 
+															onchange="instaSearch(this.value, <?php echo $i ?>);">
+																<option value="">
+																	Select
+																</option>
+															<?php
+															$query = "SELECT * FROM faculty";
+															$faculties = mysqli_query($connection, $query);
+
+															while( $thisFaculty = mysqli_fetch_array($faculties)  )
+															{
+															?>
+																<option value="<?php echo $thisFaculty['faculty_id'] ?>">
+																	<?php echo $thisFaculty['name'] ?>
+																</option>
+															<?php
+															}
+															?>
+															</select>	
+														</td>
+
+														<td id="<?php echo "f".$i; ?>3"></td>
+														
+														<td id="<?php echo "f".$i; ?>4"></td>
+													</tr>
+													<?php
+														}
+													?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									
+									Reason for change: 
+									<input type="text" name="reason" class="form-control border-input" style="width:80%;">
+									<br />
 								</div>
 								
 								

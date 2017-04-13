@@ -118,8 +118,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination </a></li>
 								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board </a></li>
 								<li><a href="studentList.php?form=15"> List of Suggested Examiners for Ph.D Thesis Evaluation Board </a></li>
-								<li><a href="studentList.php?form=13"> Supervisor Selection </a></li>
-
+								<li><a href="applyDP13.php"> Supervisor Selection </a></li>
 							</ol>
 							<?php
 								}
