@@ -96,7 +96,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 							<div class="col-md-6">
 							<div class="card">
                             <div class="header">
-                                <h4 class="title">Apply the form for</h4>
+                                <h4 class="title">Apply the form for :</h4>
                                 <p class="category">List of students under supervision</p>
                             </div>
                             <div class="content table-responsive table-full-width">
@@ -114,7 +114,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                if (!in_array($thisStudent['reg_no'], $s_array))
                                                 {
                                                     continue;
                                                 }

@@ -1,7 +1,7 @@
 <?php
 
     include("./includes/preProcess.php");
-    $prevPageLink = "adminDashboard.php";
+    $prevPageLink = "yearWiseList.php";
     if (!strcmp($_SESSION['role'], "Supervisor"))
     {
         $supervisor_id = $_SESSION['reg_no'];
@@ -13,7 +13,8 @@
             array_push($s_array, $s_row['reg_no']);
         }
     }
-    
+    $from_year = mysqli_real_escape_string($connection, $_GET['from_year']);
+    $to_year = mysqli_real_escape_string($connection, $_GET['to_year']);  
 ?>
 
 <!doctype html>
@@ -93,29 +94,32 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Students</h4>
-                                <p class="category">List of all the students</p>
+                                <h4 class="title">Registered Students</h4>
+                                <p class="category">List of all the students registered between <?php echo $from_year." and ".$to_year ?></p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
+                                    <?php
+                                            $query = "select * from (select *, min(date_of_reg) as date_of_joining from studentregistration natural join studentmaster group by reg_no) as stu where year(date_of_joining) >= '$from_year' AND year(date_of_joining) <= '$to_year'";
+                                            $allStudents = mysqli_query($connection, $query);
+                                            if(mysqli_num_rows($allStudents) == 0){
+                                                echo "<div class='row col-md-offset-1'>No results found.</div>";
+                                                exit();
+                                            }
+                                    ?>
                                     <thead>
                                         <th>Registration Number</th>
                                     	<th>Name</th>
                                     	<!-- <th>Program</th> -->
                                     	<th>Contact Number</th>
                                     	<th>Email Id</th>
+                                        <th>Date of Joining</th>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                            $query = "SELECT * FROM studentmaster";
-                                            $allStudents = mysqli_query($connection, $query);
 
+                                            <?php
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
-                                                {
-                                                    continue;
-                                                }
                                         ?>
                                                 <tr>
                                                     <td>
@@ -134,6 +138,9 @@
                                                     </td>
                                                     <td>
                                                         <?php echo $thisStudent['mail_id'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $thisStudent['date_of_joining'] ?>
                                                     </td>
                                                 </tr>
                                         <?php

@@ -41,7 +41,7 @@ if(isset($_POST['login']))
 			{
 				$query = "SELECT * FROM members WHERE member_id='$reg_no'";
 				$results = mysqli_query($connection, $query);
-				if(mysqli_num_rows($results) == 1)
+				if(mysqli_num_rows($results) >= 1)
 				{
 					$result = mysqli_fetch_array($results);
 					$_SESSION['in_ddpc'] = 1;

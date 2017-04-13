@@ -42,7 +42,7 @@ else{
 	$result = mysqli_query($connection, $query);
 	echo "<script>
 alert('Application Submitted Successfully.');
-window.location.href='./dashboard.php';
+window.location.href='./application.php';
 </script>";
 }
 ?>

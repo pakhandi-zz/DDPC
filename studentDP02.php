@@ -29,14 +29,13 @@
         return $faculty;
     }
 
-    $s_query = "Select role from members WHERE member_id = '$supervisor_id'";
+    $s_query = "Select role from members WHERE member_id = '$mem_id'";
     $s_result = mysqli_query($connection, $s_query);
     $role_array = array();
     while($s_row = mysqli_fetch_array($s_result))
     {
         array_push($role_array, $s_row['role']);
     }
-
     $prevPageLink = "approve.php";
     
 ?>
