@@ -1,10 +1,14 @@
 	<?php
 
 		include("./includes/preProcess.php");
+		$prevPageLink = "application.php";
 		$student_reg_no = $_GET['student_reg_no'];
-		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
+		$query = "SELECT * FROM studentmaster NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
 		$results = mysqli_query($connection, $query);
 		$student = mysqli_fetch_array($results);
+		$query = "SELECT * FROM studentthesisdetails WHERE reg_no='$student_reg_no'";
+		$results = mysqli_query($connection, $query);
+		$studentthesisdetails = mysqli_fetch_array($results);
 		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
 		$results = mysqli_query($connection, $query);
 		$arr = mysqli_fetch_array($results);
@@ -146,20 +150,10 @@
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="ti-panel"></i>
-									<p style="display : none;">Stats</p>
-							</a>
-						</li>
-						<?php include('./includes/notifications.php'); ?>
-						<li>
-							<a href="./logout.php">
-								<i class="ti-settings"></i>
-								<p>LogOut</p>
-							</a>
-						</li>
-					</ul>
+
+                        <?php include("./includes/topright.php") ?>
+
+                    </ul>
 
 				</div>
 			</div>
@@ -181,10 +175,10 @@
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Area of Research : <b><?php echo $student['AOR'] ?></b><br>
+									Area of Research : <b><?php echo $studentthesisdetails['AOR'] ?></b><br>
 									Supervisor(s) : <b><?php echo getFacultyName($student['supervisor1_id']); 
 									if(!empty($student['supervisor2_id'])){
-										echo getFacultyName($student['supervisor2_id']); 
+										echo ", ".getFacultyName($student['supervisor2_id']); 
 									}
 									?></b>
 								</div>
@@ -206,7 +200,7 @@
 														onchange="nowsearch(this.value, 1);" required>
 														<option value="">Select</option>
 														<?php
-														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$query = "SELECT * FROM faculty NATURAL JOIN department WHERE dept_id = '4'";
 														$faculty = mysqli_query($connection, $query);
 
 														while( $thisFaculty = mysqli_fetch_array($faculty)  )
@@ -227,7 +221,7 @@
 														onchange="nowsearch(this.value, 2);" required>
 														<option value="">Select</option>
 														<?php
-														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$query = "SELECT * FROM faculty NATURAL JOIN department WHERE dept_id != '4'";
 														$faculty = mysqli_query($connection, $query);
 
 														while( $thisFaculty = mysqli_fetch_array($faculty)  )
@@ -248,7 +242,7 @@
 														onchange="nowsearch(this.value, 3);" required>
 														<option value="">Select</option>
 														<?php
-														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$query = "SELECT * FROM faculty NATURAL JOIN department WHERE dept_id = '4'";
 														$faculty = mysqli_query($connection, $query);
 
 														while( $thisFaculty = mysqli_fetch_array($faculty)  )
@@ -269,7 +263,7 @@
 														onchange="nowsearch(this.value, 4);">
 														<option value="">Select</option>
 														<?php
-														$query = "SELECT * FROM faculty NATURAL JOIN department";
+														$query = "SELECT * FROM faculty NATURAL JOIN department WHERE dept_id = '4'";
 														$faculty = mysqli_query($connection, $query);
 
 														while( $thisFaculty = mysqli_fetch_array($faculty)  )

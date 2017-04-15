@@ -109,7 +109,7 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT member_id, member_type, dept_name FROM members JOIN department WHERE members.dept_id = department.dept_id";
+                                            $query = "SELECT distinct(member_id), member_type, dept_name FROM members JOIN department WHERE members.dept_id = department.dept_id";
                                             $allMembers = mysqli_query($connection, $query);
 
                                             while( $thisMember = mysqli_fetch_array($allMembers) )

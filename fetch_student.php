@@ -18,6 +18,15 @@ $result=mysqli_query($connection, $query);
 		$newnode=$pnode->appendChild($my_node);
 
 		$newnode->setAttribute("reg_no", $row['reg_no']);
+		$newnode->setAttribute("dept_id", $row['dept_id']);
+
+		$tempVar = $row['dept_id'];
+		$tempQuery = "SELECT * FROM department WHERE dept_id='$tempVar'";
+		$tempResult = mysqli_query($connection, $tempQuery);
+		$tempResult = mysqli_fetch_array($tempResult);
+		$dept_name = $tempResult['dept_name'];
+
+		$newnode->setAttribute("dept_name", $dept_name);
 		$newnode->setAttribute("name",$row['name']);
 		$newnode->setAttribute("date_of_reg",$row['date_of_reg']);
 		$newnode->setAttribute("AOR",$row['AOR']);

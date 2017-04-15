@@ -1,6 +1,17 @@
 	<?php
 
 		include("./includes/preProcess.php");
+		$prevPageLink = "application.php";
+
+		if (strpos($user['program_category'], 'Part Time') !== false) {
+			echo "<script>
+			alert('Cannot apply as your current status is already ".$user['program_category'].".');
+			window.location.href='./application.php';
+			</script>";
+
+		}
+
+
 		$reg_no = $_SESSION['reg_no'];
 		$query = "SELECT supervisor1_id, supervisor2_id FROM currentsupervisor WHERE reg_no ='$reg_no'";
 		$s_results = mysqli_query($connection, $query);
@@ -95,21 +106,10 @@
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="ti-panel"></i>
 
-									<p style="display : none;">Stats</p>
-								</a>
-							</li>
-							<?php include('./includes/notifications.php'); ?>
-							<li>
-								<a href="./logout.php">
-									<i class="ti-settings"></i>
-									<p>LogOut</p>
-								</a>
-							</li>
-						</ul>
+                        <?php include("./includes/topright.php") ?>
+
+                    </ul>
 
 					</div>
 				</div>
@@ -130,7 +130,7 @@
 									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
 									Supervisor(s): <b> <?php echo $sname1." ".$sname2; ?></b><br>
-									Present Registration Status: <b>Full-Time</b><br>
+									Present Registration Status: <b><?php echo $user['program_category'] ?></b><br>
 									Registration Status to be converted to: <b>Part-Time</b><br>
 									Justification/Reason:<textarea form="dp05" style="vertical-align:top" class="form-control border-input" name="reason" id="reason"></textarea>
 									

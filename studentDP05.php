@@ -2,15 +2,20 @@
 
     include("./includes/preProcess.php");
         $supervisor_id = $_SESSION['reg_no'];
-        $s_query = "Select reg_no from supervisorhistory WHERE supervisor_id = '$supervisor_id'";
+        $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
         $s_result = mysqli_query($connection, $s_query);
         $s_array = array();
         while($s_row = mysqli_fetch_array($s_result))
         {
             array_push($s_array, $s_row['reg_no']);
         }
-
-
+        $s_query = "Select role from members WHERE member_id = '$supervisor_id'";
+        $s_result = mysqli_query($connection, $s_query);
+        $role_array = array();
+        while($s_row = mysqli_fetch_array($s_result))
+        {
+            array_push($role_array, $s_row['role']);
+        }
     $prevPageLink = "approve.php";
     
 ?>
@@ -109,21 +114,24 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $query = "SELECT * FROM partfullstatus";
+                                            $query = "SELECT * FROM partfullstatus WHERE status='pending'";
                                             $allStudents = mysqli_query($connection, $query);
 
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if(( $thisStudent['progress'] != $_SESSION['role'] && strcmp($thisStudent['progress'], "Supervisor")) || !strcmp($thisStudent['status'], "approved"))
+                                                if(!in_array($thisStudent['progress'], $role_array)  && strcmp($thisStudent['progress'], "Supervisor"))
                                                 {
                                                     continue;
                                                 }
                                                 else {
-                                                    if (!strcmp(thisStudent['progress'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+
+                                                    if (!strcmp($thisStudent['progress'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
                                                     {
                                                         continue;
                                                     }
+                                                    else
+
                                         ?>
                                                 <tr>
                                                     <td>
@@ -154,30 +162,13 @@
                                                     <td>
                                                         <form method="post" id="comment" action="commentDP05.php">
                                                         <textarea form="comment" style="vertical-align:top" class="form-control border-input" name="supervisor_comment" id="supervisor_comment"></textarea>
-                                                        <input type="text" hidden value="<?php echo $thisStudent['reg_no'];?>" name="reg_no">
+                                                        <input type="text" hidden value="<?php echo $thisStudent['reg_no'];?>" name="reg_no" nextNotifTo="<?php echo $nextNotifTo ?>" >
                                                         <input type="submit" value="Comment"/>
                                                         </form>
                                                     </td>
                                                     <td></td>
                                                     <?php
-                                                        }
-                                                        else if(!strcmp($_SESSION['role'],"HOD"))
-                                                            {
-
-                                                    ?>
-
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC"/>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD"/>
-                                                        </form>
-                                                    </td>
-                                                    <?php    
-                                                            }  else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
+                                                        }else if(in_array($thisStudent['progress'], $role_array) && !strcmp("ConvenerDDPC", $thisStudent['progress'])) 
                                                         {
                                                             $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
                                                             $thisResult = mysqli_query($connection, $thisQuery);
@@ -186,7 +177,7 @@
                                                     ?>
                                                     <td>
                                                         <form method="post">
-                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD"/>
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>" />
                                                         </form>
                                                     </td>
                                                     <td>
@@ -195,7 +186,28 @@
                                                         </form>
                                                     </td>
                                                      <?php
-                                                        } else if(!strcmp($_SESSION['role'],"ChairmanSDPC"))
+                                                        } 
+                                                        else if(in_array($thisStudent['progress'], $role_array) && !strcmp("HOD", $thisStudent['progress'])) 
+                                                            {
+                                                                $thisQuery = "SELECT member_id FROM `members` WHERE role='ChairmanSDPC'";
+                                                            $thisResult = mysqli_query($connection, $thisQuery);
+                                                            $thisResult = mysqli_fetch_array($thisResult);
+                                                            $nextNotifTo = $thisResult['member_id'];
+
+                                                    ?>
+
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="pending" progress="ChairmanSDPC" nextNotifTo="<?php echo $nextNotifTo ?>" />
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Not Recommended" reg_no = "<?php echo $thisStudent['reg_no'] ?>" status="denied" progress="HOD"/>
+                                                        </form>
+                                                    </td>
+                                                    <?php    
+                                                            }  else if(in_array($thisStudent['progress'], $role_array) && !strcmp("ChairmanSDPC", $thisStudent['progress'])) 
                                                         {
                                                     ?>
                                                     <td>

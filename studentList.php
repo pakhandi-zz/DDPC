@@ -1,7 +1,7 @@
 	<?php
 
 		include("./includes/preProcess.php");
-	    $prevPageLink = "dashboard.php";
+	    $prevPageLink = "application.php";
 	    $supervisor_id = $_SESSION['reg_no'];
 	    $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id' OR supervisor2_id = '$supervisor_id'";
 	    $s_result = mysqli_query($connection, $s_query);
@@ -96,7 +96,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 							<div class="col-md-6">
 							<div class="card">
                             <div class="header">
-                                <h4 class="title">Apply the form for</h4>
+                                <h4 class="title">Apply the form for :</h4>
                                 <p class="category">List of students under supervision</p>
                             </div>
                             <div class="content table-responsive table-full-width">
@@ -114,7 +114,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 
                                             while( $thisStudent = mysqli_fetch_array($allStudents) )
                                             {
-                                                if (!strcmp($_SESSION['role'], "Supervisor") && !in_array($thisStudent['reg_no'], $s_array))
+                                                if (!in_array($thisStudent['reg_no'], $s_array))
                                                 {
                                                     continue;
                                                 }

@@ -106,6 +106,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 
 								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
 								<li><a href="applyDP04.php"> Apply for addition or deletion of courses </a></li>
+								<li><a href="applyDP12.php"> Supervisor selection </a></li>
+								<li><a href="applyDP14.php"> Change Supervisor</a></li>
 
 							</ol>
 							<?php
@@ -144,7 +146,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 							?>
 							<ol style="font-size:25px;">
 
-								<!--<li><a href="printDP02.php"> Print SRC</a></li>-->
+								<li><a href="studentList.php?form=03">Print Semester Progress Report of the Candidate </a></li>
+								<li><a href="studentList.php?form=09">Print Report of Examiners of the Comprehensive Examination</a></li>
+								<li><a href="studentList.php?form=10">Print Report of State-of-the-Art Seminar </a></li>
+								<li><a href="studentList.php?form=11">Print Report of Open Seminar </a></li>
 							</ol>
 							<?php
 								}
