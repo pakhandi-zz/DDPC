@@ -7,12 +7,12 @@
 	$query = "SELECT * from variables where var = 'reg_open'";
 	$result = mysqli_query($connection, $query);
 	$reg_open = mysqli_fetch_assoc($result);
-	// if($reg_open['value'] == 0){
-	// 	echo "<script>
-	// 		alert('Registration is closed.');
-	// 		window.location.href='./application.php';
-	// 		</script>";
-	// }
+	if($reg_open['value'] == 0){
+		echo "<script>
+			alert('Registration is closed.');
+			window.location.href='./application.php';
+			</script>";
+	}
 	$query = "SELECT * from awarddistribution";
 	$result = mysqli_query($connection, $query);
 	$course_distribution = array();
