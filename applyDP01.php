@@ -45,6 +45,9 @@
 		$thisResult = mysqli_fetch_array($thisResult);
 		$nextNotifTo = $thisResult['supervisor1_id'];
 	}
+	$query = "SELECT * from variables where var = 'sem'";
+	$result = mysqli_query($connection, $query);
+	$sem_var = mysqli_fetch_assoc($result);
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -243,12 +246,12 @@
 											Sem-No: <b><input name="sem_no" class ="form-control border-input" style="width:50%; height:10%;" type="number" value="<?php echo $sem_no; ?>" max="20" min="<?php echo $sem_no; ?>" required/></b>
 										</div>
 										<div class="col-md-6">
-											Sem-Type:
-											<select name="sem_type" class="form-control border-input" style="width:50%;height:10%;" required>
+											Sem-Type: <b><?php echo $sem_var['value'] ?></b>
+											<!-- <select name="sem_type" class="form-control border-input" style="width:50%;height:10%;" required>
 												<option value="">Select</option>
 												<option value ="0">Even</option>
 												<option value ="1">Odd</option>
-											</select>
+											</select> -->
 										</div>
 									</div>
 									<center><u><h5>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h5></u></center><br>

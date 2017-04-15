@@ -107,6 +107,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
 								<li><a href="applyDP04.php"> Apply for addition or deletion of courses </a></li>
 								<li><a href="applyDP12.php"> Supervisor selection </a></li>
+								<li><a href="applyDP14.php"> Change Supervisor</a></li>
 
 							</ol>
 							<?php

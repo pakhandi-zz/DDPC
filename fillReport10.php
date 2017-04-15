@@ -1,14 +1,11 @@
 	<?php
 
 		include("./includes/preProcess.php");
-		$prevPageLink = "application.php";
+		$prevPageLink = "fillDetails.php";
 		$student_reg_no = $_GET['student_reg_no'];
 		$query = "SELECT * FROM studentmaster NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
 		$results = mysqli_query($connection, $query);
 		$student = mysqli_fetch_array($results);
-		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails WHERE reg_no='$student_reg_no'";
-		$results = mysqli_query($connection, $query);
-		$thesis = mysqli_fetch_array($results);
 		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
 		$results = mysqli_query($connection, $query);
 		$arr = mysqli_fetch_array($results);
@@ -72,6 +69,13 @@
 		<link href="./css/myCss.css" rel="stylesheet">
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
+		 <style type="text/css">
+		.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{
+		   background: #333;
+		   border: 1px solid #555;
+		   color: #EEE;
+		 }
+		</style>
 		
 	</head>
 	<body>
@@ -114,29 +118,33 @@
 				</div>
 			</div>
 		</nav>
-		<div class="content" id="printThisSection">
+		<div class="content">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-11</div>
+								<div class="col-md-offset-10"> Form: DP-10</div>
 								<div class="col-md-offset-10"> (Clause 11)</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
-								<center><u><h5>Report of Open Seminar</h5></u></center><br>
+								<center><u><h5>Report of State-of-the-Art Seminar</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp11" name="dp11">
+									<form class="form-inline" id="dp10" name="dp10" action="submitDP10.php" method="post">
 
 
 									
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Thesis Title: <b><?php echo $thesis['final_topic']; ?></b>
+					
 
 									<div class="col-md-11">
+											<b>Date of Passing the Comprehensive Examination:</b>
+											<input type="text"  id="comp_date" name="comp_date">
+									</div>
+									<div class="col-md-11">
 											<b>Date of delivery of the Seminar:</b>
-											<!-- <input type="text" id="sem_date" name="sem_date"> -->
+											<input type="text" id="sem_date" name="sem_date">
 									</div>
 									<div class="col-md-11">
 											Name of Thesis Supervisor(s):
@@ -146,10 +154,13 @@
 											}
 									?></b>
 									</div>
-
+									<div class="col-md-11">
+											<b>Topic of the Seminar:</b>
+											<input type="text" id="sem_topic" name="sem_topic" style="width: 75%;">
+									</div>
 									<div class="col-md-11">
 											<b>Comments:</b>
-											<!-- <input type="text" id="comments" name="comments" style="width: 75%;"> -->
+											<!-- <input type="text" id="comments" name="comments"> -->
 									</div>
 									
 								</div>
@@ -204,9 +215,7 @@
 			</div>
 
 			<div class="text-center">
-				<!-- <button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button> -->
-				<button class="btn btn-info btn-fill btn-wd" onclick="printSection();">Print</button>
-
+				<button type="submit" class="btn btn-info btn-fill btn-wd">Fill</button>
 			</div><br>
 			<h5 class="text-center" id="msg" style="color:red;"></h5>
 		</form>
@@ -254,8 +263,10 @@
 <!-- <script src="assets/js/datepicker.js"></script> -->
 
 <script type="text/javascript">
-	$("#sem_date").datepicker({
+	$("#comp_date, #sem_date").datepicker({
 				  minDate: 0,
+				  changeMonth: true,
+				  changeYear: true,
 				  dateFormat: 'yy-mm-dd'
 				});
 	function removeNot() {
@@ -275,15 +286,6 @@
 		if(xmldata.responseText != ""){
 			toPrint = xmldata.responseText;
 		}
-	}
-	function printSection(){
-		var prtContent = document.getElementById("printThisSection");
-		var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-		WinPrint.document.write(prtContent.innerHTML);
-		WinPrint.document.close();
-		WinPrint.focus();
-		WinPrint.print();
-		WinPrint.close();
 	}
 
 </script>

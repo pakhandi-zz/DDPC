@@ -1,14 +1,11 @@
 	<?php
 
 		include("./includes/preProcess.php");
-		$prevPageLink = "application.php";
+		$prevPageLink = "fillDetails.php";
 		$student_reg_no = $_GET['student_reg_no'];
 		$query = "SELECT * FROM studentmaster NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
 		$results = mysqli_query($connection, $query);
 		$student = mysqli_fetch_array($results);
-		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails WHERE reg_no='$student_reg_no'";
-		$results = mysqli_query($connection, $query);
-		$thesis = mysqli_fetch_array($results);
 		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
 		$results = mysqli_query($connection, $query);
 		$arr = mysqli_fetch_array($results);
@@ -72,6 +69,13 @@
 		<link href="./css/myCss.css" rel="stylesheet">
 
 		<link href="assets/css/datepicker.css" rel="stylesheet" />
+		<style type="text/css">
+		.ui-datepicker select.ui-datepicker-month, .ui-datepicker select.ui-datepicker-year{
+		   background: #333;
+		   border: 1px solid #555;
+		   color: #EEE;
+		 }
+		</style>
 		
 	</head>
 	<body>
@@ -120,38 +124,64 @@
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-11</div>
-								<div class="col-md-offset-10"> (Clause 11)</div>
+								<div class="col-md-offset-10"> Form: DP-03</div>
+								<div class="col-md-offset-10"> (Clause 4.3)</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
-								<center><u><h5>Report of Open Seminar</h5></u></center><br>
+								<center><u><h5>Semester Progress Report of the Candidate</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp11" name="dp11">
+									<form class="form-inline" id="dp03" name="dp03" action="submitDP03.php" method="POST">
 
 
 									
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Thesis Title: <b><?php echo $thesis['final_topic']; ?></b>
-
-									<div class="col-md-11">
-											<b>Date of delivery of the Seminar:</b>
-											<!-- <input type="text" id="sem_date" name="sem_date"> -->
-									</div>
-									<div class="col-md-11">
-											Name of Thesis Supervisor(s):
-											<b><?php echo getFacultyName($student['supervisor1_id']); 
-											if(!empty($student['supervisor2_id'])){
-												echo ", ".getFacultyName($student['supervisor2_id']); 
-											}
+									Supervisor(s) : <b><?php echo getFacultyName($student['supervisor1_id']); 
+									if(!empty($student['supervisor2_id'])){
+										echo ", ".getFacultyName($student['supervisor2_id']); 
+									}
 									?></b>
+									
+									<div class="col-md-11">
+										<b>No. of Courses completed:</b>
+										<input name="courses_completed" type="number"/>
+									</div>
+									<div class="col-md-11">
+										<b>Total Credits: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a)Attempted</b>
+										<input name="credits_attempted" type="number"/><br>
+									</div>
+									<div class="col-md-offset-2">
+										<b>(b)Earned</b><input name="credits_earned" type="number"/>
 									</div>
 
 									<div class="col-md-11">
-											<b>Comments:</b>
-											<!-- <input type="text" id="comments" name="comments" style="width: 75%;"> -->
+											<b>Date of Comprehensive Examination:</b>
+											<input type="text"  id="comp_date" name="comp_date">
 									</div>
-									
+									<div class="col-md-11">
+											<b>Date of State of Art:</b>
+											<input type="text" id="soa_date" name="soa_date">
+									</div>
+									<div class="col-md-11">
+											<b>Date of Presentation:</b>
+											<input type="text" id="pres_date" name="pres_date">
+									</div>
+									<div class="col-md-11">
+											<b>Progress of the candidate is satisfactory:</b>
+											<select>
+												<option value="">Select</option>
+												<option value="yes">Yes</option>
+												<option value="no">No</option>
+											</select>
+									</div>
+									<div class="col-md-11">
+											<b>Credit: </b>
+											<select>
+												<option value="">Select</option>
+												<option value="S">S</option>
+												<option value="X">X</option>
+											</select>
+									</div>
 								</div>
 								
 								<div class="row col-md-offset-1">
@@ -164,49 +194,10 @@
 				</div>
 			</div>
 			<br><br>
-			<div style="font-size:15px">
-				<div class="row col-md-offset-1">
-					<div class="col-md-4">
-						Supervisor(s)
-					</div>
-					<div class="col-md-4">
-						Internal Member SRC
-					</div>
-					<div class="col-md-3">
-						External Member SRC
-					</div>
-				</div>
-				<br/><br><br>
-				<div class="row col-md-offset-1">
-					<div class="col-md-4">
-						Forwarded By:
-					</div>
-					<div class="col-md-4">
-						Convener DDPC
-					</div>
-					<div class="col-md-3">
-						Head of Department
-					</div>
-				</div>
-				<br/><br><br>
-				<div class="row col-md-offset-1">
-					<div class="col-md-4">
-						Approved By:
-					</div>
-					<div class="col-md-4">
-						Chairman SPDC
-					</div>
-				</div>
-				<br>
-
-
-
-			</div>
+		
 
 			<div class="text-center">
-				<!-- <button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button> -->
-				<button class="btn btn-info btn-fill btn-wd" onclick="printSection();">Print</button>
-
+				<button type="submit" class="btn btn-info btn-fill btn-wd">Fill</button>
 			</div><br>
 			<h5 class="text-center" id="msg" style="color:red;"></h5>
 		</form>
@@ -254,8 +245,10 @@
 <!-- <script src="assets/js/datepicker.js"></script> -->
 
 <script type="text/javascript">
-	$("#sem_date").datepicker({
+	$("#comp_date, #soa_date, #pres_date").datepicker({
 				  minDate: 0,
+				  changeMonth: true,
+				  changeYear: true,
 				  dateFormat: 'yy-mm-dd'
 				});
 	function removeNot() {
@@ -275,15 +268,6 @@
 		if(xmldata.responseText != ""){
 			toPrint = xmldata.responseText;
 		}
-	}
-	function printSection(){
-		var prtContent = document.getElementById("printThisSection");
-		var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
-		WinPrint.document.write(prtContent.innerHTML);
-		WinPrint.document.close();
-		WinPrint.focus();
-		WinPrint.print();
-		WinPrint.close();
 	}
 
 </script>

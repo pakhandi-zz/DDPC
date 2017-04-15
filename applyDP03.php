@@ -111,7 +111,7 @@
 				</div>
 			</div>
 		</nav>
-		<div class="content">
+		<div class="content" id="printThisSection">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
@@ -122,7 +122,7 @@
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
 								<center><u><h5>Semester Progress Report of the Candidate</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp03" name="dp03" action="submitDP03.php" method="post">
+									<form class="form-inline" id="dp03" name="dp03" >
 
 
 									
@@ -131,50 +131,50 @@
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
 									Supervisor(s) : <b><?php echo getFacultyName($student['supervisor1_id']); 
 									if(!empty($student['supervisor2_id'])){
-										echo getFacultyName($student['supervisor2_id']); 
+										echo ", ".getFacultyName($student['supervisor2_id']); 
 									}
 									?></b>
 									
 									<div class="col-md-11">
 										<b>No. of Courses completed:</b>
-										<input name="courses_completed" type="number"/>
+										<!-- <input name="courses_completed" type="number"/> -->
 									</div>
 									<div class="col-md-11">
 										<b>Total Credits: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a)Attempted</b>
-										<input name="credits_attempted" type="number"/>
+										<!-- <input name="credits_attempted" type="number"/> -->
 									</div>
 									<div class="col-md-offset-2">
 										<b>(b)Earned</b>
-										<input name="credits_earned" type="number"/>
+										<!-- <input name="credits_earned" type="number"/> -->
 									</div>
 
 									<div class="col-md-11">
 											<b>Date of Comprehensive Examination:</b>
-											<input type="text"  id="comp_date" name="comp_date">
+											<!-- <input type="text"  id="comp_date" name="comp_date"> -->
 									</div>
 									<div class="col-md-11">
 											<b>Date of State of Art:</b>
-											<input type="text" id="soa_date" name="soa_date">
+											<!-- <input type="text" id="soa_date" name="soa_date"> -->
 									</div>
 									<div class="col-md-11">
 											<b>Date of Presentation:</b>
-											<input type="text" id="pres_date" name="pres_date">
+											<!-- <input type="text" id="pres_date" name="pres_date"> -->
 									</div>
 									<div class="col-md-11">
-											<b>Progress of the candidate is satisfactory:</b>
-											<select>
+											<b>Progress of the candidate is satisfactory(Yes/No): </b>
+											<!-- <select>
 												<option value="">Select</option>
 												<option value="yes">Yes</option>
 												<option value="no">No</option>
-											</select>
+											</select> -->
 									</div>
 									<div class="col-md-11">
-											<b>Credit:</b>
-											<select>
+											<b>Credit(S/X): </b>
+											<!-- <select>
 												<option value="">Select</option>
 												<option value="S">S</option>
 												<option value="X">X</option>
-											</select>
+											</select> -->
 									</div>
 								</div>
 								
@@ -219,7 +219,7 @@
 			</div>
 
 			<div class="text-center">
-				<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+				<button class="btn btn-info btn-fill btn-wd" onclick="printSection();">Print</button>
 			</div><br>
 			<h5 class="text-center" id="msg" style="color:red;"></h5>
 		</form>
@@ -288,6 +288,15 @@
 		if(xmldata.responseText != ""){
 			toPrint = xmldata.responseText;
 		}
+	}
+	function printSection(){
+		var prtContent = document.getElementById("printThisSection");
+		var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+		WinPrint.document.write(prtContent.innerHTML);
+		WinPrint.document.close();
+		WinPrint.focus();
+		WinPrint.print();
+		WinPrint.close();
 	}
 
 </script>

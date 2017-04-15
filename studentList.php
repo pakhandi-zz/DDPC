@@ -1,7 +1,7 @@
 	<?php
 
 		include("./includes/preProcess.php");
-	    $prevPageLink = "dashboard.php";
+	    $prevPageLink = "application.php";
 	    $supervisor_id = $_SESSION['reg_no'];
 	    $s_query = "Select reg_no from currentsupervisor WHERE supervisor1_id = '$supervisor_id' OR supervisor2_id = '$supervisor_id'";
 	    $s_result = mysqli_query($connection, $s_query);
