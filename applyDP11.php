@@ -3,9 +3,12 @@
 		include("./includes/preProcess.php");
 		$prevPageLink = "application.php";
 		$student_reg_no = $_GET['student_reg_no'];
-		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
+		$query = "SELECT * FROM studentmaster NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
 		$results = mysqli_query($connection, $query);
 		$student = mysqli_fetch_array($results);
+		$query = "SELECT * FROM studentmaster NATURAL JOIN studentthesisdetails WHERE reg_no='$student_reg_no'";
+		$results = mysqli_query($connection, $query);
+		$thesis = mysqli_fetch_array($results);
 		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
 		$results = mysqli_query($connection, $query);
 		$arr = mysqli_fetch_array($results);
@@ -111,7 +114,7 @@
 				</div>
 			</div>
 		</nav>
-		<div class="content">
+		<div class="content" id="printThisSection">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-12">
@@ -122,31 +125,31 @@
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
 								<center><u><h5>Report of Open Seminar</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp11" name="dp11" action="submitDP11.php" method="post">
+									<form class="form-inline" id="dp11" name="dp11">
 
 
 									
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Thesis Title: <b><?php echo $student['final_topic']; ?></b>
+									Thesis Title: <b><?php echo $thesis['final_topic']; ?></b>
 
 									<div class="col-md-11">
 											<b>Date of delivery of the Seminar:</b>
-											<input type="text" id="sem_date" name="sem_date">
+											<!-- <input type="text" id="sem_date" name="sem_date"> -->
 									</div>
 									<div class="col-md-11">
 											Name of Thesis Supervisor(s):
 											<b><?php echo getFacultyName($student['supervisor1_id']); 
 											if(!empty($student['supervisor2_id'])){
-												echo getFacultyName($student['supervisor2_id']); 
+												echo ", ".getFacultyName($student['supervisor2_id']); 
 											}
 									?></b>
 									</div>
 
 									<div class="col-md-11">
 											<b>Comments:</b>
-											<input type="text" id="comments" name="comments" style="width: 75%;">
+											<!-- <input type="text" id="comments" name="comments" style="width: 75%;"> -->
 									</div>
 									
 								</div>
@@ -201,7 +204,9 @@
 			</div>
 
 			<div class="text-center">
-				<button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+				<!-- <button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button> -->
+				<button class="btn btn-info btn-fill btn-wd" onclick="printSection();">Print</button>
+
 			</div><br>
 			<h5 class="text-center" id="msg" style="color:red;"></h5>
 		</form>
@@ -270,6 +275,15 @@
 		if(xmldata.responseText != ""){
 			toPrint = xmldata.responseText;
 		}
+	}
+	function printSection(){
+		var prtContent = document.getElementById("printThisSection");
+		var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+		WinPrint.document.write(prtContent.innerHTML);
+		WinPrint.document.close();
+		WinPrint.focus();
+		WinPrint.print();
+		WinPrint.close();
 	}
 
 </script>

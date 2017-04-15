@@ -11,7 +11,6 @@
 	$query = "SELECT * from currentsupervisor NATURAL JOIN faculty WHERE reg_no = '$reg_no'";
 	$result = mysqli_query($connection, $query);
 	$supervisor = mysqli_fetch_assoc($result);
-	$supervisor_name = $supervisor['name'];
 	$sem_no = $current_sem_no;
 	if($date_of_reg === null) {
 		$date_of_reg = date('Y-m-d');
@@ -32,6 +31,17 @@
 		$queryCourses = "SELECT * from courseregistration WHERE reg_no='$thisUniqueId' AND sem_no='$sem_no'";
 		$resultCourses = mysqli_query($connection, $queryCourses);
 	}
+	function getFacultyName($faculty_id){
+		include("./includes/connect.php");
+		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+		$result = mysqli_query($connection, $query);
+		$faculty = mysqli_fetch_assoc($result);
+		$faculty_name = $faculty['name'];
+		return $faculty_name;
+	}
+	$query = "SELECT * from studentprogramdetails WHERE reg_no = '$reg_no'";
+	$result = mysqli_query($connection, $query);
+	$studentprg = mysqli_fetch_assoc($result);
 
 
 	?> 
@@ -241,8 +251,8 @@
 									<form class="form-inline" id="dp14" name="dp14" action="submitDP14.php" method="post" onsubmit="return checkform(this.form);">
 									</b>
 									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
-									Department : <b> Computer Science and Engineering </b><br>Existing Supervisor(s): <b> -- </b><br>
-									Present Status of Work :<b> -- </b><br>
+									Department : <b> Computer Science and Engineering </b><br>Existing Supervisor(s): <b> <?php echo getFacultyName($supervisor['supervisor1_id'])."  ".getFacultyName($supervisor['supervisor2_id']) ?> </b><br>
+									Present Status of Work :<b> <?php echo $studentprg['status']?> </b><br>
 									Suggested Supervisor(s): <br />
 
 
