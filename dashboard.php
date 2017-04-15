@@ -1,7 +1,15 @@
 <?php
 
     include("./includes/preProcess.php");  
-    $prevPageLink = "adminDashboard.php";
+    $prevPageLink = "dashboard.php";
+    function getFacultyName($faculty_id){
+        include("./includes/connect.php");
+        $query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+        $result = mysqli_query($connection, $query);
+        $faculty = mysqli_fetch_assoc($result);
+        $faculty_name = $faculty['name'];
+        return $faculty_name;
+    }
 ?>
 
 
@@ -84,7 +92,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-4 col-md-5">
+                    <div class="col-lg-3 col-md-4">
                         <div class="card card-user">
                             <div class="image">
                                 <img src="assets/img/background.jpg" alt="..."/>
@@ -146,15 +154,6 @@
                                             <div class="form-group">
                                                 <label>Address</label>
                                                 <input type="text" class="form-control border-input convertInputtoBox" placeholder="Home Address" value="<?php echo $user['address'] ?>" name="address" disabled>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>Father's Name</label>
-                                                <input type="text" class="form-control border-input convertInputtoBox" placeholder="Father's Name" value="<?php echo $user['father_name'] ?>" name = "father_name" disabled>
                                             </div>
                                         </div>
                                     </div>
@@ -221,6 +220,63 @@
                         </div>
                     </div>
                 </div>
+                <?php 
+                    if(!strcmp($_SESSION['role'], "student"))
+                    {
+                ?>  
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Academic Profile</h4>
+                                </div>
+                                <div class="content">
+                                <?php 
+                                $reg_no = $user['reg_no'];
+                                $query = "SELECT * FROM currentsupervisor WHERE reg_no ='$reg_no'";
+                                $results = mysqli_query($connection, $query);
+                                $arr = mysqli_fetch_array($results);
+                                ?>
+                                <div>
+                                Current Supervisor(s): <b><?php echo getFacultyName($arr['supervisor1_id']); ?></b>
+                                <?php
+                                if(!empty($arr['supervisor2_id'])){
+                                        echo getFacultyName($arr['supervisor2_id']); 
+                                    }
+                                $query = "SELECT max(sem_no) AS sem_no FROM studentregistration WHERE reg_no ='$reg_no'";
+                                $results = mysqli_query($connection, $query);
+                                $arr = mysqli_fetch_array($results);
+                                ?>
+                                </div>
+                                <div>
+                                Current Semester: <b><?php echo $arr['sem_no'] ?></b>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-5">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">SRC</h4>
+                                </div>
+                                <div class="content">
+                                <?php 
+                                $reg_no = $user['reg_no'];
+                                $query = "SELECT * FROM src WHERE reg_no ='$reg_no' AND status='approved'";
+                                $results = mysqli_query($connection, $query);
+                                $arr = mysqli_fetch_array($results);
+                                ?>
+                                Internal SRC Member - <b><?php echo getFacultyName($arr['src_int_id']); ?><br></b>
+                                External SRC Member - <b><?php echo getFacultyName($arr['src_ext_id']); ?><br></b>
+                                Supervisor 1 - <b><?php echo getFacultyName($arr['supervisor1_id']); ?><br></b>
+                                Supervisor 2 - <b><?php echo getFacultyName($arr['supervisor2_id']); ?><br></b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                    }
+                ?>
             </div>
         </div>
 

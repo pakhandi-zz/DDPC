@@ -10,6 +10,13 @@
     {
         array_push($s_array, $s_row['reg_no']);
     }
+    $s_query = "Select role from members WHERE member_id = '$supervisor_id'";
+    $s_result = mysqli_query($connection, $s_query);
+    $role_array = array();
+    while($s_row = mysqli_fetch_array($s_result))
+    {
+        array_push($role_array, $s_row['role']);
+    }
     // if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
     // {
     //     $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
@@ -155,7 +162,7 @@
                                                     continue;
                                                 }
 
-                                                if( $thisStudent['progress'] != $_SESSION['role'] && strcmp($thisStudent['progress'], "Supervisor"))
+                                                if( !in_array($thisStudent['progress'], $role_array) && strcmp($thisStudent['progress'], "Supervisor"))
                                                 {
                                                     continue;
                                                 }
@@ -233,24 +240,7 @@
                                                         </form>
                                                     </td>
                                                     <?php
-                                                        } 
-                                                         else if(!strcmp($_SESSION['role'],"HOD"))
-                                                            {
-
-                                                    ?>
-
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="approved" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <form method="post">
-                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
-                                                        </form>
-                                                    </td>
-                                                    <?php    
-                                                            } else if(!strcmp($_SESSION['role'],"ConvenerDDPC"))
+                                                        } else if(in_array($thisStudent['progress'], $role_array) && !strcmp("ConvenerDDPC", $thisStudent['progress']))
                                                         {
 
                                                             $thisQuery = "SELECT member_id FROM `members` WHERE role='HOD'";
@@ -269,6 +259,23 @@
                                                         </form>
                                                     </td>
                                                     <?php
+                                                            } 
+                                                         else if(in_array($thisStudent['progress'], $role_array) && !strcmp("HOD", $thisStudent['progress']))
+                                                            {
+
+                                                    ?>
+
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Approve" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="approved" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post">
+                                                        <input type="submit" name="submit" value="Deny" reg_no = "<?php echo $thisStudent['reg_no'] ?>" leave_type="<?php echo $thisStudent['leave_type'] ?>" from_date="<?php echo $thisStudent['from_date'] ?>" to_date="<?php echo $thisStudent['to_date'] ?>" status="denied" progress="HOD" nextNotifTo="<?php echo $nextNotifTo ?>"/>
+                                                        </form>
+                                                    </td>
+                                                    <?php    
                                                             } 
                                                         } else {
 

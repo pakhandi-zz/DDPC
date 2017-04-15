@@ -48,7 +48,7 @@ if(isset($_POST['student_selected_coordinator5'])) {
 	$student_selected_coordinator5 = $_POST['student_selected_coordinator5'];
 }
 
-$query = "SELECT value FROM variables WHERE variables.key = 'session'";
+$query = "SELECT value FROM variables WHERE var = 'session'";
 $result = mysqli_query($connection, $query);
 $row = mysqli_fetch_assoc($result);
 
