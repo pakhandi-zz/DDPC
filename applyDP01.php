@@ -1,6 +1,8 @@
 	<?php
 
 	include("./includes/preProcess.php");
+	include("./includes/utilities.php");
+	
 	$prevPageLink = "application.php";
 	$query = "SELECT * from variables where var = 'reg_open'";
 	$result = mysqli_query($connection, $query);
@@ -21,14 +23,14 @@
 	$query = "SELECT * from currentsupervisor WHERE reg_no = '$reg_no'";
 	$result = mysqli_query($connection, $query);
 	$supervisor = mysqli_fetch_assoc($result);
-	function getFacultyName($faculty_id){
-		include("./includes/connect.php");
-		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
-		$result = mysqli_query($connection, $query);
-		$faculty = mysqli_fetch_assoc($result);
-		$faculty_name = $faculty['name'];
-		return $faculty_name;
-	}
+	// function getFacultyName($faculty_id){
+	// 	include("./includes/connect.php");
+	// 	$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+	// 	$result = mysqli_query($connection, $query);
+	// 	$faculty = mysqli_fetch_assoc($result);
+	// 	$faculty_name = $faculty['name'];
+	// 	return $faculty_name;
+	// }
 	$supervisor_name = getFacultyName($supervisor['supervisor1_id']);
 	$sem_no = $current_sem_no + 1;
 	$form_sem_no = $sem_no;
@@ -275,11 +277,13 @@
 															<?php
 															$query = "SELECT * FROM course NATURAL JOIN theorycourses";
 															$courses = mysqli_query($connection, $query);
-
 															while( $thisCourse = mysqli_fetch_array($courses)  )
 															{
+																if(getSemNumber($thisCourse['course_id']) != $sem_no)
+																	continue;
 																?>
-																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name']." - ";
+																   ?></option>
 																<?php
 															}
 															$query = "SELECT * FROM course NATURAL JOIN othercourses";
@@ -291,6 +295,8 @@
 																// {
 																// 	continue;
 																// }
+																if(getSemNumber($thisCourse['course_id']) != $sem_no)
+																	continue;
 																?>
 																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
 																<?php

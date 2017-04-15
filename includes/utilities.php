@@ -36,5 +36,16 @@
 
 		return 0;
 	}
+
+	//get the sem number from the course id
+	function getSemNumber($courseId)
+	{
+		$semNo = 0;
+		$semNo = (int)$courseId[3];
+		$semNo *= 10;
+		$semNo = $semNo + ((int)$courseId[4]);
+
+		return $semNo;
+	}
 ?>
 
