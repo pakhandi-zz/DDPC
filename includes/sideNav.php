@@ -58,6 +58,17 @@
                             </a>
                         </li>
                 <?php
+                    if(!strcmp($currentTab, "change"))
+                        echo "<li class=\"active\">";
+                    else
+                        echo "<li>";
+                ?>
+                           <a href="change.php">
+                                <i class="ti-pencil-alt2"></i>
+                                    <p>Change Variables</p>
+                            </a>
+                        </li>
+                <?php
                 } 
                 else
                 {
@@ -256,6 +267,18 @@
                             <p>Reports</p>
                         </a>
                     </li>
+                <?php
+                    if(!strcmp($currentTab, "fillDetails"))
+                            echo "<li class=\"active\">"; 
+                        else
+                            echo "<li>";
+                        
+                ?>
+                        <a href="fillDetails.php">
+                            <i class="ti-layout-list-thumb"></i>
+                            <p>Fill Details</p>
+                        </a>
+                    </li>   
                 <?php
                     }
                 }
