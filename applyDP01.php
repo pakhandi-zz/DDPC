@@ -1,6 +1,18 @@
 	<?php
 
 	include("./includes/preProcess.php");
+	include("./includes/utilities.php");
+	
+	$prevPageLink = "application.php";
+	$query = "SELECT * from variables where var = 'reg_open'";
+	$result = mysqli_query($connection, $query);
+	$reg_open = mysqli_fetch_assoc($result);
+	if($reg_open['value'] == 0){
+		echo "<script>
+			alert('Registration is closed.');
+			window.location.href='./application.php';
+			</script>";
+	}
 	$query = "SELECT * from awarddistribution";
 	$result = mysqli_query($connection, $query);
 	$course_distribution = array();
@@ -8,11 +20,20 @@
 	{
 		$course_distribution[$thisSem['sem_no']] = explode('/', $thisSem['credits_through']);
 	}
-	$query = "SELECT * from currentsupervisor NATURAL JOIN faculty WHERE reg_no = '$reg_no'";
+	$query = "SELECT * from currentsupervisor WHERE reg_no = '$reg_no'";
 	$result = mysqli_query($connection, $query);
 	$supervisor = mysqli_fetch_assoc($result);
-	$supervisor_name = $supervisor['name'];
+	// function getFacultyName($faculty_id){
+	// 	include("./includes/connect.php");
+	// 	$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+	// 	$result = mysqli_query($connection, $query);
+	// 	$faculty = mysqli_fetch_assoc($result);
+	// 	$faculty_name = $faculty['name'];
+	// 	return $faculty_name;
+	// }
+	$supervisor_name = getFacultyName($supervisor['supervisor1_id']);
 	$sem_no = $current_sem_no + 1;
+	$form_sem_no = $sem_no;
 	if($date_of_reg === null) {
 		$date_of_reg = date('Y-m-d');
 	}
@@ -24,6 +45,9 @@
 		$thisResult = mysqli_fetch_array($thisResult);
 		$nextNotifTo = $thisResult['supervisor1_id'];
 	}
+	$query = "SELECT * from variables where var = 'sem'";
+	$result = mysqli_query($connection, $query);
+	$sem_var = mysqli_fetch_assoc($result);
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -59,6 +83,17 @@
 		<script type="text/javascript">
 			function nowsearch(course_id, num)
 			{
+				if(course_id == ""){
+					var id1 = num + "1";
+					var id2 = num + "2";
+					var id3 = num + "3";
+					document.getElementById(id1).value = document.getElementById(id1).defaultValue;
+					document.getElementById(id2).innerHTML = "";
+					document.getElementById(id3).innerHTML = "";
+					var s_id = "student_selected_coordinator" + num;
+					document.getElementById(s_id).value = document.getElementById(s_id).defaultValue;
+					document.getElementById(s_id).style.visibility = "hidden";
+				}
 				var url='./fetch_course.php?course_id=' + course_id;
 				load_my_URL(url,function(data){
 					var xml=parse_my_XMLdata(data);
@@ -80,7 +115,6 @@
 						document.getElementById(s_id).style.visibility = "hidden";
 
 					} else {
-
 						var course_name = mCourses[0].getAttribute('course_name');
 						var course_coordinator = mCourses[0].getAttribute('course_coordinator');
 						var min_credits = mCourses[0].getAttribute("min_credits");
@@ -181,20 +215,10 @@
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="ti-panel"></i>
-								<p style="display : none;">Stats</p>
-							</a>
-						</li>
-						<?php include('./includes/notifications.php'); ?>
-						<li>
-							<a href="./logout.php">
-								<i class="ti-settings"></i>
-								<p>LogOut</p>
-							</a>
-						</li>
-					</ul>
+
+                        <?php include("./includes/topright.php") ?>
+
+                    </ul>
 
 				</div>
 			</div>
@@ -219,15 +243,15 @@
 									Status :<b> <?php echo $user['program_category'];?>	</b><br>
 									<div class = "row">
 										<div class="col-md-6">
-											Sem-No: <b><input name="sem_no" class ="form-control border-input" style="width:50%; height:10%;" type="number" value="<?php echo $sem_no; ?>" max="8" min="<?php echo $sem_no; ?>" required/></b>
+											Sem-No: <b><input name="sem_no" class ="form-control border-input" style="width:50%; height:10%;" type="number" value="<?php echo $sem_no; ?>" max="20" min="<?php echo $sem_no; ?>" required/></b>
 										</div>
 										<div class="col-md-6">
-											Sem-Type:
-											<select name="sem_type" class="form-control border-input" style="width:50%;height:10%;" required>
+											Sem-Type: <b><?php echo $sem_var['value'] ?></b>
+											<!-- <select name="sem_type" class="form-control border-input" style="width:50%;height:10%;" required>
 												<option value="">Select</option>
 												<option value ="0">Even</option>
 												<option value ="1">Odd</option>
-											</select>
+											</select> -->
 										</div>
 									</div>
 									<center><u><h5>DETAILS OF COURSES/RESEARCH-SEMINAR/MINI-PROJECT/COMPREHENSIVE EXAM/STATE-OF-ART SEMINAR/THESIS PERFORMANCE</h5></u></center><br>
@@ -256,11 +280,13 @@
 															<?php
 															$query = "SELECT * FROM course NATURAL JOIN theorycourses";
 															$courses = mysqli_query($connection, $query);
-
 															while( $thisCourse = mysqli_fetch_array($courses)  )
 															{
+																if(getSemNumber($thisCourse['course_id']) != $sem_no)
+																	continue;
 																?>
-																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
+																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name']." - ";
+																   ?></option>
 																<?php
 															}
 															$query = "SELECT * FROM course NATURAL JOIN othercourses";
@@ -268,10 +294,12 @@
 
 															while( $thisCourse = mysqli_fetch_array($courses)  )
 															{
-																if (!in_array($thisCourse['course_name'], $course_distribution[$sem_no]))
-																{
+																// if (!in_array($thisCourse['course_name'], $course_distribution[$sem_no]))
+																// {
+																// 	continue;
+																// }
+																if(getSemNumber($thisCourse['course_id']) != $sem_no)
 																	continue;
-																}
 																?>
 																<option value="<?php echo $thisCourse['course_id'] ?>"><?php echo $thisCourse['course_id']." - ".$thisCourse['course_name'] ?></option>
 																<?php
@@ -281,7 +309,22 @@
 													</td>
 													<td><input id="<?php echo $i ?>1" name="credits<?php echo $i ?>" class ="form-control border-input" type="number" min="10" max="20"/></td>
 													<td id=<?php echo $i ?>2></td>
-													<td><p id=<?php echo $i ?>3></p><input type="text" id="student_selected_coordinator<?php echo $i ?>" name="student_selected_coordinator<?php echo $i ?>" style="visibility:hidden;" /></td>
+													<td><p id=<?php echo $i ?>3></p>
+													<!-- <input type="text" id="student_selected_coordinator<?php echo $i ?>" name="student_selected_coordinator<?php echo $i ?>" style="visibility:hidden;" /> -->
+													<select class="form-control border-input" id="student_selected_coordinator<?php echo $i ?>" name="student_selected_coordinator<?php echo $i ?>" style="visibility:hidden;">
+													<option value = "">Select</option>
+													<?php
+														$query = "SELECT * FROM faculty WHERE dept_id = '4'";
+														$faculty = mysqli_query($connection, $query);
+														while ($thisFaculty = mysqli_fetch_array($faculty) ){
+													?>
+															<option value="<?php echo $thisFaculty['faculty_id']?>">
+															<?php echo $thisFaculty['name'] ?></option>
+													<?php
+														}
+													?>
+													</select>
+													</td>
 												</tr>
 												<?php
 											}

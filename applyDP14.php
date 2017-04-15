@@ -1,7 +1,6 @@
 	<?php
 
 	include("./includes/preProcess.php");
-	$prevPageLink = "application.php";
 	$query = "SELECT * from awarddistribution";
 	$result = mysqli_query($connection, $query);
 	$course_distribution = array();
@@ -12,8 +11,7 @@
 	$query = "SELECT * from currentsupervisor NATURAL JOIN faculty WHERE reg_no = '$reg_no'";
 	$result = mysqli_query($connection, $query);
 	$supervisor = mysqli_fetch_assoc($result);
-	$supervisor_name = $supervisor['name'];
-	$sem_no = $current_sem_no + 1;
+	$sem_no = $current_sem_no;
 	if($date_of_reg === null) {
 		$date_of_reg = date('Y-m-d');
 	}
@@ -24,7 +22,28 @@
 		$thisResult = mysqli_query($connection, $thisQuery);
 		$thisResult = mysqli_fetch_array($thisResult);
 		$nextNotifTo = $thisResult['supervisor1_id'];
+
+		/*
+			Get the courses he has registered for
+			KEYS :
+				reg_no and sem_no
+		*/
+		$queryCourses = "SELECT * from courseregistration WHERE reg_no='$thisUniqueId' AND sem_no='$sem_no'";
+		$resultCourses = mysqli_query($connection, $queryCourses);
 	}
+	function getFacultyName($faculty_id){
+		include("./includes/connect.php");
+		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+		$result = mysqli_query($connection, $query);
+		$faculty = mysqli_fetch_assoc($result);
+		$faculty_name = $faculty['name'];
+		return $faculty_name;
+	}
+	$query = "SELECT * from studentprogramdetails WHERE reg_no = '$reg_no'";
+	$result = mysqli_query($connection, $query);
+	$studentprg = mysqli_fetch_assoc($result);
+
+
 	?> 
 	<!doctype html>
 	<html lang="en">
@@ -118,27 +137,20 @@
 				});
 			}
 
-			function instaSearch(student_id, num)
+			function instaSearch(faculty_id, num)
 			{
-				var url='./fetch_student.php?reg_no=' + student_id;
+				var url='./fetch_faculty.php?faculty_id=' + faculty_id;
 				load_my_URL(url,function(data){
 				var xml=parse_my_XMLdata(data);
-				var Student = xml.documentElement.getElementsByTagName("student");
-				var studentName = Student[0].getAttribute("name");
-				var studentRegno = Student[0].getAttribute("reg_no");
-				var studentDateofReg = Student[0].getAttribute("date_of_reg");
-				var studentSupervisor2 = Student[0].getAttribute("supervisor2_id");
-
-				var id = num + "1";
-				document.getElementById(id).value = studentRegno;
-				id = num + "2";
-				document.getElementById(id).innerHTML = studentDateofReg;
-				id = num + "3";
-				document.getElementById(id).innerHTML = Student[0].getAttribute("dept_name");
-				id = num + "4";
-				document.getElementById(id).innerHTML = studentSupervisor2;
-				id = num + "5";
-				document.getElementById(id).innerHTML = studentSupervisor2;				
+				var Faculty = xml.documentElement.getElementsByTagName("faculty");
+				var name = Faculty[0].getAttribute("name");
+				var facultyDeptName = Faculty[0].getAttribute("dept_name");
+				var faculty_id = Faculty[0].getAttribute("faculty_id");
+				var facultyDesignation = Faculty[0].getAttribute("designation");
+				var id = "f" + num + 3;
+				document.getElementById(id).innerHTML = facultyDesignation;
+				id = "f" + num + 4;
+				document.getElementById(id).innerHTML = facultyDeptName;
 				});
 			}
 
@@ -207,10 +219,20 @@
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
-
-                        <?php include("./includes/topright.php") ?>
-
-                    </ul>
+						<li>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="ti-panel"></i>
+								<p style="display : none;">Stats</p>
+							</a>
+						</li>
+						<?php include('./includes/notifications.php'); ?>
+						<li>
+							<a href="./logout.php">
+								<i class="ti-settings"></i>
+								<p>LogOut</p>
+							</a>
+						</li>
+					</ul>
 
 				</div>
 			</div>
@@ -221,203 +243,92 @@
 					<div class="col-md-12">
 						<div class="card">
 							<b>
-								<div class="col-md-offset-10"> Form: DP-13</div>
-								<div class="col-md-offset-10"> (Clause 12.1(3))</div>
+								<div class="col-md-offset-10"> Form: DP-14</div>
+								<div class="col-md-offset-10"> (Clause 12.1(5))</div>
 								<center><h5><b>Motilal Nehru National Institute of Technology Allahabad</b></h5></center>
-								<center><u><h5>Supervisor Selection<br />(To be filled by the supervisor)</h5></u></center><br>
+								<center><u><h5>Change of Supervisor(s)</h5></u></center><br>
 								<div class="col-md-offset-1" style="font-size:15px">
-									<form class="form-inline" id="dp13" name="dp13" action="submitDP13.php" method="post" onsubmit="return checkform(this.form);">
-
-
+									<form class="form-inline" id="dp14" name="dp14" action="submitDP14.php" method="post" onsubmit="return checkform(this.form);">
 									</b>
-
-									<?php
-										// Get the details of the supervisor for the form
-
-										$tempVar = $user['faculty_id'];
-										$tempQuery = "SELECT * FROM faculty WHERE faculty_id='$tempVar'";
-										$tempResult = mysqli_query($connection, $tempQuery);
-										$tempResult = mysqli_fetch_array($tempResult);
-									?>
+									Name of the Student : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $_SESSION['reg_no'];?> </b><br>
+									Department : <b> Computer Science and Engineering </b><br>Existing Supervisor(s): <b> <?php echo getFacultyName($supervisor['supervisor1_id'])."  ".getFacultyName($supervisor['supervisor2_id']) ?> </b><br>
+									Present Status of Work :<b> <?php echo $studentprg['status']?> </b><br>
+									Suggested Supervisor(s): <br />
 
 
-									Name of the Faculty : <b><?php echo $user['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Designation : <b><?php echo $tempResult['designation'] ?> </b><br>
-									Department : <b> Computer Science and Engineering </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									Co-Supervisor (if any): <b><?php echo " -- " ?></b><br>
-									<center><u><h5>Details of the Ph.D Students being supervised at present</h5></u></center><br>
+									<div class="row col-md-offset-1">
+										<div class="col-md-11" style="font-size:10px;">
+											<table class="table table-bordered table-condensed">
+												<thead>
+													<th>SI. No.</th>
+													<th>Name of the Faculty</th>
+													<th>Designation</th>
+													<th>Department</th>
+												</thead>
+
+												<tbody>
+													<?php
+														for($i = 1; $i <= 2; $i++)
+														{
+													?>
+													<tr>
+														<td><?php echo $i ?></td>
+
+														<td>
+															<select class="form-control border-input" name="faculty<?php echo $i ?>" 
+															onchange="instaSearch(this.value, <?php echo $i ?>);">
+																<option value="">
+																	Select
+																</option>
+															<?php
+															$query = "SELECT * FROM faculty";
+															$faculties = mysqli_query($connection, $query);
+
+															while( $thisFaculty = mysqli_fetch_array($faculties)  )
+															{
+															?>
+																<option value="<?php echo $thisFaculty['faculty_id'] ?>">
+																	<?php echo $thisFaculty['name'] ?>
+																</option>
+															<?php
+															}
+															?>
+															</select>	
+														</td>
+
+														<td id="<?php echo "f".$i; ?>3"></td>
+														
+														<td id="<?php echo "f".$i; ?>4"></td>
+													</tr>
+													<?php
+														}
+													?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									
+									Reason for change: 
+									<input type="text" name="reason" class="form-control border-input" style="width:80%;">
+									<br />
 								</div>
-
-								<?php
-									// Prepare the ids of all the students supervised by the faculty
-									// These ids will be used to get the data of these students
-									// That data will be displayed in the following table
-
-									$tempVar = $user['faculty_id'];
-									$tempQuery = "SELECT * FROM currentsupervisor WHERE supervisor1_id='$tempVar' OR supervisor2_id='$tempVar'";
-									$tempResult = mysqli_query($connection, $tempQuery);
-
-									$supervisedStudents = $tempResult;
-								?>
 								
-								<div class="row col-md-offset-1">
-									<div class="col-md-11" style="font-size:10px;">
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<th>SI. No.</th>
-												<th>Name of the Student</th>
-												<th>Reg. No.</th>
-												<th>Date of Registration</th>
-												<th>Department in which registered</th>
-												<th>Co-Supervisor (if any)</th>
-												<th>Status of Research Work</th>
-											</thead>
-											<tbody>
-												<?php
-												$i = 1;
-												while( $thisSupervisedStudent = mysqli_fetch_array($supervisedStudents) ) 
-												{
-													$thisSupervisedStudentRegno = $thisSupervisedStudent['reg_no'];
+								
+							
 
-													// get the details of the student using the reg_no
-													$tempQuery = "SELECT * FROM studentmaster WHERE reg_no='$thisSupervisedStudentRegno'";
-													$tempResult = mysqli_query($connection, $tempQuery);
-													$tempResult = mysqli_fetch_array($tempResult);
-													$thisStudent = $tempResult;
-												?>
-												<tr>
-													<td><?php echo $i; $i++; ?></td>
 
-													<td>
-														<?php echo $thisStudent['name']; ?>	
-													</td>
-
-													<td>
-														<?php echo $thisStudent['reg_no']; ?>
-													</td>
-
-													<td>
-														<?php 
-															// Get the student date of registration 
-															$tempQuery = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$thisSupervisedStudentRegno' ORDER BY sem_no ASC";
-															$tempResult = mysqli_query($connection, $tempQuery);
-															$tempResult = mysqli_fetch_array($tempResult);
-
-															echo $tempResult['date_of_reg'];
-														?>
-													</td>
-
-													<td>
-														<?php
-															// Get the department name for the student
-															$tempVar = $thisStudent['dept_id'];
-															$tempQuery = "SELECT dept_name FROM department WHERE dept_id='$tempVar'";
-															$tempResult = mysqli_query($connection, $tempQuery);
-															$tempResult = mysqli_fetch_array($tempResult);
-
-															echo $tempResult['dept_name'];
-														?>
-													</td>
-
-													<td>
-														<?php
-															// need to get the name of the co-supervisor
-															// in case this Faculty is the first supervisor.. print the name of the second supervisor
-															// in case this Faculty is the second supervisor.. print the name of the first supervisor
-
-															$tempVar = $thisStudent['reg_no'];
-															$tempQuery = "SELECT * FROM currentsupervisor WHERE reg_no='$tempVar'";
-															$tempResult = mysqli_query($connection, $tempQuery);
-															$tempResult = mysqli_fetch_array($tempResult);
-
-															$tempVar = "";
-
-															if( !strcmp($tempResult['supervisor1_id'], $user['faculty_id']) )
-															{
-																$tempVar = $tempResult['supervisor2_id'];
-															}
-															else
-															{
-																$tempVar = $tempResult['supervisor1_id'];
-															}
-
-															if(strlen($tempVar))
-															{
-																$tempQuery = "SELECT * FROM faculty WHERE faculty_id='$tempVar'";
-																$tempResult = mysqli_query($connection, $tempQuery);
-																$tempResult = mysqli_fetch_array($tempResult);
-																echo $tempResult['name'];
-															}
-														?>
-													</td>
-
-													<td>
-														<?php
-															// Forget the status of the Research Work for now
-														?>
-													</td>
-												</tr>
-												<?php
-												}
-												?>
-											<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
-										</tbody>
-									</table>
-								</div>
-								<div class="row col-md-11" style="font-size:15px;">
-									<table>
-										<tbody>
-											<tr>
-												<td>
-													I wish to supervise the the Ph.D Thesis of Mr./Mrs/Ms
-												</td>
-
-												<td>
-													<select class="form-control border-input" name="studentToSupervise" onchange="instaSearch(this.value);">
-														<option value="">Select</option>
-														<?php
-															// Get the list of students so that the supervisor can select the student
-															$tempQuery = "SELECT * FROM supervisorselection WHERE supervisor_id='{$user['faculty_id']}'";
-															$tempResult = mysqli_query($connection, $tempQuery);
-
-															echo $tempQuery;
-
-															$students = $tempResult;
-
-															while( $thisStudent = mysqli_fetch_array($students) )
-															{
-																$tempQuery = "SELECT name from studentmaster WHERE reg_no='{$thisStudent['reg_no']}'";
-																$tempResult = mysqli_query($connection, $tempQuery);
-																$tempResult = mysqli_fetch_array($tempResult);
-														?>
-															<option value=<?php echo $thisStudent['reg_no'] ?> >
-																<?php echo $thisStudent['reg_no']." - ".$tempResult['name']; ?>
-															</option>
-														<?php
-															}
-														?>
-													</select>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<br /> <br /> <br />
 							<div style="font-size:15px">
 								<div class="col-md-offset-1"><b>Date: </b><?php echo date("d/m/Y"); ?></div>
-								<div class="col-md-offset-8">(Signature of the Faculty)</div><br>
-								<div class="col-md-offset-1">Approved By: </div><br>
-								<div class="col-md-offset-1 col-md-11">
-									<table class="table">
-										<tbody>
-											<tr>
-												<td>Convener DDPC</td>
-												<td>Head of Department</td>
-												<td>Chairman SDPC</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+								<div class="col-md-offset-8">(Signature of the Student)</div><br>
+								<div class="col-md-offset-1">Comment and No objection of Existing Supervisor(s): </div><br>
+								<div class="col-md-offset-1">(Signature of the Supervisor(s))</div><br>
+								<div class="col-md-offset-1">Consent of the suggested Supervisor(s)</div><br>
+								<div class="col-md-offset-8">(Signature)</div><br>
+								<div class="col-md-offset-1">Remark of Convener, DDPC</div><br>
+								<div class="col-md-offset-8">(Signature)</div><br>
+								<div class="col-md-offset-1">(Head of Department)</div>
+								<div class="col-md-offset-8">Chairman (SDPC)</div><br>
 							</div>
 
 							<div class="text-center">
