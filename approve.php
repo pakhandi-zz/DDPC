@@ -1,8 +1,21 @@
-	<?php
+<?php
 
-		include("./includes/preProcess.php");
-		$prevPageLink = "dashboard.php";
-		
+	include("./includes/preProcess.php");
+	$prevPageLink = "dashboard.php";
+	$reg_no = $_SESSION['reg_no'];
+	$s_query = "Select role from members WHERE member_id = '$reg_no'";
+    $s_result = mysqli_query($connection, $s_query);
+    $role_array = array();
+    while($s_row = mysqli_fetch_array($s_result))
+    {
+        array_push($role_array, $s_row['role']);
+    }
+	$s_query = "Select * from currentsupervisor WHERE supervisor1_id = '$reg_no' OR supervisor2_id = '$reg_no'";
+    $s_result = mysqli_query($connection, $s_query);
+    if(mysqli_num_rows($s_result) >= 1){
+    	$var = "Supervisor";
+    	array_push($role_array, $var);
+    }	
 	?>
 
 	<!doctype html>
@@ -85,48 +98,27 @@
 							<div class="col-md-12">
 							<ol style="font-size:25px;">
 							<?php
-								if(!strcmp($_SESSION['role'], "Supervisor"))
-								{
+							if(in_array("Supervisor", $role_array) || in_array("ConvenerDDPC", $role_array) || in_array("HOD", $role_array)) {
 							?>
 								<li><a href="studentLeave.php"> Student Leave Application</a></li>
-								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
-								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
-							<?php
-								} else if(!strcmp($_SESSION['role'], "ConvenerDDPC"))
-								{
-							?>
-								<li><a href="studentLeave.php"> Student Leave Application</a></li>
-								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
-								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
-								<li><a href="studentDP02.php"> Student Research Committee</a></li>
-								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
-								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
-								<li><a href="studentDP15.php"> Approve Examiner Panel for Ph.D Thesis Evaluation Board</a></li>
-							<?php
-								} else if(!strcmp($_SESSION['role'], "HOD"))
-								{
-							?>
-								<li><a href="studentLeave.php"> Student Leave Application</a></li>
-								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
-								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
-								<li><a href="studentDP02.php"> Student Research Committee</a></li>
-								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
-								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
-								<li><a href="studentDP15.php"> Approve Examiner Panel for Ph.D Thesis Evaluation Board</a></li>
 
 							<?php
-								} else if(!strcmp($_SESSION['role'], "ChairmanSDPC"))
-								{
+							}
+							if(in_array("Supervisor", $role_array) || in_array("ConvenerDDPC", $role_array) || in_array("HOD", $role_array) || in_array("ChairmanSDPC", $role_array)){
 							?>
 								<li><a href="studentDP05.php"> Approve Change of Registration Status Application </a></li>
 								<li><a href="studentDP01.php"> Approve the Student Academic Registration Application </a></li>
+							<?php
+							}
+							if(in_array("ConvenerDDPC", $role_array) || in_array("HOD", $role_array) || in_array("ChairmanSDPC", $role_array)){
+							?>
 								<li><a href="studentDP02.php"> Student Research Committee</a></li>
 								<li><a href="studentDP08.php"> Approve Examiner Panel for Ph.D Comprehensive Examination</a></li>
 								<li><a href="studentDP16.php"> Approve Examiner Panel for Ph.D Oral Board</a></li>
 								<li><a href="studentDP15.php"> Approve Examiner Panel for Ph.D Thesis Evaluation Board</a></li>
-
 							<?php
-								}
+							}
+ 
 							?>
 							</ol>
 			<footer class="footer">
