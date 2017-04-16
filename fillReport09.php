@@ -93,7 +93,7 @@
 
 			<?php
 
-			$currentTab = "application";
+			$currentTab = "fillDetails";
 
 			include("./includes/sideNav.php");
 
@@ -152,10 +152,10 @@
 
 									<div class="col-md-11">
 											Candidate has:
-											<select>
+											<select name="grade">
 												<option value="">Select</option>
-												<option value="SS">PASSED(SS)</option>
-												<option value="XX">FAILED(XX)</option>
+												<option value="pass">PASSED(SS)</option>
+												<option value="fail">FAILED(XX)</option>
 											</select>
 											<table class="table table-bordered">
 												<thead>

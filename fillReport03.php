@@ -93,7 +93,7 @@
 
 			<?php
 
-			$currentTab = "application";
+			$currentTab = "fillDetails";
 
 			include("./includes/sideNav.php");
 
@@ -188,7 +188,7 @@
 									<div class="col-md-11" style="font-size:10px;">
 										
 							<input type="text" name="nextNotifTo" value="<?php echo $nextNotifTo ?>" style="display: none;">
-							<input type="text" name="student_reg_no" value="<?php echo $student_reg_no ?>" style="display: none;">
+							<input type="text" name="student_reg_no" value="<?php echo $student['reg_no'] ?>" style="display: none;">
 						</tbody>
 					</table>
 				</div>

@@ -9,30 +9,32 @@ else
     $reg_no = $_SESSION['reg_no'];
 
 include("./includes/connect.php");
+include("./includes/preProcess.php");
+
+$student_reg_no = mysqli_real_escape_string($connection, $_POST['student_reg_no']);;
 $sem_date = mysqli_real_escape_string($connection, $_POST['sem_date']);
-$date_of_modification = date('Y-m-d');
-$status = "";
-$query = "INSERT INTO `partfullstatus` (`reg_no`, `reg_status`, `date_of_modification`, `reason`, `supervisor_comment`, `progress`, `status`) VALUES ('$reg_no', '$reg_status', '$date_of_modification', '$reason', '$comment', '$progress', '$status')";
+$date_of_update = date('Y-m-d');
+
+$completed = 0;
+$status = 'Open Completed';
+
+$query = "UPDATE studentprogramdetails SET date_of_open = '$sem_date', status = '$status', date_of_update = '$date_of_update' WHERE reg_no = '$student_reg_no'"; 
 $result = mysqli_query($connection, $query);
-
-if (!$result)
+if($result)
 {
-	die("Unsuccessful".mysqli_error($connection));
-	echo $result;
-} else {
-	$nextNotifTo = $_POST['nextNotifTo'];
-	$query = "SELECT * FROM notifications";
-	$allnotifications = mysqli_query($connection, $query);
-	$notificationsCount = mysqli_num_rows($allnotifications);
-	$newNotificationId = $notificationsCount + 1;
-	$description = "New DP05 application";
-	$issue_date = date('Y-m-d');
-	$target_group = "";
-	$target_member = $nextNotifTo;
+	
+	echo "<script>
+	alert('Data filled Successfully.');
+	window.location.href='./fillDetails.php';
+	</script>";
 
-	$query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$newNotificationId', '$description', '$issue_date', '$target_group', '$target_member')";
-	$result = mysqli_query($connection, $query);
-	 header("location: ./printDP05.php?reason=".$reason);
-	 exit();
+
+} else {
+	echo "<script>
+	alert('Data could not be filled.');
+	window.location.href='./fillDetails.php'
+	</script>";
 }
+
+
 ?>

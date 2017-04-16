@@ -262,6 +262,7 @@
                                                             } 
                                                          else if(in_array($thisStudent['progress'], $role_array) && !strcmp("HOD", $thisStudent['progress']))
                                                             {
+                                                                $nextNotifTo = $thisStudent['reg_no'];
 
                                                     ?>
 
@@ -382,7 +383,7 @@
                     location.reload();
                 },
                 error: function(){
-                    alert('failure');
+                    alert("Failure");
                 }
             });
         });
