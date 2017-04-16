@@ -9,6 +9,9 @@
 		$query = "SELECT date_of_reg FROM studentregistration WHERE reg_no ='$reg_no' ORDER BY sem_no ASC";
 		$results = mysqli_query($connection, $query);
 		$arr = mysqli_fetch_array($results);
+		$query = "SELECT * FROM studentmaster NATURAL JOIN studentprogramdetails NATURAL JOIN currentsupervisor WHERE reg_no='$student_reg_no'";
+		$results = mysqli_query($connection, $query);
+		$studentprg = mysqli_fetch_array($results);
 		$date_of_reg = $arr['date_of_reg'];
 		if($date_of_reg === null) {
 			$date_of_reg = date('Y-m-d');
@@ -93,7 +96,7 @@
 
 			<?php
 
-			$currentTab = "application";
+			$currentTab = "fillDetails";
 
 			include("./includes/sideNav.php");
 

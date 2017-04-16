@@ -96,7 +96,7 @@
 
 			<?php
 
-			$currentTab = "application";
+			$currentTab = "fillDetails";
 
 			include("./includes/sideNav.php");
 
@@ -139,7 +139,7 @@
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Thesis Title: <b><?php echo $thesis['final_topic']; ?></b>
+									Thesis Title: <b><?php echo $thesis['proposed_topic']; ?></b>
 
 									<div class="col-md-11">
 											<b>Date of delivery of the Seminar:</b>

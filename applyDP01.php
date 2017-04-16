@@ -3,6 +3,7 @@
 	include("./includes/preProcess.php");
 	include("./includes/utilities.php");
 	
+	$reg_no = $_SESSION['reg_no'];
 	$prevPageLink = "application.php";
 	$query = "SELECT * from variables where var = 'reg_open'";
 	$result = mysqli_query($connection, $query);
@@ -13,6 +14,27 @@
 			window.location.href='./application.php';
 			</script>";
 	}
+	$query = "SELECT * FROM courseregistration A, studentregistration B WHERE A.reg_no = B.reg_no AND A.sem_no = B.sem_no AND B.reg_no = '$reg_no' ORDER BY B.sem_no DESC";
+	$result = mysqli_query($connection, $query);
+	$checkStatus = mysqli_fetch_assoc($result);
+		$ts1=$checkStatus['date_of_reg'];
+		$ts2=date('Y-m-d');
+
+		$year1 = date('Y', $ts1);
+		$year2 = date('Y', $ts2);
+
+		$month1 = date('m', $ts1);
+		$month2 = date('m', $ts2);
+
+		$diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+
+	if((!strcmp($checkStatus['status'], "pending")) || $diff < 4 ){
+		echo "<script>
+			alert('Already Registered. Cannot register again in this semester.');
+			window.location.href='./application.php';
+			</script>";
+		
+	}
 	$query = "SELECT * from awarddistribution";
 	$result = mysqli_query($connection, $query);
 	$course_distribution = array();
@@ -20,17 +42,10 @@
 	{
 		$course_distribution[$thisSem['sem_no']] = explode('/', $thisSem['credits_through']);
 	}
+
 	$query = "SELECT * from currentsupervisor WHERE reg_no = '$reg_no'";
 	$result = mysqli_query($connection, $query);
 	$supervisor = mysqli_fetch_assoc($result);
-	// function getFacultyName($faculty_id){
-	// 	include("./includes/connect.php");
-	// 	$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
-	// 	$result = mysqli_query($connection, $query);
-	// 	$faculty = mysqli_fetch_assoc($result);
-	// 	$faculty_name = $faculty['name'];
-	// 	return $faculty_name;
-	// }
 	$supervisor_name = getFacultyName($supervisor['supervisor1_id']);
 	$sem_no = $current_sem_no + 1;
 	$form_sem_no = $sem_no;
