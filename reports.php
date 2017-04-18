@@ -105,6 +105,8 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<li><a href="yearWiseList.php"> Year Wise List of registered Students </a></li>
 								<li><a href="viewStudents.php?from_year=2005&to_year=<?php echo date("Y"); ?>"> View All Students </a></li>
 
+								<li><a href="studentSearch.php"> Search Student </a></li>
+
 							</ol>
 							</div>
 							
