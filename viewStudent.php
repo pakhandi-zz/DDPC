@@ -130,6 +130,13 @@ function getFacultyName($faculty_id){
                     <div class="content" style="color: grey;">
                         <form method="GET" action="updateQwProfile.php">
                             <div class="row">
+                                <center>
+                                    <div class="author">
+                                      <img class="avatar border-white" src="<?php echo $qwUser['photo_path']; ?>" alt="..."/>
+                                    </div>
+                                </center>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     Registration Number : <b><?php echo $qwUser['reg_no']; ?></b>
                                 </div>
