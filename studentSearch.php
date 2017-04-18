@@ -1,17 +1,18 @@
 	<?php
 
 		include("./includes/preProcess.php");
-	    $prevPageLink = "dashboard.php";
+		$prevPageLink = "reports.php";
+		$supervisor_id = $_SESSION['reg_no'];
+		function getFacultyName($faculty_id){
+		include("./includes/connect.php");
+		$query = "SELECT name FROM faculty WHERE faculty_id ='$faculty_id'";
+		$result = mysqli_query($connection, $query);
+		$faculty = mysqli_fetch_assoc($result);
+		$faculty_name = $faculty['name'];
+		return $faculty_name;
+	}
+		
 
-	    $supervisor_id = $_SESSION['reg_no'];
-	    $s_query = "Select * from currentsupervisor WHERE supervisor1_id = '$supervisor_id'";
-	    $s_result = mysqli_query($connection, $s_query);
-	    if(mysqli_num_rows($s_result) >= 1){
-	    	$_SESSION['supervisor'] = 1;
-	    }
-	    else{
-	    	$_SESSION['supervisor'] = 0;
-	    }
 		
 	?>
 
@@ -52,6 +53,56 @@ window.location.hash="Again-No-back-button";//again because google chrome don't 
 window.onhashchange=function(){window.location.hash="no-back-button";}
 </script> 
 
+	<script type="text/javascript">
+			function nowsearch(studentId)
+			{
+				// alert("hello");
+				
+				var url='./fetchOneStudent.php?reg_no=' + studentId;
+				// alert(url);
+				load_my_URL(url,function(data)
+				{
+					var xml=parse_my_XMLdata(data);
+					var allStudents = xml.documentElement.getElementsByTagName("student");
+					var i = 0;
+					document.getElementById(i + "2").innerHTML = allStudents[i].getAttribute("studentName");
+					var generalUrl = "<a href=\"viewStudent.php?qwStudent=" + allStudents[i].getAttribute("studentRegNo") + "\">" + allStudents[i].getAttribute("studentRegNo") + "</a>";
+					document.getElementById(i + "1").innerHTML = generalUrl;
+					window.location.href="viewStudent.php?qwStudent=" + allStudents[i].getAttribute("studentRegNo");
+				});
+			}
+			function load_my_URL(url, do_func)
+			{
+				var my_req = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
+				my_req.onreadystatechange = function()
+				{
+					if (my_req.readyState == 4)
+					{
+						my_req.onreadystatechange = no_func;
+						do_func(my_req.responseText, my_req.status);
+					}
+				};
+				my_req.open('GET', url, true);
+				my_req.send(null);
+			}
+			function parse_my_XMLdata(data)
+			{
+				if (window.ActiveXObject)
+				{
+					var doc = new ActiveXObject('Microsoft.XMLDOM');
+					doc.loadXML(data);
+					return doc;
+				}
+				else if (window.DOMParser)
+				{
+					return (new DOMParser).parseFromString(data, 'text/xml');
+				}
+
+			}
+			function no_func() {}
+			
+		</script>
+
 	</head>
 	<body>
 
@@ -70,7 +121,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 
 				<?php
 
-					$currentTab = "report";
+					$currentTab = "supervisorStudentList";
 
 					include("./includes/sideNav.php");
 
@@ -81,36 +132,64 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 
 		<div class="main-panel">
 		<nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <?php include('./includes/logo.php'); ?>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <?php include("./includes/topright.php") ?>
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<?php include('./includes/logo.php'); ?>
+				</div>
+				<div class="collapse navbar-collapse">
+					<?php include("./includes/topright.php") ?>
 
-                </div>
-            </div>
-        </nav>
+				</div>
+			</div>
+		</nav>
 				<div class="content">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-12">
-							<h4>Reports</h4>
-							<ol style="font-size:25px;">
-								<li><a href="supervisorWiseList.php"> Supervisor Wise List of Students </a></li>
-
-								<li><a href="report01.php"> Course Details of All Registered Students </a></li>
-
-								<li><a href="report02.php"> Program Details of All Registered Students </a></li>
-								<li><a href="yearWiseList.php"> Year Wise List of registered Students </a></li>
-								<li><a href="viewStudents.php?from_year=2005&to_year=<?php echo date("Y"); ?>"> View All Students </a></li>
-
-								<li><a href="studentSearch.php"> Search Student </a></li>
-
-							</ol>
+							<div class="card">
+							<div class="header">
+								<h4 class="title">List of Students</h4>
 							</div>
-							
+							<select class="form-control border-input" name="facultyIn" onchange="nowsearch(this.value);">
+								<option value="">Select</option>
+								<?php
+								$query = "SELECT * FROM studentmaster";
+								$allStudents = mysqli_query($connection, $query);
+								while( $thisStudent = mysqli_fetch_array($allStudents)  )
+								{ ?>
+									<option value="<?php echo $thisStudent['reg_no'] ?>">
+
+									<?php echo $thisStudent['name']." - ".$thisStudent['reg_no'];
+										   ?>
+									   
+									</option>
+								<?php
+								} ?>
+								
+							</select>
+							<div class="content table-responsive table-full-width">
+								<table class="table table-bordered">
+									<thead>
+										<th>Registration Number</th>
+										<th>Name</th>
+									</thead>
+									<tbody>
+										<?php
+											for($i = 0; $i < 1; $i++)
+											{ 
+										?>
+											<tr id="<?php echo "row".$i ?>">
+												<td id="<?php echo $i."1" ?>"></td>
+												<td id="<?php echo $i."2" ?>"></td>
+											</tr>
+										<?php
+											}
+										?>
+									</tbody>
+								</table>
+
 							</div>
+						</div>
 
 			<footer class="footer">
 			</footer>
@@ -149,8 +228,6 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 		<!-- <script src="assets/js/datepicker.js"></script> -->
 
 		<script type="text/javascript">
-
-			  
 			function removeNot() {
 
 				$('.notificationAlert').css({

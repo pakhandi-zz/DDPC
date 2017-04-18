@@ -93,6 +93,17 @@
                                     <p>Edit Profile</p>
                             </a>
                         </li>
+                <?php
+                    if(! strcmp($currentTab, "supervisorStudentList"))
+                        echo "<li class=\"active\">";
+                    else
+                        echo "<li>";
+                ?>
+                            <a href="supervisorStudentList.php">
+                                <i class="ti-user"></i>
+                                    <p>Students Under Supervisor</p>
+                            </a>
+                        </li>
                  <?php
                     $query = "SELECT * FROM currentsupervisor WHERE supervisor1_id ='$reg_no'";
                     $results = mysqli_query($connection, $query);

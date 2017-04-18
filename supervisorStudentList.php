@@ -56,71 +56,55 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 	<script type="text/javascript">
 			function nowsearch(faculty_id, num)
 			{
-				if(course_id == ""){
-					var id1 = num + "1";
-					var id2 = num + "2";
-					var id3 = num + "3";
-					document.getElementById(id1).value = document.getElementById(id1).defaultValue;
-					document.getElementById(id2).innerHTML = "";
-					document.getElementById(id3).innerHTML = "";
-					var s_id = "student_selected_coordinator" + num;
-					document.getElementById(s_id).value = document.getElementById(s_id).defaultValue;
-					document.getElementById(s_id).style.visibility = "hidden";
-				}
-				var url='./fetch_course.php?course_id=' + course_id;
+				// alert("hello");
+				// if(course_id == ""){
+				// 	var id1 = num + "1";
+				// 	var id2 = num + "2";
+				// 	var id3 = num + "3";
+				// 	document.getElementById(id1).value = document.getElementById(id1).defaultValue;
+				// 	document.getElementById(id2).innerHTML = "";
+				// 	document.getElementById(id3).innerHTML = "";
+				// 	var s_id = "student_selected_coordinator" + num;
+				// 	document.getElementById(s_id).value = document.getElementById(s_id).defaultValue;
+				// 	document.getElementById(s_id).style.visibility = "hidden";
+				// }
+				var url='./fetchAllStudents.php?supervisor_id=' + faculty_id;
+				// alert(url);
 				load_my_URL(url,function(data){
 					var xml=parse_my_XMLdata(data);
-					var mCourses = xml.documentElement.getElementsByTagName("course");
-					if (mCourses[0].hasAttribute("total_credits"))
+					var allStudents = xml.documentElement.getElementsByTagName("student");
+					
+					var limit = allStudents.length;
+
+
+					for(var i = 0; i < limit; i++)
 					{
-						var course_name = mCourses[0].getAttribute("course_name");
-						var course_coordinator = mCourses[0].getAttribute("course_coordinator");
-						var total_credits = mCourses[0].getAttribute("total_credits");
-						var id1 = num + "1";
-						var id2 = num + "2";
-						var id3 = num + "3";
-						document.getElementById(id1).setAttribute("min", total_credits);
-						document.getElementById(id1).setAttribute("max", total_credits);
-						document.getElementById(id1).value = total_credits;
-						document.getElementById(id2).innerHTML = mCourses[0].getAttribute("dept_name");
-						document.getElementById(id3).innerHTML = course_coordinator;
-						var s_id = "student_selected_coordinator" + num;
-						document.getElementById(s_id).style.visibility = "hidden";
-
-					} else {
-						var course_name = mCourses[0].getAttribute('course_name');
-						var course_coordinator = mCourses[0].getAttribute('course_coordinator');
-						var min_credits = mCourses[0].getAttribute("min_credits");
-						var max_credits = mCourses[0].getAttribute("max_credits");
-						var id1 = num + "1";
-						var id2 = num + "2";
-						var id3 = num + "3";
-						document.getElementById(id1).setAttribute("min", min_credits);
-						document.getElementById(id1).setAttribute("max", max_credits);
-						document.getElementById(id1).value = min_credits;
-						document.getElementById(id2).innerHTML = mCourses[0].getAttribute("dept_name");
-						course_name = (course_name.toLowerCase());
-						if (course_name == "state of the art" || course_name == "soa") {
-							document.getElementById(id3).innerHTML = "Entire SRC Panel";
-							var s_id = "student_selected_coordinator" + num;
-							document.getElementById(s_id).style.visibility = "hidden";
-						} else if (course_name == "comprehensive") {
-							document.getElementById(id3).innerHTML = "Comprehensive Panel";
-							var s_id = "student_selected_coordinator" + num;
-							document.getElementById(s_id).style.visibility = "hidden";
-						} else if (course_name == "thesis performance") {
-							document.getElementById(id3).innerHTML = "<?php echo $supervisor_name; ?>";
-							var s_id = "student_selected_coordinator" + num;
-							document.getElementById(s_id).style.visibility = "hidden";
-						} else if (course_name == "mini project" || course_name == "research seminar") {
-
-							var input_faculty_name = document.getElementById(id3);
-							input_faculty_name.innerHTML = "<?php echo $supervisor_name; ?>";
-							var s_id = "student_selected_coordinator" + num;
-							document.getElementById(s_id).style.visibility = "visible";
-						} 
+						document.getElementById(i + "2").innerHTML = allStudents[i].getAttribute("studentName");
+						var generalUrl = "<a href=\"viewStudent.php?qwStudent=" + allStudents[i].getAttribute("studentRegNo") + "\">" + allStudents[i].getAttribute("studentRegNo") + "</a>";
+						document.getElementById(i + "1").innerHTML = generalUrl;
 					}
 
+					for(var i = limit; i < 100; i++)
+					{
+						document.getElementById(i + "1").innerHTML = "";
+						document.getElementById(i + "2").innerHTML = "";
+					}
+
+
+
+					// var course_name = mCourses[0].getAttribute("course_name");
+					// var course_coordinator = mCourses[0].getAttribute("course_coordinator");
+					// var total_credits = mCourses[0].getAttribute("total_credits");
+					// var id1 = num + "1";
+					// var id2 = num + "2";
+					// var id3 = num + "3";
+					// document.getElementById(id1).setAttribute("min", total_credits);
+					// document.getElementById(id1).setAttribute("max", total_credits);
+					// document.getElementById(id1).value = total_credits;
+					// document.getElementById(id2).innerHTML = mCourses[0].getAttribute("dept_name");
+					// document.getElementById(id3).innerHTML = course_coordinator;
+					// var s_id = "student_selected_coordinator" + num;
+					// document.getElementById(s_id).style.visibility = "hidden";
 				});
 			}
 			function load_my_URL(url, do_func)
@@ -173,7 +157,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 
 				<?php
 
-					$currentTab = "studentsundersupervision";
+					$currentTab = "supervisorStudentList";
 
 					include("./includes/sideNav.php");
 
@@ -203,70 +187,41 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								<h4 class="title">Supervisor Wise List of Students</h4>
 								<p class="category">List of students under supervision</p>
 							</div>
+							<select class="form-control border-input" name="facultyIn" onchange="nowsearch(this.value);">
+								<option value="">Select</option>
+								<?php
+								$query = "SELECT * FROM faculty";
+								$allFaculty = mysqli_query($connection, $query);
+								while( $thisFaculty = mysqli_fetch_array($allFaculty)  )
+								{ ?>
+									<option value="<?php echo $thisFaculty['faculty_id'] ?>">
+
+									<?php echo $thisFaculty['faculty_id']." - ".$thisFaculty['name'];
+										   ?>
+									   
+									</option>
+								<?php
+								} ?>
+								
+							</select>
 							<div class="content table-responsive table-full-width">
 								<table class="table table-bordered">
 									<thead>
-										<th>S.No</th>
-										<th>Supervisor</th>
 										<th>Registration Number</th>
-										<th>Students under Supervision</th>
+										<th>Name</th>
 									</thead>
 									<tbody>
 										<?php
-											$query = "SELECT * FROM faculty WHERE dept_id = '4'";
-											$allSupervisors = mysqli_query($connection, $query);
-											$counter = 0;
-											while( $thisSupervisor = mysqli_fetch_array($allSupervisors) )
-											{
-												$supervisor_id = $thisSupervisor['faculty_id'];
-												$query = "SELECT * FROM studentmaster NATURAL JOIN currentsupervisor WHERE supervisor1_id = '$supervisor_id' OR supervisor2_id ='$supervisor_id'";
-												$allStudents = mysqli_query($connection, $query);
-												$count = mysqli_num_rows($allStudents);
-												if($count == 0){
-													continue;
-												}
-												$counter = $counter + 1;
+											for($i = 0; $i < 100; $i++)
+											{ 
 										?>
-											<tr>
-												<td rowspan="<?php echo $count + 1 ?>">
-													<?php echo $counter."."; ?>
-												</td>
-												<td rowspan="<?php echo $count + 1 ?>">
-													<?php echo $thisSupervisor['name']; ?>
-												</td>
-											 </tr>
-										<?php
-											
-
-											while( $thisStudent = mysqli_fetch_array($allStudents) )
-											{
-
-												
-										?>
-													<tr>
-													<td>
-														<a href="viewStudent.php?qwStudent=<?php echo $thisStudent['reg_no'] ?>">
-														<?php echo $thisStudent['reg_no'] ?>
-														</a>
-													</td>
-													
-													<td>
-														<?php echo $thisStudent['name'] ?>
-														<?php
-															if(!empty($thisStudent['supervisor2_id'])){
-																echo "<b>(Under Joint-supervision)</b>";
-															} 
-														?>
-													</td>
-													</tr>
-												
+											<tr id="<?php echo "row".$i ?>">
+												<td id="<?php echo $i."1" ?>"></td>
+												<td id="<?php echo $i."2" ?>"></td>
+											</tr>
 										<?php
 											}
 										?>
-										<?php
-										}
-										?>
-
 									</tbody>
 								</table>
 
