@@ -100,14 +100,14 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								if (!strcmp($_SESSION['role'], "student")) {
 							?>
 							<ol style="font-size:25px;">
-								<li><a href="applyLeave.php"> Apply Leave </a></li>
+								<li><a href="applyLeave.php"> Apply Leave (DP-06)</a></li>
 
-								<li><a href="changeRegStatus.php"> Apply for Change of Registration Status </a></li>
+								<li><a href="changeRegStatus.php"> Apply for Change of Registration Status (DP-05)</a></li>
 
-								<li><a href="applyDP01.php"> Apply for Academic Registration </a></li>
-								<li><a href="applyDP04.php"> Apply for addition or deletion of courses </a></li>
-								<li><a href="applyDP12.php"> Supervisor selection </a></li>
-								<li><a href="applyDP14.php"> Change Supervisor</a></li>
+								<li><a href="applyDP01.php"> Apply for Academic Registration (DP-01)</a></li>
+								<li><a href="applyDP04.php"> Apply for addition or deletion of courses (DP-04)</a></li>
+								<li><a href="applyDP12.php"> Supervisor selection (DP-12)</a></li>
+								<li><a href="applyDP14.php"> Change Supervisor (DP-14)</a></li>
 
 							</ol>
 							<?php
@@ -115,11 +115,11 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 								if (!strcmp($_SESSION['role'], "Supervisor") || $_SESSION['supervisor']) {
 							?>
 							<ol style="font-size:25px;">
-								<li><a href="studentList.php?form=02"> Student Reasearch Committee </a></li>
-								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination </a></li>
-								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board </a></li>
-								<li><a href="studentList.php?form=15"> List of Suggested Examiners for Ph.D Thesis Evaluation Board </a></li>
-								<li><a href="studentList.php?form=13"> Supervisor Selection </a></li>
+								<li><a href="studentList.php?form=02"> Student Reasearch Committee (DP-02) </a></li>
+								<li><a href="studentList.php?form=08"> List of Suggested Examiners for Ph.D Comprehensive Examination (DP-08)</a></li>
+								<li><a href="studentList.php?form=16"> List of Suggested Examiners for Ph.D Oral Board (DP-16)</a></li>
+								<li><a href="studentList.php?form=15"> List of Suggested Examiners for Ph.D Thesis Evaluation Board (DP-15) </a></li>
+								<!-- <li><a href="studentList.php?form=13"> Supervisor Selection </a></li> -->
 
 							</ol>
 							<?php
@@ -133,12 +133,12 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 							?>
 							<ol style="font-size:25px;">
 
-								<li><a href="viewLeave.php"> View and Print Leave Application</a></li>
+								<li><a href="viewLeave.php"> View and Print Leave Application (DP-06)</a></li>
 
-								<li><a href="printDP05.php"> Print Change of Registration Status Application</a></li>
+								<li><a href="printDP05.php"> Print Change of Registration Status Application (DP-05)</a></li>
 
-								<li><a href="printDP01.php"> Print latest Academic Registration Application</a></li>
-								<li><a href="printDP20.php"> Print Undertaking</a></li>
+								<li><a href="printDP01.php"> Print latest Academic Registration Application (DP-01)</a></li>
+								<li><a href="printDP20.php"> Print Undertaking  (DP-20)</a></li>
 							</ol>
 							<?php
 								}
@@ -146,10 +146,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
 							?>
 							<ol style="font-size:25px;">
 
-								<li><a href="studentList.php?form=03">Print Semester Progress Report of the Candidate </a></li>
-								<li><a href="studentList.php?form=09">Print Report of Examiners of the Comprehensive Examination</a></li>
-								<li><a href="studentList.php?form=10">Print Report of State-of-the-Art Seminar </a></li>
-								<li><a href="studentList.php?form=11">Print Report of Open Seminar </a></li>
+								<li><a href="studentList.php?form=03">Print Semester Progress Report of the Candidate (DP-03)</a></li>
+								<li><a href="studentList.php?form=09">Print Report of Examiners of the Comprehensive Examination (DP-09)</a></li>
+								<li><a href="studentList.php?form=10">Print Report of State-of-the-Art Seminar (DP-10)</a></li>
+								<li><a href="studentList.php?form=11">Print Report of Open Seminar (DP-11) </a></li>
 							</ol>
 							<?php
 								}

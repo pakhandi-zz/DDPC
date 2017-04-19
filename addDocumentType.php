@@ -97,13 +97,19 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Document Type Id</label>
-                                                <input type="text" class="form-control border-input" placeholder="doc_type_id"  name="doc_type_id">
+                                                <?php
+                                                    $query = "SELECT max(doc_type_id) as doc_id FROM documentlookup";
+                                                    $result = mysqli_query($connection, $query);
+                                                    $doc = mysqli_fetch_assoc($result);
+                                                    $doc_id = $doc['doc_id'] + 1;
+                                                ?>
+                                                <input type="text" class="form-control border-input" placeholder="doc_type_id"  name="doc_type_id" value ="<?php echo $doc_id ?>" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Document Type Name</label>
-                                                <input type="text" class="form-control border-input" placeholder="doc_type"  name="doc_type">
+                                                <input type="text" class="form-control border-input" placeholder="doc_type"  name="doc_type" required>
                                             </div>
                                         </div>
                                         
