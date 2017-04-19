@@ -86,7 +86,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                         <div class="row">
                             <div class="col-md-12">
                             <ol style="font-size:25px;">
-                                <li><a href="addRole.php"> Add a Role </a></li>
+                                <!-- <li><a href="addRole.php"> Add a Role </a></li> -->
                                 <li><a href="addDocumentType.php"> Add a new Document Type</a></li>
                                 <li><a href="addLeaveType.php"> Add a new Leave Type </a></li>
                                 <li><a href="createCommittee.php"> Add a new Committee</a></li>
