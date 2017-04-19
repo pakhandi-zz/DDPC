@@ -132,10 +132,10 @@
 									</b>
 									Name of the Student : <b><?php echo $student['name']; ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reg. No. <b><?php echo $student['reg_no'];?> </b><br>
 									Department : <b> Computer Science and Engineering </b><br>Date of First Registration: <b><?php echo $date_of_reg; ?></b><br>
-									Thesis Title: <b><?php echo $thesis['final_topic']; ?></b>
+									Thesis Title: <b><?php echo $thesis['final_topic']; ?></b><br><br><br>
 
 									<div class="col-md-11">
-											<b>Date of delivery of the Seminar:</b>
+											<b>Date of delivery of the Seminar:</b><br><br><br>
 											<!-- <input type="text" id="sem_date" name="sem_date"> -->
 									</div>
 									<div class="col-md-11">
@@ -148,7 +148,7 @@
 									</div>
 
 									<div class="col-md-11">
-											<b>Comments:</b>
+											<b>Comments:</b><br><br><br><br><br>
 											<!-- <input type="text" id="comments" name="comments" style="width: 75%;"> -->
 									</div>
 									

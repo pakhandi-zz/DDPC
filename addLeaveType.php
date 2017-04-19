@@ -97,13 +97,19 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Leave Type</label>
-                                                <input type="text" class="form-control border-input" placeholder="leave_type"  name="leave_type">
+                                                <?php
+                                                    $query = "SELECT max(leave_type) as leave_type FROM leavelookup";
+                                                    $result = mysqli_query($connection, $query);
+                                                    $leave = mysqli_fetch_assoc($result);
+                                                    $leave_type = $leave['leave_type'] + 1;
+                                                ?>
+                                                <input type="text" class="form-control border-input" placeholder="leave_type"  name="leave_type" value ="<?php echo $leave_type ?>" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Leave Name</label>
-                                                <input type="text" class="form-control border-input" placeholder="leave_name"  name="leave_name">
+                                                <input type="text" class="form-control border-input" placeholder="leave_name"  name="leave_name" required>
                                             </div>
                                         </div>
                                         
@@ -113,7 +119,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>No. of Days</label>
-                                                <input type="text" class="form-control border-input" placeholder="no_of_days" name="no_of_days">
+                                                <input type="number" class="form-control border-input" placeholder="no_of_days" name="no_of_days" required="" min="1">
                                             </div>
                                         </div>
                                     </div>

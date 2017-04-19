@@ -123,23 +123,23 @@
 										
 									</div>
 
-									<div class="row">
+									<!-- <div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
 												<label for="exampleInputEmail1">Issue Date</label>
 												<input type="text" class="form-control border-input" id="from_datepicker" name="issue_date"/>
-											   <!--  <input type="text" class="form-control border-input" placeholder="YYYY-MM-DD" name="issue_date" id = > -->
+											   
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
 
 												<label>Groups</label>
 												<?php
-													$roleValues = array("admin", "student", "faculty", "HOD", "ConvenerDDPC", "ChairmanSDPC", "Supervisor");
-													$roleTexts = array("Admin", "Student", "Faculty", "HOD", "DDPC Convener", "SDPC Chairman", "Supervisor");
+													$roleValues = array("admin", "student", "HOD", "ConvenerDDPC", "ChairmanSDPC", "Supervisor");
+													$roleTexts = array("Admin", "Student", "HOD", "DDPC Convener", "SDPC Chairman", "Supervisor");
 													for($i = 0; $i < count($roleValues); $i++)
 													{
 												?>

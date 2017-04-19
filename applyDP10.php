@@ -132,11 +132,11 @@
 					
 
 									<div class="col-md-11">
-											<b>Date of Passing the Comprehensive Examination:</b>
+											<b>Date of Passing the Comprehensive Examination:</b><br><br>
 											<!-- <input type="text"  id="comp_date" name="comp_date"> -->
 									</div>
 									<div class="col-md-11">
-											<b>Date of delivery of the Seminar:</b>
+											<b>Date of delivery of the Seminar:</b><br><br>
 											<!-- <input type="text" id="sem_date" name="sem_date"> -->
 									</div>
 									<div class="col-md-11">
@@ -148,11 +148,11 @@
 									?></b>
 									</div>
 									<div class="col-md-11">
-											<b>Topic of the Seminar:</b>
+											<b>Topic of the Seminar:</b><br><br><br>
 											<!-- <input type="text" id="sem_topic" name="sem_topic" style="width: 75%;"> -->
 									</div>
 									<div class="col-md-11">
-											<b>Comments:</b>
+											<b>Comments:</b><br><br><br><br><br>
 											<!-- <input type="text" id="comments" name="comments"> -->
 									</div>
 									

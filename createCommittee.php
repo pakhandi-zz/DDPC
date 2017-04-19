@@ -43,6 +43,101 @@ window.location.hash="no-back-button";
 window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
 window.onhashchange=function(){window.location.hash="no-back-button";}
 </script> 
+        <script type="text/javascript">
+            function nowsearch(dept_id)
+            {
+                alert("hi");
+                var url='./fetch_committee.php?dept_id=' + dept_id;
+                load_my_URL(url,function(data){
+                    var xml=parse_my_XMLdata(data);
+                    var Committees = xml.documentElement.getElementsByTagName("committee");
+                    for (var i = Committees.length - 1; i >= 0; i--) {
+                        
+                    }
+
+                    if (Commitees[0].hasAttribute("total_credits"))
+                    {
+                        var course_name = mCourses[0].getAttribute("course_name");
+                        var course_coordinator = mCourses[0].getAttribute("course_coordinator");
+                        var total_credits = mCourses[0].getAttribute("total_credits");
+                        var id1 = num + "1";
+                        var id2 = num + "2";
+                        var id3 = num + "3";
+                        document.getElementById(id1).setAttribute("min", total_credits);
+                        document.getElementById(id1).setAttribute("max", total_credits);
+                        document.getElementById(id1).value = total_credits;
+                        document.getElementById(id2).innerHTML = mCourses[0].getAttribute("dept_name");
+                        document.getElementById(id3).innerHTML = course_coordinator;
+                        var s_id = "student_selected_coordinator" + num;
+                        document.getElementById(s_id).style.visibility = "hidden";
+
+                    } else {
+                        var course_name = mCourses[0].getAttribute('course_name');
+                        var course_coordinator = mCourses[0].getAttribute('course_coordinator');
+                        var min_credits = mCourses[0].getAttribute("min_credits");
+                        var max_credits = mCourses[0].getAttribute("max_credits");
+                        var id1 = num + "1";
+                        var id2 = num + "2";
+                        var id3 = num + "3";
+                        document.getElementById(id1).setAttribute("min", min_credits);
+                        document.getElementById(id1).setAttribute("max", max_credits);
+                        document.getElementById(id1).value = min_credits;
+                        document.getElementById(id2).innerHTML = mCourses[0].getAttribute("dept_name");
+                        course_name = (course_name.toLowerCase());
+                        if (course_name == "state of the art" || course_name == "soa") {
+                            document.getElementById(id3).innerHTML = "Entire SRC Panel";
+                            var s_id = "student_selected_coordinator" + num;
+                            document.getElementById(s_id).style.visibility = "hidden";
+                        } else if (course_name == "comprehensive") {
+                            document.getElementById(id3).innerHTML = "Comprehensive Panel";
+                            var s_id = "student_selected_coordinator" + num;
+                            document.getElementById(s_id).style.visibility = "hidden";
+                        } else if (course_name == "thesis performance") {
+                            document.getElementById(id3).innerHTML = "<?php echo $supervisor_name; ?>";
+                            var s_id = "student_selected_coordinator" + num;
+                            document.getElementById(s_id).style.visibility = "hidden";
+                        } else if (course_name == "mini project" || course_name == "research seminar") {
+
+                            var input_faculty_name = document.getElementById(id3);
+                            input_faculty_name.innerHTML = "<?php echo $supervisor_name; ?>";
+                            var s_id = "student_selected_coordinator" + num;
+                            document.getElementById(s_id).style.visibility = "visible";
+                        } 
+                    }
+
+                });
+            }
+            function load_my_URL(url, do_func)
+            {
+                var my_req = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
+                my_req.onreadystatechange = function()
+                {
+                    if (my_req.readyState == 4)
+                    {
+                        my_req.onreadystatechange = no_func;
+                        do_func(my_req.responseText, my_req.status);
+                    }
+                };
+                my_req.open('GET', url, true);
+                my_req.send(null);
+            }
+            function parse_my_XMLdata(data)
+            {
+                if (window.ActiveXObject)
+                {
+                    var doc = new ActiveXObject('Microsoft.XMLDOM');
+                    doc.loadXML(data);
+                    return doc;
+                }
+                else if (window.DOMParser)
+                {
+                    return (new DOMParser).parseFromString(data, 'text/xml');
+                }
+
+            }
+            function no_func() {}
+            
+        </script>
 
 </head>
 <body>
@@ -98,10 +193,10 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                             <div class="content">
                                 <form method="POST" action="insertCommittee.php">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Department</label>
-                                                <select class="form-control border-input" name="dept_id">
+                                                <select class="form-control border-input" name="dept_id" onchange="nowsearch(this.value);">
                                                 <option selected disabled>Select</option>
                                                 <?php
 
@@ -146,6 +241,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                 </div>
             </div>
         </div>
+
 
 
         <footer class="footer">

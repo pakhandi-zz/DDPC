@@ -9,8 +9,6 @@
         $reg_no = $_SESSION['reg_no'];
     if(empty($_GET['description']))
         echo "add description";
-    else if(empty($_GET['issue_date']))
-        echo '<script>alert("add issue date");</script>';
     else
     {
         $target_group = (string) NULL;
@@ -19,16 +17,43 @@
         $description = $_GET['description'];
         $issue_date = $_GET['issue_date'];
         include("./includes/connect.php");
+        include("./includes/utilities.php");
         if(isset($_GET['target_group']))
         {
             foreach($_GET['target_group'] as $target_group)
             {
-                $query = "INSERT INTO notifications (`id`, `description`, `issue_date`, `target_group`, `target_member`) VALUES('$id', '$description', '$issue_date', '$target_group', '$target_member')";
-                $id++;
+                if(!strcmp($target_group, "student"))
+                {
+                    $query = "SELECT * FROM studentmaster";
+                    $result = mysqli_query($connection, $query);
 
-                // echo $query;
-                $result=mysqli_query($connection, $query);
-                if($result)
+                    while($thisPerson = mysqli_fetch_array($result))
+                    {
+                        sendNotification($description, $thisPerson['reg_no'], 1);
+                    }
+                    
+                }
+                else if(!strcmp($target_group, "Supervisor"))
+                {
+                    $query = "SELECT * FROM faculty";
+                    $result = mysqli_query($connection, $query);
+
+                    while($thisPerson = mysqli_fetch_array($result))
+                    {
+                        sendNotification($description, $thisPerson['faculty_id'], 1);
+                    }
+                }
+                else
+                {
+                    $query = "SELECT * FROM members WHERE role='$target_group'";
+                    $result = mysqli_query($connection, $query);
+
+                    while($thisPerson = mysqli_fetch_array($result))
+                    {
+                        sendNotification($description, $thisPerson['member_id'], 1);
+                    }
+                }
+                
                 {
                     header("location: ./makeNotification.php?sent=1");
                 }
