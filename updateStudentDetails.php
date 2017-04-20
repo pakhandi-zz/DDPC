@@ -103,7 +103,7 @@ window.onhashchange=function(){window.location.hash="no-back-button";}
                             <div class="content">
                                 <div class="author">
                                   <img class="avatar border-white" src="<?php echo $user['photo_path']; ?>" alt="..."/>
-                                  <h4 class="title"><?php echo $name; ?><br />
+                                  <h4 class="title"><?php echo $user['name']; ?><br />
                                   </h4><br>
                                   <form method="post" action="updateOnePic.php" enctype="multipart/form-data">
                                         <center><input type="file" name="photo" id="photo"></center><br>
