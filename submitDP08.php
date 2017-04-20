@@ -45,7 +45,7 @@ for ($i=1; $i <= 5; $i++) {
 	$allnotifications = mysqli_query($connection, $query);
 	$notificationsCount = mysqli_num_rows($allnotifications);
 	$newNotificationId = $notificationsCount + 1;
-	$description = "New DP08 application";
+	$description = "<a href=\"studentDP08.php\">New DP08 application</a>";
 	$issue_date = date('Y-m-d');
 	$target_group = "";
 	$target_member = $nextNotifTo;
