@@ -96,6 +96,7 @@
                             <ol style="font-size:25px;">
                                 <li><a href="changeCourseDetails.php"> Change Course Details </a></li>
                                 <li><a href="changeRole.php"> Change Role of a Member</a></li>
+                                <li><a href="updateStudents.php">Update Student Details</a></li>
                             </ol>
             <footer class="footer">
             </footer>
