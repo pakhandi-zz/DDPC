@@ -32,7 +32,7 @@ if(isset($_POST[faculty1]))
 		$allnotifications = mysqli_query($connection, $query);
 		$notificationsCount = mysqli_num_rows($allnotifications);
 		$newNotificationId = $notificationsCount + 1;
-		$description = "New DP14 application by ".$_SESSION[reg_no]." - ".$user['name'];
+		$description = "<a href=\"studentDP14.php\">New DP14 application by ".$_SESSION[reg_no]." - ".$user['name']."</a>";
 		$issue_date = date('Y-m-d');
 		$target_group = "";
 		$target_member = $nextNotifTo;

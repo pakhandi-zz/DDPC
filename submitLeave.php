@@ -43,7 +43,7 @@ if (!$result)
 	$allnotifications = mysqli_query($connection, $query);
 	$notificationsCount = mysqli_num_rows($allnotifications);
 	$newNotificationId = $notificationsCount + 1;
-	$description = "New leave application";
+	$description = "<a href=\"studentLeave.php\">New leave application</a>";
 	$issue_date = date('Y-m-d');
 	$target_group = "";
 	$target_member = $nextNotifTo;
